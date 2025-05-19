@@ -61,8 +61,8 @@ header h1 a:active {
   color: #fff;
 }
 .nav-buttons {
-  position: fixed;
-  bottom: 20px;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
