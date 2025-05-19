@@ -83,3 +83,27 @@ footer {
   vertical-align: middle;
   margin-right: 0.3em;
 }
+
+footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
+.telegram-link {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.telegram-link:hover,
+.telegram-link:focus {
+  background-color: #0088cc; /* Цвет телеги */
+  color: #fff;
+  border-color: #0088cc;
+}
