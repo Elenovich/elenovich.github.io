@@ -91,3 +91,35 @@ footer {
     text-align: left;
   }
 }
+
+#left-scroll-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 9ch;
+  height: 100%;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  z-index: 999;
+  cursor: pointer;
+}
+
+#left-scroll-zone:hover {
+  background-color: rgba(200, 200, 200, 0.15); /* полупрозрачная серая подсветка */
+}
+
+#scroll-up-arrow {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+#left-scroll-zone:hover #scroll-up-arrow {
+  opacity: 1;
+}
