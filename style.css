@@ -94,7 +94,7 @@ footer {
 }
 
 .footer-copy {
-  flex: 1 1 100%;
+  flex: 1 1 70%;
   text-align: center;
   color: #888;
   font-size: 0.9rem;
