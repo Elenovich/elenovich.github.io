@@ -1,55 +1,60 @@
 body {
   background-color: #000;
   color: #ddd;
-  margin: 0;
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #fff;
+  text-decoration: underline;
+}
+a:hover, a:active, a:focus {
+  color: #fff;
+  text-decoration: underline;
 }
 
 header {
-  padding: 2rem 0 1rem;
   text-align: center;
+  padding: 2rem 0 1rem;
 }
 
-header h1 a {
+.logo {
+  font-size: 1.8rem;
   color: #fff;
   text-decoration: none;
   pointer-events: auto;
 }
 
-header h1 a:visited,
-header h1 a:hover,
-header h1 a:focus,
-header h1 a:active {
-  color: #fff;
-  text-decoration: none;
-}
-
-.main-index {
-  padding: 2rem;
+main.home-main {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding: 2rem;
 }
 
-.poem-link {
-  font-size: 1.2rem;
+.poem-list {
+  list-style: none;
+  padding-left: 1rem;
 }
-
-.poem-link a {
-  color: #fff;
-  text-decoration: underline;
-}
-
-.poem-link a:visited,
-.poem-link a:hover,
-.poem-link a:focus,
-.poem-link a:active {
-  color: #fff;
-  text-decoration: underline;
+.poem-list li {
+  margin: 0.4rem 0;
 }
 
 footer {
   text-align: center;
-  color: #888;
-  margin-top: 4rem;
+  color: #666;
   padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  main.home-main {
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .poem-list {
+    padding-left: 0.5rem;
+  }
 }
