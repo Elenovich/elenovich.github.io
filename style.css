@@ -58,24 +58,24 @@ main.home-main {
   display: none;
 }
 
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #000;
+  transform-origin: center;
+  transform: none; /* Без сдвига на ПК */
+}
+
 @media (max-width: 600px) {
-  main.home-main {
-    justify-content: center;
-    padding: 1rem;
-  }
-
-  .poem-list {
-    padding-left: 0.5rem;
-  }
-
   .background-video {
     transform: translateX(-35%) scale(1.2);
   }
-}
-
-video.background-video {
-  transform: translateX(-15%) scale(1.2);
-  transform-origin: center;
 }
 
 .logo-icon {
