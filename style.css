@@ -78,37 +78,36 @@ main.home-main {
   margin-right: 0.3em;
 }
 
+/* ФУТЕР */
+
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  padding: 10px 16px;
-  background-color: transparent;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  pointer-events: none; /* чтобы не мешался кликам */
+  padding-bottom: 40px;
+  margin-top: 2rem;
+  border-top: 1px solid #222;
 }
 
 .footer-copy {
-  flex: 1 1 70%;
   text-align: center;
   color: #888;
   font-size: 0.9rem;
-  pointer-events: auto;
+  margin-top: 1rem;
 }
 
+/* ТЕЛЕГРАМ БЛОК */
+
 .telegram-block {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   right: 16px;
   display: flex;
   align-items: center;
   gap: 10px;
-  pointer-events: auto;
+  background-color: #000;
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 1000;
 }
 
 .tg-pic {
