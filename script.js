@@ -1,13 +1,14 @@
-window.addEventListener('scroll', function () {
-  const nextPoemBtn = document.querySelector('.next-poem');
-  if (!nextPoemBtn) return;
+document.getElementById("left-scroll-zone").addEventListener("click", function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 
-  const scrollPosition = window.scrollY + window.innerHeight;
-  const triggerPoint = document.body.offsetHeight - 100; // Появится за 100px до низа
-
-  if (scrollPosition >= triggerPoint) {
-    nextPoemBtn.classList.remove('hidden');
+window.addEventListener("scroll", function () {
+  const scrollZone = document.getElementById("left-scroll-zone");
+  if (window.scrollY > 300) {
+    scrollZone.style.opacity = "1";
+    scrollZone.style.pointerEvents = "auto";
   } else {
-    nextPoemBtn.classList.add('hidden');
+    scrollZone.style.opacity = "0";
+    scrollZone.style.pointerEvents = "none";
   }
 });
