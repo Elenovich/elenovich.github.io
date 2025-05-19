@@ -146,23 +146,3 @@ body {
   background-repeat: no-repeat;
 }
 
-.telegram-block {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 2rem;
-}
-
-.tg-pic {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.tg-link {
-  color: white;
-  text-decoration: underline;
-  font-size: 1rem;
-}
