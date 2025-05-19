@@ -58,19 +58,43 @@ header h1 a:active {
 .scroll-top:focus {
   color: #fff;
 }
-
-.next-poem {
+.nav-buttons {
   position: fixed;
-  right: 1rem;
-  bottom: 4rem;
-  color: #fff;
-  text-decoration: none;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  font-size: 14px;
 }
 
-.next-poem:hover,
-.next-poem:focus,
-.next-poem:active {
-  color: #fff;
+.nav-buttons a {
+  color: #ccc;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.nav-buttons a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-buttons.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.prev-poem {
+  margin-right: auto;
+}
+
+.next-poem {
+  margin-left: auto;
 }
 
 footer {
