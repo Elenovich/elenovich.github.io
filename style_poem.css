@@ -1,0 +1,90 @@
+body {
+  background-color: #000;
+  color: #ddd;
+  margin: 0;
+  font-family: sans-serif;
+  scroll-behavior: smooth;
+}
+
+header {
+  padding: 2rem 0 1rem;
+  text-align: center;
+}
+
+header h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header h1 a:visited,
+header h1 a:hover,
+header h1 a:focus,
+header h1 a:active {
+  color: #fff;
+  text-decoration: none;
+}
+
+.poem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.poem-container h2 {
+  margin-right: 0;
+  align-self: flex-end;
+}
+
+.poem-text {
+  max-width: 500px;
+  text-align: left;
+}
+
+.scroll-top {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  padding: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+}
+
+.scroll-top:hover,
+.scroll-top:active,
+.scroll-top:focus {
+  color: #fff;
+}
+
+.next-poem {
+  position: fixed;
+  right: 1rem;
+  bottom: 4rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.next-poem:hover,
+.next-poem:focus,
+.next-poem:active {
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  color: #888;
+  margin-top: 4rem;
+  padding: 2rem 0;
+}
+
+@media (max-width: 600px) {
+  .poem-container {
+    align-items: center;
+  }
+  .poem-text {
+    text-align: left;
+  }
+}
