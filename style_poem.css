@@ -132,3 +132,12 @@ footer {
 #left-scroll-zone:hover #scroll-up-arrow {
   opacity: 1;
 }
+
+.logo-icon {
+  height: 1em;
+  width: 1em;
+  object-fit: cover;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 0.3em;
+}
