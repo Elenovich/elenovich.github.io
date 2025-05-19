@@ -109,32 +109,30 @@ footer {
   margin-bottom: 1rem;
 }
 
-.telegram-link {
-  display: inline-flex;
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 10px 16px;
+  background-color: transparent;
+  z-index: 1000;
+}
+
+.telegram-block {
+  display: flex;
   align-items: center;
-  padding: 0.6rem 1rem;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  color: #ddd;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  background: transparent;
-  position: absolute;
-  right: 2rem;
-  bottom: 1.5rem;
+  gap: 10px;
 }
 
-.telegram-link:hover,
-.telegram-link:focus {
-  background-color: #444;
-  color: #fff;
-  border-color: #fff;
+.tg-pic {
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
-.telegram-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 0.5rem;
-  filter: invert(1);
+.tg-link {
+  color: white;
+  font-size: 1rem;
+  text-decoration: underline;
 }
