@@ -1,39 +1,55 @@
 body {
-  background-color: #111;
-  color: white;
-  font-family: sans-serif;
+  background-color: #000;
+  color: #ddd;
   margin: 0;
-  padding: 0;
+  font-family: sans-serif;
 }
 
 header {
-  padding: 20px 0;
+  padding: 2rem 0 1rem;
   text-align: center;
 }
 
-.logo {
-  color: white;
-  font-size: 2em;
-  font-weight: bold;
+header h1 a {
+  color: #fff;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+header h1 a:visited,
+header h1 a:hover,
+header h1 a:focus,
+header h1 a:active {
+  color: #fff;
   text-decoration: none;
 }
 
-.logo:visited,
-.logo:hover,
-.logo:active {
-  color: white;
-  text-decoration: none;
+.main-index {
+  padding: 2rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
-main {
-  padding: 40px;
-  max-width: 800px;
-  margin: 0 auto;
+.poem-link {
+  font-size: 1.2rem;
+}
+
+.poem-link a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.poem-link a:visited,
+.poem-link a:hover,
+.poem-link a:focus,
+.poem-link a:active {
+  color: #fff;
+  text-decoration: underline;
 }
 
 footer {
   text-align: center;
-  padding: 40px 0;
-  font-size: 0.9em;
-  color: #aaa;
+  color: #888;
+  margin-top: 4rem;
+  padding: 2rem 0;
 }
