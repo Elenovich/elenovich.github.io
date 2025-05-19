@@ -85,29 +85,33 @@ footer {
 }
 
 footer {
+  text-align: center;
+  color: #666;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.site-footer {
+  background-color: #000;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #222;
   position: fixed;
   bottom: 0;
-  left: 0;
-  padding: 10px 16px;
-  background-color: transparent;
+  width: 100%;
   z-index: 1000;
 }
 
-.telegram-block {
+.footer-content {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.tg-pic {
-  width: 28px;
-  height: 28px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.tg-link {
-  color: white;
-  font-size: 1rem;
-  text-decoration: underline;
+.footer-copy {
+  flex: 1 1 100%;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 1rem;
 }
