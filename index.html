@@ -37,5 +37,12 @@
   <a href="https://t.me/epistoria" target="_blank" class="tg-link">TG</a>
   </div>
 </footer>
+  <script>
+  const video = document.querySelector('.background-video');
+  video.addEventListener('ended', () => {
+    video.pause();
+    video.currentTime = video.duration; 
+  });
+</script>
 </body>
 </html>
