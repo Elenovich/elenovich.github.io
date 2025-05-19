@@ -57,12 +57,6 @@ main.home-main {
   display: none;
 }
 
-footer {
-  text-align: center;
-  color: #666;
-  padding: 2rem 0;
-  font-size: 0.9rem;
-}
 
 @media (max-width: 600px) {
   main.home-main {
