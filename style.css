@@ -69,6 +69,12 @@ main.home-main {
   }
 }
 
+@media (max-width: 600px) {
+  .video-bg {
+    object-position: 30% center; /* сдвигает видео левее */
+  }
+}
+
 .logo-icon {
   height: 1em;
   width: 1em;
