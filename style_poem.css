@@ -38,7 +38,7 @@ header h1 a:active {
 
 .poem-text {
   max-width: 500px;
-  text-align: left;
+  text-align: centre;
 }
 
 .scroll-top {
