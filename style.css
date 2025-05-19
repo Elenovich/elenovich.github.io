@@ -107,3 +107,40 @@ footer {
   color: #fff;
   border-color: #0088cc;
 }
+
+footer {
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  position: fixed;
+  bottom: 0;
+  left: 1.5rem;
+  width: auto;
+  z-index: 1000;
+}
+
+.telegram-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  background: transparent;
+}
+
+.telegram-link:hover,
+.telegram-link:focus {
+  background-color: #444; /* темнее, но не синий */
+  color: #fff;
+  border-color: #fff;
+}
+
+.telegram-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  filter: invert(1);
+}
