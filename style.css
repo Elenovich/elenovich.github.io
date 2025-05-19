@@ -84,31 +84,6 @@ footer {
   margin-right: 0.3em;
 }
 
-.site-footer {
-  background-color: #000;
-  padding: 1.5rem 2rem;
-  border-top: 1px solid #222;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.footer-copy {
-  flex: 1 1 100%;
-  text-align: center;
-  color: #888;
-  font-size: 14px;
-  margin-bottom: 1rem;
-}
-
 footer {
   position: fixed;
   bottom: 0;
