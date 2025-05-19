@@ -32,6 +32,7 @@ header h1 a:active {
 }
 
 .poem-container h2 {
+  position: relative;
   margin-right: 0;
   align-self: flex-end;
 }
