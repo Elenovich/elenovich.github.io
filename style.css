@@ -27,14 +27,6 @@ header {
   pointer-events: auto;
 }
 
-.logo-icon {
-  height: 1em;
-  width: 1em;
-  vertical-align: middle;
-  border-radius: 50%;
-  margin-right: 0.4em;
-}
-
 main.home-main {
   display: flex;
   justify-content: flex-start;
@@ -83,4 +75,13 @@ footer {
   .poem-list {
     padding-left: 0.5rem;
   }
+}
+
+.logo-icon {
+  height: 1em;
+  width: 1em;
+  object-fit: cover;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 0.3em;
 }
