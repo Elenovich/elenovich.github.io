@@ -85,23 +85,13 @@ footer {
 }
 
 footer {
-  text-align: center;
-  color: #666;
-  padding: 2rem 0;
-  font-size: 0.9rem;
-}
-
-.site-footer {
-  background-color: #000;
-  padding: 1.5rem 2rem;
-  border-top: 1px solid #222;
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
+  padding: 10px 16px;
+  background-color: transparent;
   z-index: 1000;
-}
-
-.footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -109,9 +99,28 @@ footer {
 }
 
 .footer-copy {
-  flex: 1 1 100%;
+  flex: 1;
   text-align: center;
   color: #888;
-  font-size: 14px;
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.telegram-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.tg-pic {
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.tg-link {
+  color: white;
+  font-size: 1rem;
+  text-decoration: underline;
 }
