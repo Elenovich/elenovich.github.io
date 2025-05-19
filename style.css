@@ -1,5 +1,5 @@
 body {
-  background-color: #000;
+  background-color: #0F1A29;
   color: #ddd;
   font-family: sans-serif;
   margin: 0;
@@ -67,7 +67,7 @@ main.home-main {
   object-fit: cover;
   z-index: -1;
   pointer-events: none;
-  background-color: #000;
+  background-color: #0F1A29;
   transform-origin: center;
   transform: none; /* Без сдвига на ПК */
 }
