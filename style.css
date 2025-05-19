@@ -6,6 +6,14 @@ body {
   padding: 0;
 }
 
+.logo-icon {
+  height: 1em;
+  width: 1em;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin-right: 0.4em;
+}
+
 a {
   color: #fff;
   text-decoration: underline;
