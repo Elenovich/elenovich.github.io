@@ -70,7 +70,7 @@ main.home-main {
 }
 
 @media (max-width: 600px) {
-  .video-bg {
+  .video-background-video {
     object-position: 30% center; /* сдвигает видео левее */
   }
 }
