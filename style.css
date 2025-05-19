@@ -69,10 +69,10 @@ main.home-main {
   }
 }
 
-@media (max-width: 600px) {
-  .video-background-video {
-    object-position: 30% center; /* сдвигает видео левее */
-  }
+video.background-video {
+  transform: translateX(-15%) scale(1.2);
+  transform-origin: center;
+}
 }
 
 .logo-icon {
