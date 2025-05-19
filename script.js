@@ -12,3 +12,16 @@ window.addEventListener("scroll", function () {
     scrollZone.style.pointerEvents = "none";
   }
 });
+window.addEventListener("scroll", () => {
+  const nav = document.getElementById("poem-nav");
+  if (!nav) return;
+
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const pageHeight = document.documentElement.scrollHeight;
+
+  if (scrollPosition >= pageHeight - 50) {
+    nav.classList.add("visible");
+  } else {
+    nav.classList.remove("visible");
+  }
+});
