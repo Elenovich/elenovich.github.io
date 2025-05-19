@@ -67,12 +67,15 @@ main.home-main {
   .poem-list {
     padding-left: 0.5rem;
   }
+
+  .background-video {
+    transform: translateX(-35%) scale(1.2);
+  }
 }
 
 video.background-video {
   transform: translateX(-15%) scale(1.2);
   transform-origin: center;
-}
 }
 
 .logo-icon {
