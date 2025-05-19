@@ -79,6 +79,9 @@ footer {
   margin-top: 4rem;
   padding: 2rem 0;
 }
+.hidden {
+  display: none;
+}
 
 @media (max-width: 600px) {
   .poem-container {
