@@ -138,3 +138,10 @@ footer {
   margin-right: 0.5rem;
   filter: invert(1);
 }
+
+body {
+  background-image: url('assets/images/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
