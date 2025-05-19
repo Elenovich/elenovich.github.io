@@ -141,7 +141,7 @@ footer {
   object-fit: cover;
   z-index: -1;
   pointer-events: none;
-  background-color: #000;
+  background-color: #0F1A29;
 }
 
 /* Анимация появления с задержкой */
