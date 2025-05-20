@@ -63,41 +63,36 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    const video = document.querySelector('.background-video');
-    video.addEventListener('ended', () => {
-      video.pause();
-      video.currentTime = video.duration;
-    });
-  </script>
-
- <script>
+<script>
 if (window.innerWidth <= 600) {
-  const wrapper = document.querySelector('.poem-list-wrapper');
-  const list = document.querySelector('.poem-list');
+  if (!sessionStorage.getItem('autoScrollDone')) {
+    const wrapper = document.querySelector('.poem-list-wrapper');
+    const list = document.querySelector('.poem-list');
 
-  // Дублируем список
-  const clone = list.cloneNode(true);
-  wrapper.appendChild(clone);
+    // Дублируем список
+    const clone = list.cloneNode(true);
+    wrapper.appendChild(clone);
 
-  // Обновим высоту
-  const singleListHeight = list.offsetHeight;
-  wrapper.scrollTop = 1;
+    // Обновим высоту
+    const singleListHeight = list.offsetHeight;
+    wrapper.scrollTop = 1;
 
-  wrapper.addEventListener('scroll', () => {
-    const scrollTop = wrapper.scrollTop;
+    wrapper.addEventListener('scroll', () => {
+      const scrollTop = wrapper.scrollTop;
 
-    // Прокрутка вниз — возвращаемся в начало
-    if (scrollTop >= singleListHeight) {
-      wrapper.scrollTop = 1;
-    }
+      // Прокрутка вниз — возвращаемся в начало
+      if (scrollTop >= singleListHeight) {
+        wrapper.scrollTop = 1;
+      }
 
-    // Прокрутка вверх — возвращаемся в конец
-    if (scrollTop <= 0) {
-      wrapper.scrollTop = singleListHeight - 1;
-    }
-  });
+      // Прокрутка вверх — возвращаемся в конец
+      if (scrollTop <= 0) {
+        wrapper.scrollTop = singleListHeight - 1;
+      }
+    });
+
+    sessionStorage.setItem('autoScrollDone', 'true');
+  }
 }
 </script>
 </body>
