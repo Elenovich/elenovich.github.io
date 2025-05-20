@@ -200,3 +200,8 @@ footer {
   line-height: 1;
   vertical-align: middle;
 }
+
+.nav-home {
+  font-size: 1.2em !important;
+  padding: 0.2em 0.5em !important;
+}
