@@ -161,23 +161,13 @@ footer {
 @media (max-width: 600px) {
   main.home-main {
     flex-direction: column;
-    height: 100vh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-  }
-
-  .poem-list {
-    margin: 0;
-    padding: 0;
-    width: 100%;
+    padding: 1rem;
+    height: auto;
+    overflow-y: auto;
   }
 
   .poem-list li {
-    scroll-snap-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
   }
 }
