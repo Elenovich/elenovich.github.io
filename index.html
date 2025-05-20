@@ -65,5 +65,12 @@
     video.currentTime = video.duration; 
   });
 </script>
+  <script>
+if (window.innerWidth <= 600) {
+  const poemList = document.querySelector('.poem-list');
+  const clone = poemList.cloneNode(true);
+  poemList.append(...clone.childNodes);
+}
+</script>
 </body>
 </html>
