@@ -171,3 +171,12 @@ footer {
     line-height: 1.6;
   }
 }
+
+.poem-list {
+  list-style: none;
+  padding-left: 1rem;
+  max-height: 13em; /* примерная высота для 6 строк */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
