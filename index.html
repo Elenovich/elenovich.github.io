@@ -64,36 +64,57 @@
     </div>
   </footer>
 <script>
-if (window.innerWidth <= 600) {
-  if (!sessionStorage.getItem('autoScrollDone')) {
+  if (window.innerWidth <= 600) {
     const wrapper = document.querySelector('.poem-list-wrapper');
     const list = document.querySelector('.poem-list');
 
-    // Дублируем список
-    const clone = list.cloneNode(true);
-    wrapper.appendChild(clone);
+    // Проверяем, был ли уже запуск (чтобы не повторять)
+    if (!localStorage.getItem('poemAutoScrolled')) {
+      // Дублируем список для бесконечной прокрутки
+      const clone = list.cloneNode(true);
+      wrapper.appendChild(clone);
 
-    // Обновим высоту
-    const singleListHeight = list.offsetHeight;
-    wrapper.scrollTop = 1;
+      const singleListHeight = list.offsetHeight;
+      wrapper.scrollTop = 0;
 
-    wrapper.addEventListener('scroll', () => {
-      const scrollTop = wrapper.scrollTop;
+      // Быстрая прокрутка вниз (анимация)
+      let scrollPos = 0;
+      const scrollStep = 20; // px за шаг
+      const scrollInterval = 10; // ms между шагами
 
-      // Прокрутка вниз — возвращаемся в начало
-      if (scrollTop >= singleListHeight) {
-        wrapper.scrollTop = 1;
+      function fastScroll() {
+        scrollPos += scrollStep;
+        wrapper.scrollTop = scrollPos;
+
+        if (scrollPos < singleListHeight) {
+          requestAnimationFrame(fastScroll);
+        } else {
+          // После прокрутки — выбираем случайный стих и открываем ссылку
+          localStorage.setItem('poemAutoScrolled', 'true');
+
+          // Индексы стихов (0..n-1)
+          const items = list.querySelectorAll('li a');
+          const randomIndex = Math.floor(Math.random() * items.length);
+          const randomLink = items[randomIndex].href;
+
+          window.location.href = randomLink;
+        }
       }
 
-      // Прокрутка вверх — возвращаемся в конец
-      if (scrollTop <= 0) {
-        wrapper.scrollTop = singleListHeight - 1;
-      }
-    });
+      fastScroll();
 
-    sessionStorage.setItem('autoScrollDone', 'true');
+      // Зацикливание прокрутки (для плавности)
+      wrapper.addEventListener('scroll', () => {
+        const scrollTop = wrapper.scrollTop;
+        if (scrollTop >= singleListHeight) {
+          wrapper.scrollTop = 0;
+        }
+        if (scrollTop <= 0) {
+          wrapper.scrollTop = singleListHeight - 1;
+        }
+      });
+    }
   }
-}
 </script>
 </body>
 </html>
