@@ -193,3 +193,10 @@ footer {
     align-items: flex-start;
   }
 }
+
+.home-symbol {
+  font-size: 1.8em;
+  font-weight: bold;
+  line-height: 1;
+  vertical-align: middle;
+}
