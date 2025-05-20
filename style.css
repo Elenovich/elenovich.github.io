@@ -163,3 +163,22 @@ footer {
     overflow-y: auto !important;
   }
 }
+
+  .poem-list {
+    animation: scrollLoop 20s linear infinite;
+  }
+
+  @keyframes scrollLoop {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  .poem-list-wrapper {
+    height: 13em;
+    overflow: hidden;
+    position: relative;
+  }
