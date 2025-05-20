@@ -68,7 +68,7 @@ header h1 a:active {
   align-items: center;
   margin-top: 2em;
   gap: 1em;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Не переносить */
   font-size: 14px;
 }
 
@@ -79,6 +79,7 @@ header h1 a:active {
   padding: 8px 12px;
   border-radius: 4px;
   transition: background 0.2s ease;
+  white-space: nowrap;
 }
 
 .nav-buttons a:hover {
@@ -174,6 +175,12 @@ footer {
   cursor: pointer;
 }
 
+/* Уменьшаем кнопку "домой" в навигации */
+.nav-home {
+  font-size: 0.8em !important; /* примерно в 2 раза меньше */
+  padding: 4px 6px !important;
+}
+
 @media (max-width: 600px) {
   .poem-container {
     align-items: center;
@@ -189,8 +196,11 @@ footer {
   }
 
   .nav-buttons {
-    flex-direction: raw;
+    flex-direction: row !important; /* всегда в один ряд */
     align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    flex-wrap: nowrap;
   }
 }
 
@@ -199,9 +209,4 @@ footer {
   font-weight: bold;
   line-height: 1;
   vertical-align: middle;
-}
-
-.nav-home {
-  font-size: 1.2em !important;
-  padding: 0.2em 0.5em !important;
 }
