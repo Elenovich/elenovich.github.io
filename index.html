@@ -77,33 +77,6 @@
     const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
 
     if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
-      // затемнение + спиннер
-      const overlay = document.createElement('div');
-      overlay.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-        background: rgba(0, 0, 0, 0.85); display: flex;
-        justify-content: center; align-items: center; z-index: 9999;
-      `;
-
-      const spinner = document.createElement('div');
-      spinner.style.cssText = `
-        width: 50px; height: 50px; border: 5px solid #fff;
-        border-top: 5px solid transparent; border-radius: 50%;
-        animation: spin 1s linear infinite;
-      `;
-      overlay.appendChild(spinner);
-      document.body.appendChild(overlay);
-
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `;
-      document.head.appendChild(style);
-
-      // клон списка
       const clone = list.cloneNode(true);
       wrapper.appendChild(clone);
 
@@ -111,46 +84,42 @@
       wrapper.scrollTop = 0;
 
       let scrollPos = 0;
-      const scrollStep = 1;
-      const duration = 3000; // 3 секунды
-      const interval = 10; // интервал между шагами
+      const duration = 1500; // быстро: 1.5 секунды
+      const interval = 10;
       const totalSteps = duration / interval;
-      const maxScroll = singleListHeight;
-      const stepSize = maxScroll / totalSteps;
+      const stepSize = singleListHeight / totalSteps;
+      let step = 0;
 
-      function spinScroll(callback) {
-        let step = 0;
-        const loop = setInterval(() => {
-          scrollPos += stepSize;
-          wrapper.scrollTop = scrollPos;
-          step++;
+      const scrollInterval = setInterval(() => {
+        scrollPos += stepSize;
+        wrapper.scrollTop = scrollPos;
+        step++;
 
-          if (scrollPos >= singleListHeight || step >= totalSteps) {
-            clearInterval(loop);
-            callback();
-          }
-        }, interval);
-      }
+        if (scrollPos >= singleListHeight || step >= totalSteps) {
+          clearInterval(scrollInterval);
+          localStorage.setItem('poemAutoScrolled', 'true');
 
-      spinScroll(() => {
-        localStorage.setItem('poemAutoScrolled', 'true');
+          // Выбор случайного стиха и переход
+          const items = list.querySelectorAll('li a');
+          const randomIndex = Math.floor(Math.random() * items.length);
+          const randomLink = items[randomIndex].href;
 
-        const items = list.querySelectorAll('li a');
-        const randomIndex = Math.floor(Math.random() * items.length);
-        const randomLink = items[randomIndex].href;
+          setTimeout(() => {
+            window.location.href = randomLink;
+          }, 300); // быстрая пауза перед переходом
+        }
+      }, interval);
 
-        setTimeout(() => {
-          window.location.href = randomLink;
-        }, 500); // небольшая задержка перед переходом
-      });
-
+      // бесшовная прокрутка (на всякий, вдруг дернется)
       wrapper.addEventListener('scroll', () => {
         const scrollTop = wrapper.scrollTop;
         if (scrollTop >= singleListHeight) {
           wrapper.scrollTop = 0;
+          scrollPos = 0;
         }
         if (scrollTop <= 0) {
           wrapper.scrollTop = singleListHeight - 1;
+          scrollPos = wrapper.scrollTop;
         }
       });
     }
