@@ -84,7 +84,7 @@
       wrapper.scrollTop = 0;
 
       let scrollPos = 0;
-      const duration = 1500; // быстро: 1.5 секунды
+      const duration = 3000; // прокрутка длится 3 секунды
       const interval = 10;
       const totalSteps = duration / interval;
       const stepSize = singleListHeight / totalSteps;
@@ -99,18 +99,17 @@
           clearInterval(scrollInterval);
           localStorage.setItem('poemAutoScrolled', 'true');
 
-          // Выбор случайного стиха и переход
-          const items = list.querySelectorAll('li a');
-          const randomIndex = Math.floor(Math.random() * items.length);
-          const randomLink = items[randomIndex].href;
-
+          // Добавляем задержку после прокрутки перед переходом
           setTimeout(() => {
+            const items = list.querySelectorAll('li a');
+            const randomIndex = Math.floor(Math.random() * items.length);
+            const randomLink = items[randomIndex].href;
             window.location.href = randomLink;
-          }, 300); // быстрая пауза перед переходом
+          }, 1500); // задержка 1.5 секунды
         }
       }, interval);
 
-      // бесшовная прокрутка (на всякий, вдруг дернется)
+      // бесшовная прокрутка
       wrapper.addEventListener('scroll', () => {
         const scrollTop = wrapper.scrollTop;
         if (scrollTop >= singleListHeight) {
