@@ -72,12 +72,33 @@
     });
   </script>
 
-  <script>
-    if (window.innerWidth <= 600) {
-      const poemList = document.querySelector('.poem-list');
-      const clone = poemList.cloneNode(true);
-      poemList.append(...clone.childNodes);
+ <script>
+if (window.innerWidth <= 600) {
+  const wrapper = document.querySelector('.poem-list-wrapper');
+  const list = document.querySelector('.poem-list');
+
+  // Дублируем список
+  const clone = list.cloneNode(true);
+  wrapper.appendChild(clone);
+
+  // Обновим высоту
+  const singleListHeight = list.offsetHeight;
+  wrapper.scrollTop = 1;
+
+  wrapper.addEventListener('scroll', () => {
+    const scrollTop = wrapper.scrollTop;
+
+    // Прокрутка вниз — возвращаемся в начало
+    if (scrollTop >= singleListHeight) {
+      wrapper.scrollTop = 1;
     }
-  </script>
+
+    // Прокрутка вверх — возвращаемся в конец
+    if (scrollTop <= 0) {
+      wrapper.scrollTop = singleListHeight - 1;
+    }
+  });
+}
+</script>
 </body>
 </html>
