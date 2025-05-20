@@ -92,6 +92,19 @@ footer {
   display: none;
 }
 
+.footer-copy a {
+  color: #888;
+  text-decoration: none;
+}
+
+.footer-copy a:visited,
+.footer-copy a:hover,
+.footer-copy a:focus,
+.footer-copy a:active {
+  color: #888;
+  text-decoration: none;
+}
+
 @media (max-width: 600px) {
   .poem-container {
     align-items: center;
