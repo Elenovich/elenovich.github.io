@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Губы — elenovich.lol</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  <main class="poem-container">
+    <h2>Губы</h2>
+    <div class="poem-text">
+      <p>Как же я без тебя, бестолочи?<br>
+Пестовать чьим<br>
+Тогда пальцем локальной охраны локонов на моём лбу, барханы<br>
+Буру́ сыграют со мной, около новых ловеласных историй, но потом и то сотрут ветра,<br>
+Мы с тобой обязательно повздорим.<br>
+Опять,<br>
+Когда вспомним горечь утрат. Растрать<br>
+Что-нибудь за меня, как в прошлом растратил бы я,<br>
+Я надеясь, снова иду прочь за чем-то чуть большим,<br>
+Чем вкус твоих губ, цвета мят.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+    <p>© 2025 elenovich.lol</p>
+  </footer>
+  <script src="script.js"></script>
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="tamcel.html">← Предыдущий стих</a>
+    <a class="next-poem" href="">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
