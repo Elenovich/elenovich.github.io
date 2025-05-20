@@ -33,11 +33,16 @@ main.home-main {
   padding: 2rem;
 }
 
+.poem-list-wrapper {
+  position: relative;
+  overflow: visible;
+}
+
 .poem-list {
   list-style: none;
   padding-left: 1rem;
-  overflow-y: visible;  /* убираем скролл на ПК */
-  max-height: none;     /* снимаем ограничение высоты */
+  overflow-y: visible;
+  max-height: none;
   scrollbar-width: thin;
   scroll-behavior: smooth;
 }
@@ -73,12 +78,30 @@ main.home-main {
   pointer-events: none;
   background-color: #0F1A29;
   transform-origin: center;
-  transform: none; /* Без сдвига на ПК */
+  transform: none;
 }
 
 @media (max-width: 600px) {
   video.background-video {
     transform: translateX(-35%) scale(0.8) !important;
+  }
+
+  main.home-main {
+    flex-direction: column;
+    padding: 1rem;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .poem-list-wrapper {
+    height: 13em;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .poem-list {
+    max-height: none;
+    overflow: visible;
   }
 }
 
@@ -149,36 +172,3 @@ footer {
     transform: translateY(0);
   }
 }
-
-@media (max-width: 600px) {
-  main.home-main {
-    flex-direction: column;
-    padding: 1rem;
-    height: auto;
-    overflow-y: auto;
-  }
-
-  .poem-list {
-    max-height: 13em !important;    /* ограничение высоты и скролл только на мобилках */
-    overflow-y: auto !important;
-  }
-}
-
-  .poem-list {
-    animation: scrollLoop 20s linear infinite;
-  }
-
-  @keyframes scrollLoop {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(-50%);
-    }
-  }
-
-  .poem-list-wrapper {
-    height: 13em;
-    overflow: hidden;
-    position: relative;
-  }
