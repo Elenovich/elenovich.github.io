@@ -36,6 +36,10 @@ main.home-main {
 .poem-list {
   list-style: none;
   padding-left: 1rem;
+  overflow-y: visible;  /* убираем скролл на ПК */
+  max-height: none;     /* снимаем ограничение высоты */
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 .poem-list li {
   margin: 0.4rem 0;
@@ -132,18 +136,6 @@ footer {
   text-decoration: underline;
 }
 
-.background-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  pointer-events: none;
-  background-color: #0F1A29;
-}
-
 /* Анимация появления с задержкой */
 .fade-in-delayed {
   opacity: 0;
@@ -166,17 +158,8 @@ footer {
     overflow-y: auto;
   }
 
-.poem-list {
-    max-height: 13em;    /* ограничение высоты и скролл только на мобилках */
-    overflow-y: auto;
+  .poem-list {
+    max-height: 13em !important;    /* ограничение высоты и скролл только на мобилках */
+    overflow-y: auto !important;
   }
-}
-
-.poem-list {
-  list-style: none;
-  padding-left: 1rem;
-  overflow-y: visible;  /* убираем скролл на ПК */
-  max-height: none;     /* снимаем ограничение высоты */
-  scrollbar-width: thin;
-  scroll-behavior: smooth;
 }
