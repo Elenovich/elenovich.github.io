@@ -80,14 +80,21 @@
       const clone = list.cloneNode(true);
       wrapper.appendChild(clone);
 
-      const singleListHeight = list.offsetHeight;
+      const listItems = list.querySelectorAll('li');
+      const itemHeight = listItems[0]?.offsetHeight || 40;
+      const totalItems = listItems.length;
+
+      const maxScrollItems = totalItems - 1;
+      const randomItemIndex = Math.floor(Math.random() * maxScrollItems);
+      const targetScroll = randomItemIndex * itemHeight;
+
       wrapper.scrollTop = 0;
 
       let scrollPos = 0;
-      const duration = 3000; // прокрутка длится 3 секунды
+      const duration = 5000; // прокрутка длится 5 секунд
       const interval = 10;
       const totalSteps = duration / interval;
-      const stepSize = singleListHeight / totalSteps;
+      const stepSize = targetScroll / totalSteps;
       let step = 0;
 
       const scrollInterval = setInterval(() => {
@@ -95,29 +102,28 @@
         wrapper.scrollTop = scrollPos;
         step++;
 
-        if (scrollPos >= singleListHeight || step >= totalSteps) {
+        if (scrollPos >= targetScroll || step >= totalSteps) {
           clearInterval(scrollInterval);
           localStorage.setItem('poemAutoScrolled', 'true');
 
-          // Добавляем задержку после прокрутки перед переходом
           setTimeout(() => {
-            const items = list.querySelectorAll('li a');
-            const randomIndex = Math.floor(Math.random() * items.length);
-            const randomLink = items[randomIndex].href;
+            const links = list.querySelectorAll('li a');
+            const randomIndex = Math.floor(Math.random() * links.length);
+            const randomLink = links[randomIndex].href;
             window.location.href = randomLink;
-          }, 1500); // задержка 1.5 секунды
+          }, 1500);
         }
       }, interval);
 
       // бесшовная прокрутка
       wrapper.addEventListener('scroll', () => {
         const scrollTop = wrapper.scrollTop;
-        if (scrollTop >= singleListHeight) {
+        if (scrollTop >= list.offsetHeight) {
           wrapper.scrollTop = 0;
           scrollPos = 0;
         }
         if (scrollTop <= 0) {
-          wrapper.scrollTop = singleListHeight - 1;
+          wrapper.scrollTop = list.offsetHeight - 1;
           scrollPos = wrapper.scrollTop;
         }
       });
