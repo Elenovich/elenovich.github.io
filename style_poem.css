@@ -177,7 +177,7 @@ footer {
 
 /* Уменьшаем кнопку "домой" в навигации */
 .nav-home {
-  font-size: 0.8em !important; /* примерно в 2 раза меньше */
+  font-size: 0.5em !important; /* примерно в 2 раза меньше */
   padding: 4px 6px !important;
 }
 
