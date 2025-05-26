@@ -9,7 +9,7 @@
 </head>
 <body>
   <video class="background-video" autoplay muted playsinline>
-    <source src="media/videointro.mp4" type="video/mp4">
+    <source src="media/videointro.mp4" type="video/mp4" />
   </video>
 
   <header>
@@ -59,7 +59,7 @@
         <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
       </div>
       <div class="telegram-block">
-        <img src="images/tg.jpg" alt="Telegram image" class="tg-pic">
+        <img src="images/tg.jpg" alt="Telegram image" class="tg-pic" />
         <a href="https://t.me/epistoria" target="_blank" class="tg-link">TG</a>
       </div>
     </div>
@@ -78,6 +78,7 @@ if (window.innerWidth <= 600) {
   const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
 
   if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
+    // Дублируем список для бесшовной прокрутки
     const clone = list.cloneNode(true);
     wrapper.appendChild(clone);
 
@@ -101,8 +102,29 @@ if (window.innerWidth <= 600) {
       const randomIndex = Math.floor(Math.random() * totalItems);
       const targetScroll = randomIndex * itemHeight;
 
-      wrapper.scrollTop = targetScroll;
-      localStorage.setItem('poemAutoScrolled', 'true');
+      const startScroll = wrapper.scrollTop;
+      const distance = targetScroll - startScroll;
+      const duration = 1000; // 1 секунда
+      const startTime = performance.now();
+
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function animateScroll(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutCubic(progress);
+        wrapper.scrollTop = startScroll + distance * easedProgress;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        } else {
+          localStorage.setItem('poemAutoScrolled', 'true');
+        }
+      }
+
+      requestAnimationFrame(animateScroll);
     }, 3000);
   }
 }
