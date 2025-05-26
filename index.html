@@ -6,6 +6,46 @@
   <title>elenovich.lol</title>
   <meta name="description" content="Стихи и творчество Еленовича. Официальный сайт elenovich.lol — здесь слова, буквы и я — поэт." />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .random-button {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .random-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .random-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .poem-random-layout {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+      }
+
+      .random-wrapper {
+        margin-top: 0;
+        align-items: flex-start;
+        position: relative;
+        top: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
   <video class="background-video" autoplay muted playsinline>
@@ -20,36 +60,41 @@
   </header>
 
   <main class="home-main fade-in-delayed">
-    <div class="poem-list-wrapper">
-      <ul class="poem-list">
-        <li>• <a href="mea_vido.html">Mea vido</a></li>
-        <li>• <a href="komarinaya.html">Комариная</a></li>
-        <li>• <a href="pribeval.html">Приступ бешенства в алмазах</a></li>
-        <li>• <a href="silverdeath.html">Сильверная</a></li>
-        <li>• <a href="sentimentdefleur.html">Sentiment de fleur</a></li>
-        <li>• <a href="tiaad.html">This is an ass deal</a></li>
-        <li>• <a href="belo.html">Мне всё это бело</a></li>
-        <li>• <a href="schg.html">СЧГ</a></li>
-        <li>• <a href="№3,33(3).html">№3,33(3)</a></li>
-        <li>• <a href="tamcel.html">Там целовала меня агония</a></li>
-        <li>• <a href="cvetamyat.html">Губы</a></li>
-        <li>• <a href="bitriboi.html">Быть рыбой</a></li>
-        <li>• <a href="uvorot.html">Уворот</a></li>
-        <li>• <a href="yokoono.html">Ну же</a></li>
-        <li>• <a href="beliestra.html">Белые страдания</a></li>
-        <li>• <a href="malchik.html">Мальчик</a></li>
-        <li>• <a href="perepel.html">Убийство перепела</a></li>
-        <li>• <a href="avtoportret.html">Автопортрет жилья</a></li>
-        <li>• <a href="tsurugi.html">К Тцуруги</a></li>
-        <li>• <a href="netdoma.html">Камень</a></li>
-        <li>• <a href="svechka.html">Свечка</a></li>
-        <li>• <a href="luna.html">Ликантропия</a></li>
-        <li>• <a href="jusya.html">Жуся</a></li>
-        <li>• <a href="lora.html">Ларисе, матери моей матери</a></li>
-        <li>• <a href="otchenash.html">Я побуду</a></li>
-        <li>• <a href="sovokupnostmashin.html">Совокупность машин</a></li>
-        <li>• <a href="mistiki.html">Мистики</a></li>
-      </ul>
+    <div class="poem-random-layout">
+      <div class="poem-list-wrapper">
+        <ul class="poem-list">
+          <li>• <a href="mea_vido.html">Mea vido</a></li>
+          <li>• <a href="komarinaya.html">Комариная</a></li>
+          <li>• <a href="pribeval.html">Приступ бешенства в алмазах</a></li>
+          <li>• <a href="silverdeath.html">Сильверная</a></li>
+          <li>• <a href="sentimentdefleur.html">Sentiment de fleur</a></li>
+          <li>• <a href="tiaad.html">This is an ass deal</a></li>
+          <li>• <a href="belo.html">Мне всё это бело</a></li>
+          <li>• <a href="schg.html">СЧГ</a></li>
+          <li>• <a href="№3,33(3).html">№3,33(3)</a></li>
+          <li>• <a href="tamcel.html">Там целовала меня агония</a></li>
+          <li>• <a href="cvetamyat.html">Губы</a></li>
+          <li>• <a href="bitriboi.html">Быть рыбой</a></li>
+          <li>• <a href="uvorot.html">Уворот</a></li>
+          <li>• <a href="yokoono.html">Ну же</a></li>
+          <li>• <a href="beliestra.html">Белые страдания</a></li>
+          <li>• <a href="malchik.html">Мальчик</a></li>
+          <li>• <a href="perepel.html">Убийство перепела</a></li>
+          <li>• <a href="avtoportret.html">Автопортрет жилья</a></li>
+          <li>• <a href="tsurugi.html">К Тцуруги</a></li>
+          <li>• <a href="netdoma.html">Камень</a></li>
+          <li>• <a href="svechka.html">Свечка</a></li>
+          <li>• <a href="luna.html">Ликантропия</a></li>
+          <li>• <a href="jusya.html">Жуся</a></li>
+          <li>• <a href="lora.html">Ларисе, матери моей матери</a></li>
+          <li>• <a href="otchenash.html">Я побуду</a></li>
+          <li>• <a href="sovokupnostmashin.html">Совокупность машин</a></li>
+          <li>• <a href="mistiki.html">Мистики</a></li>
+        </ul>
+      </div>
+      <div class="random-wrapper">
+        <button class="random-button" onclick="goToRandomPoem()">Рандомный стих</button>
+      </div>
     </div>
   </main>
 
@@ -66,21 +111,18 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const wrapper = document.querySelector('.poem-list-wrapper');
-      const list = document.querySelector('.poem-list');
+    // Автопрокрутка
+    const wrapper = document.querySelector('.poem-list-wrapper');
+    const list = document.querySelector('.poem-list');
+    const clone = list.cloneNode(true);
+    wrapper.appendChild(clone);
 
-      if (!wrapper || !list) return;
+    const itemHeight = list.querySelector('li')?.offsetHeight || 40;
+    const speedPerTick = 6 * itemHeight;
+    const interval = 10;
+    let scrollPos = 0;
 
-      // Клонируем список для бесшовности
-      const clone = list.cloneNode(true);
-      wrapper.appendChild(clone);
-
-      const itemHeight = list.querySelector('li')?.offsetHeight || 40;
-      const speedPerTick = 6 * itemHeight;
-      const interval = 10;
-      let scrollPos = 0;
-
+    requestAnimationFrame(() => {
       const scrollInterval = setInterval(() => {
         scrollPos += speedPerTick;
         if (scrollPos >= list.offsetHeight) {
@@ -91,7 +133,6 @@
 
       setTimeout(() => {
         clearInterval(scrollInterval);
-
         const currentScroll = wrapper.scrollTop;
         const maxScroll = list.offsetHeight;
         const targetScroll = Math.random() * maxScroll;
@@ -105,12 +146,14 @@
         function animate(time) {
           const elapsed = time - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          const eased = easeOutCubic(progress);
+          const easedProgress = easeOutCubic(progress);
 
           let distance = targetScroll - currentScroll;
-          if (distance < 0) distance += maxScroll;
+          if (distance < 0) {
+            distance += maxScroll;
+          }
 
-          wrapper.scrollTop = (currentScroll + distance * eased) % maxScroll;
+          wrapper.scrollTop = (currentScroll + distance * easedProgress) % maxScroll;
 
           if (progress < 1) {
             requestAnimationFrame(animate);
@@ -120,6 +163,16 @@
         requestAnimationFrame(animate);
       }, 3000);
     });
+
+    // Переход на случайный стих
+    function goToRandomPoem() {
+      const links = document.querySelectorAll('.poem-list a');
+      const urls = Array.from(links).map(link => link.getAttribute('href'));
+      const randomUrl = urls[Math.floor(Math.random() * urls.length)];
+      if (randomUrl) {
+        window.location.href = randomUrl;
+      }
+    }
   </script>
 </body>
 </html>
