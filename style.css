@@ -35,17 +35,34 @@ main.home-main {
 
 .poem-list-wrapper {
   position: relative;
-  overflow: visible;
+  overflow-y: auto;
+  height: 600px; /* ПК: ~15 строк */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+  padding-right: 1.5ch; /* отступ от скроллбара */
+  box-sizing: content-box;
+}
+
+.poem-list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.poem-list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.poem-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
 }
 
 .poem-list {
   list-style: none;
   padding-left: 1rem;
-  overflow-y: visible;
+  margin: 0;
+  overflow: visible;
   max-height: none;
-  scrollbar-width: thin;
   scroll-behavior: smooth;
 }
+
 .poem-list li {
   margin: 0.4rem 0;
 }
@@ -81,30 +98,6 @@ main.home-main {
   transform: none;
 }
 
-@media (max-width: 600px) {
-  video.background-video {
-    transform: translateX(-35%) scale(0.8) !important;
-  }
-
-  main.home-main {
-    flex-direction: column;
-    padding: 1rem;
-    height: auto;
-    overflow-y: auto;
-  }
-
-  .poem-list-wrapper {
-    height: 13em;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .poem-list {
-    max-height: none;
-    overflow: visible;
-  }
-}
-
 .logo-icon {
   height: 1em;
   width: 1em;
@@ -119,8 +112,8 @@ main.home-main {
 footer {
   position: relative;
   width: 100%;
-  padding: 20px 0 10px; 
-  margin-top: 14rem;     
+  padding: 20px 0 10px;
+  margin-top: 14rem;
   border-top: 1px solid #222;
 }
 
@@ -173,29 +166,25 @@ footer {
   }
 }
 
-.poem-list-wrapper {
-  height: 600px; /* ПК: видно ~15 стихов */
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
-}
-
+/* МОБИЛКА */
 @media (max-width: 600px) {
-  .poem-list-wrapper {
-    height: 320px; /* мобила: видно ~8 стихов */
+  video.background-video {
+    transform: translateX(-35%) scale(0.8) !important;
   }
-}
 
-/* Минималистичный светло-серый скроллбар для всех */
-.poem-list-wrapper::-webkit-scrollbar {
-  width: 6px;
-}
+  main.home-main {
+    flex-direction: column;
+    padding: 1rem;
+    height: auto;
+    overflow-y: auto;
+  }
 
-.poem-list-wrapper::-webkit-scrollbar-track {
-  background: transparent;
-}
+  .poem-list-wrapper {
+    height: 320px; /* ~8 строк */
+  }
 
-.poem-list-wrapper::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 3px;
+  .poem-list {
+    max-height: none;
+    overflow: visible;
+  }
 }
