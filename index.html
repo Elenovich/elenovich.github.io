@@ -155,11 +155,9 @@
     if (elapsed < 5000) {
       requestAnimationFrame(animateScroll);
     } else {
-      // остановка в рандомной позиции
-      const randomStop = Math.floor(Math.random() * totalHeight);
-      list.style.transition = 'transform 1s ease-out';
-      list.style.transform = translateY(-${randomStop}px);
-    }
+  list.style.transition = 'transform 1s ease-out';
+  list.style.transform = `translateY(-${offsetY}px)`; // без прыжка
+}
   }
 
   requestAnimationFrame(animateScroll);
