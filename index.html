@@ -106,13 +106,6 @@
         if (scrollPos >= targetScroll || step >= totalSteps) {
           clearInterval(scrollInterval);
           localStorage.setItem('poemAutoScrolled', 'true');
-
-          setTimeout(() => {
-            const links = list.querySelectorAll('li a');
-            const randomIndex = Math.floor(Math.random() * links.length);
-            const randomLink = links[randomIndex].href;
-            window.location.href = randomLink;
-          }, 50);
         }
       }, interval);
 
