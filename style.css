@@ -172,3 +172,30 @@ footer {
     transform: translateY(0);
   }
 }
+
+.poem-list-wrapper {
+  height: 600px; /* ПК: видно ~15 стихов */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+@media (max-width: 600px) {
+  .poem-list-wrapper {
+    height: 320px; /* мобила: видно ~8 стихов */
+  }
+}
+
+/* Минималистичный светло-серый скроллбар для всех */
+.poem-list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.poem-list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.poem-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
