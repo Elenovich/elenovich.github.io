@@ -76,56 +76,61 @@ if (window.innerWidth <= 600) {
 
   const referrer = document.referrer;
   const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
+  const hasScrolled = localStorage.getItem('poemAutoScrolled');
 
-  if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
-    // Дублируем список для бесшовной прокрутки
+  // Если не прокручивали и не пришли с поэмы — запускаем прокрутку сразу после загрузки
+  if (!hasScrolled && !isFromPoem) {
+    // Клонируем список для бесшовной прокрутки
     const clone = list.cloneNode(true);
     wrapper.appendChild(clone);
 
-    let scrollPos = 0;
     const itemHeight = list.querySelector('li')?.offsetHeight || 40;
     const speed = 6 * itemHeight; // 6 элементов за тик
     const interval = 10;
+    let scrollPos = 0;
 
-    let scrollInterval = setInterval(() => {
-      scrollPos += speed;
-      if (scrollPos >= list.offsetHeight) {
-        scrollPos -= list.offsetHeight;
-      }
-      wrapper.scrollTop = scrollPos;
-    }, interval);
-
+    // Даем браузеру отрисовать клон, чтобы wrapper.scrollHeight обновился
     setTimeout(() => {
-      clearInterval(scrollInterval);
-
-      const totalItems = list.querySelectorAll('li').length;
-      const randomIndex = Math.floor(Math.random() * totalItems);
-      const targetScroll = randomIndex * itemHeight;
-
-      const startScroll = wrapper.scrollTop;
-      const distance = targetScroll - startScroll;
-      const duration = 1000; // 1 секунда
-      const startTime = performance.now();
-
-      function easeOutCubic(t) {
-        return 1 - Math.pow(1 - t, 3);
-      }
-
-      function animateScroll(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutCubic(progress);
-        wrapper.scrollTop = startScroll + distance * easedProgress;
-
-        if (progress < 1) {
-          requestAnimationFrame(animateScroll);
-        } else {
-          localStorage.setItem('poemAutoScrolled', 'true');
+      let scrollInterval = setInterval(() => {
+        scrollPos += speed;
+        if (scrollPos >= list.offsetHeight) {
+          scrollPos -= list.offsetHeight;
         }
-      }
+        wrapper.scrollTop = scrollPos;
+      }, interval);
 
-      requestAnimationFrame(animateScroll);
-    }, 3000);
+      setTimeout(() => {
+        clearInterval(scrollInterval);
+
+        const totalItems = list.querySelectorAll('li').length;
+        const randomIndex = Math.floor(Math.random() * totalItems);
+        const targetScroll = randomIndex * itemHeight;
+
+        const startScroll = wrapper.scrollTop;
+        const distance = targetScroll - startScroll;
+        const duration = 1000; // 1 секунда
+        const startTime = performance.now();
+
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function animateScroll(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easedProgress = easeOutCubic(progress);
+          wrapper.scrollTop = startScroll + distance * easedProgress;
+
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+          } else {
+            localStorage.setItem('poemAutoScrolled', 'true');
+          }
+        }
+
+        requestAnimationFrame(animateScroll);
+      }, 3000); // 3 секунды быстрой прокрутки
+    }, 100); // небольшая задержка для отрисовки
   }
 }
 </script>
