@@ -1,205 +1,135 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>elenovich.lol</title>
-  <meta name="description" content="Стихи и творчество Еленовича. Официальный сайт elenovich.lol — здесь слова, буквы и я — поэт." />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .random-button {
-      background: none;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: rgba(255, 255, 255, 0.7);
-      padding: 6px 12px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>elenovich.lol</title>
+<style>
+  body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
 
-    .random-button:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
+  .poem-list-wrapper {
+    height: calc(1.5em * 15); /* 15 строк по 1.5em */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
 
-    .random-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
+  .poem-list-wrapper::-webkit-scrollbar {
+    width: 6px;
+  }
 
-    @media (min-width: 768px) {
-      .poem-random-layout {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 40px;
-      }
+  .poem-list-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 3px;
+  }
 
-      .random-wrapper {
-        margin-top: 0;
-        align-items: flex-start;
-        position: relative;
-        top: 10px;
-      }
-    }
+  .poem-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 
-    .poem-list-wrapper {
-      height: calc(1.5em * 15); /* высота для 15 элементов списка */
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.3) transparent;
-    }
-
-    .poem-list-wrapper::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .poem-list-wrapper::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .poem-list-wrapper::-webkit-scrollbar-thumb {
-      background-color: rgba(255,255,255,0.3);
-      border-radius: 3px;
-    }
-
-    .poem-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .poem-list li {
-      height: 1.5em;
-      line-height: 1.5em;
-    }
-  </style>
+  .poem-list li {
+    height: 1.5em;
+    line-height: 1.5em;
+  }
+</style>
 </head>
 <body>
-  <video class="background-video" autoplay muted playsinline>
-    <source src="media/videointro.mp4" type="video/mp4" />
-  </video>
 
-  <header>
-    <a href="index.html" class="logo">
-      <img src="images/logo-icon.png" alt="logo" class="logo-icon" />
-      elenovich.lol
-    </a>
-  </header>
-
-  <main class="home-main fade-in-delayed">
-    <div class="poem-random-layout">
-      <div class="poem-list-wrapper">
-        <ul class="poem-list">
-          <li>• <a href="mea_vido.html">Mea vido</a></li>
-          <li>• <a href="komarinaya.html">Комариная</a></li>
-          <li>• <a href="pribeval.html">Приступ бешенства в алмазах</a></li>
-          <li>• <a href="silverdeath.html">Сильверная</a></li>
-          <li>• <a href="sentimentdefleur.html">Sentiment de fleur</a></li>
-          <li>• <a href="tiaad.html">This is an ass deal</a></li>
-          <li>• <a href="belo.html">Мне всё это бело</a></li>
-          <li>• <a href="schg.html">СЧГ</a></li>
-          <li>• <a href="№3,33(3).html">№3,33(3)</a></li>
-          <li>• <a href="tamcel.html">Там целовала меня агония</a></li>
-          <li>• <a href="cvetamyat.html">Губы</a></li>
-          <li>• <a href="bitriboi.html">Быть рыбой</a></li>
-          <li>• <a href="uvorot.html">Уворот</a></li>
-          <li>• <a href="yokoono.html">Ну же</a></li>
-          <li>• <a href="beliestra.html">Белые страдания</a></li>
-          <li>• <a href="malchik.html">Мальчик</a></li>
-          <li>• <a href="perepel.html">Убийство перепела</a></li>
-          <li>• <a href="avtoportret.html">Автопортрет жилья</a></li>
-          <li>• <a href="tsurugi.html">К Тцуруги</a></li>
-          <li>• <a href="netdoma.html">Камень</a></li>
-          <li>• <a href="svechka.html">Свечка</a></li>
-          <li>• <a href="luna.html">Ликантропия</a></li>
-          <li>• <a href="jusya.html">Жуся</a></li>
-          <li>• <a href="lora.html">Ларисе, матери моей матери</a></li>
-          <li>• <a href="otchenash.html">Я побуду</a></li>
-          <li>• <a href="sovokupnostmashin.html">Совокупность машин</a></li>
-          <li>• <a href="mistiki.html">Мистики</a></li>
-          <li>• <a href="estprekr.html">Эстетика прекрасного</a></li>
-          <li>• <a href="estvrat.html">Эстетика отвратительного</a></li>
-          <li>• <a href="estnochestvo.html">Эстетика одиночества</a></li>
-          <li>• <a href="furazhka.html">Фуражка</a></li>
-          <li>• <a href="apostol.html">Апостол или дурак</a></li>
-          <li>• <a href="niognya.html">Ни меня, ни тебя</a></li>
-          <li>• <a href="eho.html">Эхо</a></li>
-          <li>• <a href="timyan.html">Тимьян</a></li>
-          <li>• <a href="pautin.html">Па у тин</a></li>
-        </ul>
-      </div>
-      <div class="random-wrapper">
-        <button class="random-button" onclick="goToRandomPoem()">Рандомный стих</button>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-copy">
-        <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
-      </div>
-      <div class="telegram-block">
-        <img src="images/tg.jpg" alt="Telegram image" class="tg-pic" />
-        <a href="https://t.me/epistoria" target="_blank" class="tg-link">TG</a>
-      </div>
-    </div>
-  </footer>
+<div class="poem-list-wrapper">
+  <ul class="poem-list">
+    <li>• Mea vido</li>
+    <li>• Комариная</li>
+    <li>• Приступ бешенства в алмазах</li>
+    <li>• Сильверная</li>
+    <li>• Sentiment de fleur</li>
+    <li>• This is an ass deal</li>
+    <li>• Мне всё это бело</li>
+    <li>• СЧГ</li>
+    <li>• №3,33(3)</li>
+    <li>• Там целовала меня агония</li>
+    <li>• Губы</li>
+    <li>• Быть рыбой</li>
+    <li>• Уворот</li>
+    <li>• Ну же</li>
+    <li>• Белые страдания</li>
+    <li>• Мальчик</li>
+    <li>• Убийство перепела</li>
+    <li>• Автопортрет жилья</li>
+    <li>• К Тцуруги</li>
+    <li>• Камень</li>
+    <li>• Свечка</li>
+    <li>• Ликантропия</li>
+    <li>• Жуся</li>
+    <li>• Ларисе, матери моей матери</li>
+    <li>• Я побуду</li>
+    <li>• Совокупность машин</li>
+    <li>• Мистики</li>
+    <li>• Эстетика прекрасного</li>
+    <li>• Эстетика отвратительного</li>
+    <li>• Эстетика одиночества</li>
+    <li>• Фуражка</li>
+    <li>• Апостол или дурак</li>
+    <li>• Ни меня, ни тебя</li>
+    <li>• Эхо</li>
+    <li>• Тимьян</li>
+    <li>• Па у тин</li>
+  </ul>
+</div>
 
 <script>
   const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
-  const items = list.querySelectorAll('li');
-  const itemHeight = items[0].offsetHeight;
-  const totalItems = items.length;
+  const itemHeight = list.querySelector('li').offsetHeight;
+  const totalItems = list.children.length;
   const totalHeight = itemHeight * totalItems;
 
-  let offsetY = 0;
-  let startOffsetY = Math.floor(Math.random() * totalHeight);
-  let speed = 10;
-  let startTime;
+  // Рандомная стартовая позиция scrollTop, учитывая высоту контейнера
+  const visibleCount = 15;
+  const maxScrollTop = totalHeight - (itemHeight * visibleCount);
+  let scrollPos = Math.floor(Math.random() * maxScrollTop);
+  wrapper.scrollTop = scrollPos;
 
-  list.style.transform = `translateY(-${startOffsetY}px)`;
-  offsetY = startOffsetY;
+  let speed = 10; // пикселей за кадр примерно
+  let lastTimestamp = null;
 
-  function animateScroll(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
+  function step(timestamp) {
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const delta = timestamp - lastTimestamp;
 
-    // замедление после 4 секунд
-    if (elapsed > 4000 && speed > 0.1) {
+    // Смещение с учетом времени (чтобы скорость была стабильнее)
+    scrollPos += speed * (delta / 16.67); // ~60fps базис
+
+    // Зацикливание скролла в пределах списка
+    if (scrollPos > maxScrollTop) scrollPos = 0;
+    if (scrollPos < 0) scrollPos = maxScrollTop;
+
+    wrapper.scrollTop = scrollPos;
+
+    // Замедление после 4 секунд
+    if (timestamp > 4000) {
       speed *= 0.97;
+      if (speed < 0.1) speed = 0;
     }
 
-    offsetY += speed;
-
-    if (offsetY >= totalHeight) {
-      offsetY = 0;
-    }
-
-    list.style.transform = `translateY(-${offsetY}px)`;
-
-    if (elapsed < 5000) {
-      requestAnimationFrame(animateScroll);
+    if (speed > 0) {
+      lastTimestamp = timestamp;
+      requestAnimationFrame(step);
     } else {
-      // остановка на рандомной позиции без прыжков
-      speed = 0;
+      // Анимация остановилась, scrollTop фиксирован,
+      // пользователь может прокручивать вручную без проблем
     }
   }
 
-  requestAnimationFrame(animateScroll);
-
-  // рандомная навигация
-  function goToRandomPoem() {
-    const links = list.querySelectorAll('li a');
-    const urls = Array.from(links).map(link => link.getAttribute('href'));
-    const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-    if (randomUrl) window.location.href = randomUrl;
-  }
+  requestAnimationFrame(step);
 </script>
+
 </body>
 </html>
