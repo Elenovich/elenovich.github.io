@@ -81,29 +81,44 @@ if (window.innerWidth <= 600) {
     const clone = list.cloneNode(true);
     wrapper.appendChild(clone);
 
-    let scrollPos = 0;
-    const itemHeight = list.querySelector('li')?.offsetHeight || 40;
-    const speed = 6 * itemHeight; // 6 элементов за тик
-    const interval = 10;
+    const listItems = list.querySelectorAll('li');
+    const itemHeight = listItems[0]?.offsetHeight || 40;
+    const totalItems = listItems.length;
+    const maxScrollItems = totalItems - 1;
+    const targetScroll = Math.floor(Math.random() * maxScrollItems) * itemHeight;
 
-    let scrollInterval = setInterval(() => {
-      scrollPos += speed;
-      if (scrollPos >= list.offsetHeight) {
-        scrollPos -= list.offsetHeight;
+    const duration = 3000; // вся прокрутка 3 сек
+    const start = performance.now();
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3); // плавное замедление
+    }
+
+    function animateScroll(currentTime) {
+      const elapsed = currentTime - start;
+      const progress = Math.min(elapsed / duration, 1); // от 0 до 1
+      const easedProgress = easeOutCubic(progress);
+      const scrollY = easedProgress * targetScroll;
+
+      wrapper.scrollTop = scrollY;
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        localStorage.setItem('poemAutoScrolled', 'true');
       }
-      wrapper.scrollTop = scrollPos;
-    }, interval);
+    }
 
-    setTimeout(() => {
-      clearInterval(scrollInterval);
+    requestAnimationFrame(animateScroll);
 
-      const totalItems = list.querySelectorAll('li').length;
-      const randomIndex = Math.floor(Math.random() * totalItems);
-      const targetScroll = randomIndex * itemHeight;
-
-      wrapper.scrollTop = targetScroll;
-      localStorage.setItem('poemAutoScrolled', 'true');
-    }, 3000);
+    wrapper.addEventListener('scroll', () => {
+      if (wrapper.scrollTop >= list.offsetHeight) {
+        wrapper.scrollTop = 0;
+      }
+      if (wrapper.scrollTop <= 0) {
+        wrapper.scrollTop = list.offsetHeight - 1;
+      }
+    });
   }
 }
 </script>
