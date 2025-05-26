@@ -94,9 +94,9 @@
           <li>• <a href="estvrat.html">Эстетика отвратительного</a></li>
           <li>• <a href="estnochestvo.html">Эстетика одиночества</a></li>
           <li>• <a href="furazhka.html">Фуражка</a></li>
-               <li>• <a href="apostol.html">Апостол или дурак</a></li>
-               <li>• <a href="niognya.html">Ни меня, ни тебя</a></li>
-               <li>• <a href="eho.html">Эхо</a></li>
+          <li>• <a href="apostol.html">Апостол или дурак</a></li>
+          <li>• <a href="niognya.html">Ни меня, ни тебя</a></li>
+          <li>• <a href="eho.html">Эхо</a></li>
           <li>• <a href="timyan.html">Тимьян</a></li>
           <li>• <a href="pautin.html">Па у тин</a></li>
         </ul>
@@ -127,19 +127,16 @@
   const totalItems = items.length;
   const totalHeight = itemHeight * totalItems;
 
-  let offsetY = 0;
-  let startOffsetY = Math.floor(Math.random() * totalHeight);
+  let offsetY = Math.floor(Math.random() * totalHeight); // старт с рандома
   let speed = 2;
   let startTime;
 
-  list.style.transform = `translateY(-${startOffsetY}px)`;
-  offsetY = startOffsetY;
+  list.style.transform = `translateY(-${offsetY}px)`;
 
   function animateScroll(timestamp) {
     if (!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
 
-    // замедление после 4 секунд
     if (elapsed > 4000 && speed > 0.1) {
       speed *= 0.97;
     }
@@ -155,16 +152,13 @@
     if (elapsed < 5000) {
       requestAnimationFrame(animateScroll);
     } else {
-      // остановка в рандомной позиции
-      const randomStop = Math.floor(Math.random() * totalHeight);
       list.style.transition = 'transform 1s ease-out';
-      list.style.transform = `translateY(-${randomStop}px)`;
+      list.style.transform = `translateY(-${offsetY}px)`; // просто остановка, без прыжков
     }
   }
 
   requestAnimationFrame(animateScroll);
 
-  // рандомная навигация
   function goToRandomPoem() {
     const links = list.querySelectorAll('li a');
     const urls = Array.from(links).map(link => link.getAttribute('href'));
