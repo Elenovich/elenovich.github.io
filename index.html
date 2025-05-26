@@ -66,7 +66,8 @@
   </footer>
 
 <script>
-const wrapper = document.querySelector('.poem-list-wrapper');
+if (window.innerWidth < 768) {
+  const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
 
   // Клонируем список для бесшовной прокрутки
@@ -74,8 +75,8 @@ const wrapper = document.querySelector('.poem-list-wrapper');
   wrapper.appendChild(clone);
 
   const itemHeight = list.querySelector('li')?.offsetHeight || 40;
-  const speedPerTick = 6 * itemHeight; // скорость прокрутки за интервал
-  const interval = 10; // ms интервал для setInterval
+  const speedPerTick = 6 * itemHeight;
+  const interval = 10;
   let scrollPos = 0;
 
   requestAnimationFrame(() => {
