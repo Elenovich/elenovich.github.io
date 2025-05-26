@@ -120,55 +120,32 @@
   </footer>
 
  <script>
-  // Автопрокрутка
   const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
 
-  const itemHeight = list.querySelector('li')?.offsetHeight || 40;
-  const speedPerTick = 6 * itemHeight;
-  const interval = 10;
+  // Клонируем только визуально через JS
+  const totalHeight = list.scrollHeight;
+
+  // Копируем элементы внутрь самого списка
+  list.innerHTML += list.innerHTML;
+
   let scrollPos = 0;
+  const speed = 0.5;
 
-  requestAnimationFrame(() => {
-    const scrollInterval = setInterval(() => {
-      scrollPos += speedPerTick;
-      if (scrollPos >= list.scrollHeight - wrapper.clientHeight) {
-        scrollPos = 0;
-      }
-      wrapper.scrollTop = scrollPos;
-    }, interval);
+  function loopScroll() {
+    scrollPos += speed;
+    if (scrollPos >= totalHeight) {
+      scrollPos = 0; // сброс на начало оригинального списка
+    }
+    wrapper.scrollTop = scrollPos;
+    requestAnimationFrame(loopScroll);
+  }
 
-    setTimeout(() => {
-      clearInterval(scrollInterval);
-      const currentScroll = wrapper.scrollTop;
-      const maxScroll = list.scrollHeight - wrapper.clientHeight;
-      const targetScroll = Math.random() * maxScroll;
-      const duration = 1000;
-      const startTime = performance.now();
-
-      function easeOutCubic(t) {
-        return 1 - Math.pow(1 - t, 3);
-      }
-
-      function animate(time) {
-        const elapsed = time - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutCubic(progress);
-        const distance = targetScroll - currentScroll;
-        wrapper.scrollTop = currentScroll + distance * easedProgress;
-
-        if (progress < 1) {
-          requestAnimationFrame(animate);
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }, 3000);
-  });
+  requestAnimationFrame(loopScroll);
 
   // Переход на случайный стих
   function goToRandomPoem() {
-    const links = document.querySelectorAll('.poem-list a');
+    const links = list.querySelectorAll('li:nth-child(-n=' + (list.children.length / 2) + ') a');
     const urls = Array.from(links).map(link => link.getAttribute('href'));
     const randomUrl = urls[Math.floor(Math.random() * urls.length)];
     if (randomUrl) {
