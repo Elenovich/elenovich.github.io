@@ -66,89 +66,46 @@
   </footer>
 
 <script>
-  if (window.innerWidth <= 600) {
-    const wrapper = document.querySelector('.poem-list-wrapper');
-    const list = document.querySelector('.poem-list');
+if (window.innerWidth <= 600) {
+  const wrapper = document.querySelector('.poem-list-wrapper');
+  const list = document.querySelector('.poem-list');
 
-    window.addEventListener('pagehide', () => {
-      localStorage.removeItem('poemAutoScrolled');
-    });
+  window.addEventListener('pagehide', () => {
+    localStorage.removeItem('poemAutoScrolled');
+  });
 
-    const referrer = document.referrer;
-    const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
+  const referrer = document.referrer;
+  const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
 
-    if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
-      const clone = list.cloneNode(true);
-      wrapper.appendChild(clone);
+  if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
+    const clone = list.cloneNode(true);
+    wrapper.appendChild(clone);
 
-      const listItems = list.querySelectorAll('li');
-      const itemHeight = listItems[0]?.offsetHeight || 40;
-      const totalItems = listItems.length;
+    let scrollPos = 0;
+    const itemHeight = list.querySelector('li')?.offsetHeight || 40;
+    const speed = 6 * itemHeight; // 6 элементов за тик
+    const interval = 10;
 
-      const maxScrollItems = totalItems - 1;
-      const randomItemIndex = Math.floor(Math.random() * maxScrollItems);
-      const targetScroll = randomItemIndex * itemHeight;
+    let scrollInterval = setInterval(() => {
+      scrollPos += speed;
+      if (scrollPos >= list.offsetHeight) {
+        scrollPos -= list.offsetHeight;
+      }
+      wrapper.scrollTop = scrollPos;
+    }, interval);
 
-      wrapper.scrollTop = 0;
+    setTimeout(() => {
+      clearInterval(scrollInterval);
 
-      let scrollPos = 0;
-      const totalDuration = 5000; // общая длительность 5 сек
-      const fastDuration = 3300; // быстрое движение — 3.3 сек
-      const slowDuration = totalDuration - fastDuration; // замедление — 1.7 сек
+      const totalItems = list.querySelectorAll('li').length;
+      const randomIndex = Math.floor(Math.random() * totalItems);
+      const targetScroll = randomIndex * itemHeight;
 
-      const fastInterval = 10;
-      const fastSteps = fastDuration / fastInterval;
-      const fastStepSize = targetScroll * (fastDuration / totalDuration) / fastSteps;
-
-      let step = 0;
-
-      const fastScroll = setInterval(() => {
-        scrollPos += fastStepSize;
-        wrapper.scrollTop = scrollPos;
-        step++;
-
-        if (step >= fastSteps) {
-          clearInterval(fastScroll);
-
-          const start = performance.now();
-          const initialPos = scrollPos;
-          const remainingScroll = targetScroll - initialPos;
-
-          function easeOutCubic(t) {
-            return 1 - Math.pow(1 - t, 3);
-          }
-
-          function animateSlowScroll(currentTime) {
-            const elapsed = currentTime - start;
-            const progress = Math.min(elapsed / slowDuration, 1);
-            const eased = easeOutCubic(progress);
-
-            wrapper.scrollTop = initialPos + remainingScroll * eased;
-
-            if (progress < 1) {
-              requestAnimationFrame(animateSlowScroll);
-            } else {
-              localStorage.setItem('poemAutoScrolled', 'true');
-            }
-          }
-
-          requestAnimationFrame(animateSlowScroll);
-        }
-      }, fastInterval);
-
-      wrapper.addEventListener('scroll', () => {
-        const scrollTop = wrapper.scrollTop;
-        if (scrollTop >= list.offsetHeight) {
-          wrapper.scrollTop = 0;
-          scrollPos = 0;
-        }
-        if (scrollTop <= 0) {
-          wrapper.scrollTop = list.offsetHeight - 1;
-          scrollPos = wrapper.scrollTop;
-        }
-      });
-    }
+      wrapper.scrollTop = targetScroll;
+      localStorage.setItem('poemAutoScrolled', 'true');
+    }, 3000);
   }
+}
 </script>
 </body>
 </html>
