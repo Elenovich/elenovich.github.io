@@ -127,16 +127,13 @@
   const itemHeight = list.children[0].offsetHeight;
   const itemCount = list.children.length;
 
-  // Визуальный дубликат — без участия пользователя
   list.innerHTML += originalListHTML;
 
   let scrollTop = 0;
   const fullHeight = list.scrollHeight / 2;
 
-  // Настройка времени
   const totalDuration = 5000;
   const decelerationStart = 4000;
-  const frameRate = 1000 / 60;
 
   let startTime = null;
 
@@ -144,21 +141,17 @@
     if (!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
 
-    let progress = elapsed / totalDuration;
-
-    // Сначала быстрая прокрутка, потом замедление
     let speed;
     if (elapsed < decelerationStart) {
-      speed = 4; // быстро
+      speed = 4;
     } else {
-      // замедление к нулю
       const slowProgress = (elapsed - decelerationStart) / (totalDuration - decelerationStart);
-      speed = 4 * (1 - slowProgress); // линейное замедление
+      speed = 4 * (1 - slowProgress);
     }
 
     scrollTop += speed;
     if (scrollTop >= fullHeight) {
-      scrollTop -= fullHeight; // сброс на начало
+      scrollTop -= fullHeight;
     }
 
     wrapper.scrollTop = scrollTop;
@@ -166,10 +159,7 @@
     if (elapsed < totalDuration) {
       requestAnimationFrame(animateScroll);
     } else {
-      // остановка в случайной точке
-      const maxVisible = Math.floor(wrapper.clientHeight / itemHeight);
       const randomOffset = Math.floor(Math.random() * itemCount) * itemHeight;
-
       scrollTop = randomOffset % fullHeight;
       wrapper.scrollTop = scrollTop;
     }
@@ -177,7 +167,6 @@
 
   requestAnimationFrame(animateScroll);
 
-  // Рандомная кнопка
   function goToRandomPoem() {
     const links = list.querySelectorAll('li:nth-child(-n=' + itemCount + ') a');
     const urls = Array.from(links).map(link => link.getAttribute('href'));
