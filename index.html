@@ -65,63 +65,61 @@
     </div>
   </footer>
 
-<script>
-if (window.innerWidth < 768) {
-  const wrapper = document.querySelector('.poem-list-wrapper');
-  const list = document.querySelector('.poem-list');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector('.poem-list-wrapper');
+      const list = document.querySelector('.poem-list');
 
-  // Клонируем список для бесшовной прокрутки
-  const clone = list.cloneNode(true);
-  wrapper.appendChild(clone);
+      if (!wrapper || !list) return;
 
-  const itemHeight = list.querySelector('li')?.offsetHeight || 40;
-  const speedPerTick = 6 * itemHeight;
-  const interval = 10;
-  let scrollPos = 0;
+      // Клонируем список для бесшовности
+      const clone = list.cloneNode(true);
+      wrapper.appendChild(clone);
 
-  requestAnimationFrame(() => {
-    const scrollInterval = setInterval(() => {
-      scrollPos += speedPerTick;
-      if (scrollPos >= list.offsetHeight) {
-        scrollPos -= list.offsetHeight;
-      }
-      wrapper.scrollTop = scrollPos;
-    }, interval);
+      const itemHeight = list.querySelector('li')?.offsetHeight || 40;
+      const speedPerTick = 6 * itemHeight;
+      const interval = 10;
+      let scrollPos = 0;
 
-    setTimeout(() => {
-      clearInterval(scrollInterval);
+      const scrollInterval = setInterval(() => {
+        scrollPos += speedPerTick;
+        if (scrollPos >= list.offsetHeight) {
+          scrollPos -= list.offsetHeight;
+        }
+        wrapper.scrollTop = scrollPos;
+      }, interval);
 
-      const currentScroll = wrapper.scrollTop;
-      const maxScroll = list.offsetHeight;
-      const targetScroll = Math.random() * maxScroll;
-      const duration = 1000;
-      const startTime = performance.now();
+      setTimeout(() => {
+        clearInterval(scrollInterval);
 
-      function easeOutCubic(t) {
-        return 1 - Math.pow(1 - t, 3);
-      }
+        const currentScroll = wrapper.scrollTop;
+        const maxScroll = list.offsetHeight;
+        const targetScroll = Math.random() * maxScroll;
+        const duration = 1000;
+        const startTime = performance.now();
 
-      function animate(time) {
-        const elapsed = time - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutCubic(progress);
-
-        let distance = targetScroll - currentScroll;
-        if (distance < 0) {
-          distance += maxScroll;
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
         }
 
-        wrapper.scrollTop = (currentScroll + distance * easedProgress) % maxScroll;
+        function animate(time) {
+          const elapsed = time - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = easeOutCubic(progress);
 
-        if (progress < 1) {
-          requestAnimationFrame(animate);
+          let distance = targetScroll - currentScroll;
+          if (distance < 0) distance += maxScroll;
+
+          wrapper.scrollTop = (currentScroll + distance * eased) % maxScroll;
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          }
         }
-      }
 
-      requestAnimationFrame(animate);
-    }, 3000);
-  });
-}
-</script>
+        requestAnimationFrame(animate);
+      }, 3000);
+    });
+  </script>
 </body>
 </html>
