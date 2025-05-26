@@ -70,81 +70,57 @@ if (window.innerWidth <= 600) {
   const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
 
-  window.addEventListener('pagehide', () => {
-    localStorage.removeItem('poemAutoScrolled');
+  // Клонируем список для бесшовной прокрутки
+  const clone = list.cloneNode(true);
+  wrapper.appendChild(clone);
+
+  const itemHeight = list.querySelector('li')?.offsetHeight || 40;
+  const speedPerTick = 6 * itemHeight; // скорость прокрутки за интервал
+  const interval = 10; // ms интервал для setInterval
+  let scrollPos = 0;
+
+  requestAnimationFrame(() => {
+    const scrollInterval = setInterval(() => {
+      scrollPos += speedPerTick;
+      if (scrollPos >= list.offsetHeight) {
+        scrollPos -= list.offsetHeight;
+      }
+      wrapper.scrollTop = scrollPos;
+    }, interval);
+
+    setTimeout(() => {
+      clearInterval(scrollInterval);
+
+      const currentScroll = wrapper.scrollTop;
+      const maxScroll = list.offsetHeight;
+      const targetScroll = Math.random() * maxScroll;
+      const duration = 1000;
+      const startTime = performance.now();
+
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function animate(time) {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutCubic(progress);
+
+        let distance = targetScroll - currentScroll;
+        if (distance < 0) {
+          distance += maxScroll;
+        }
+
+        wrapper.scrollTop = (currentScroll + distance * easedProgress) % maxScroll;
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }, 3000);
   });
-
-  const referrer = document.referrer;
-  const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
-  const hasScrolled = localStorage.getItem('poemAutoScrolled');
-
-  if (!hasScrolled && !isFromPoem) {
-    // Клонируем список для бесшовной прокрутки
-    const clone = list.cloneNode(true);
-    wrapper.appendChild(clone);
-
-    const itemHeight = list.querySelector('li')?.offsetHeight || 40;
-    const speedPerTick = 6 * itemHeight; // скорость прокрутки за интервал
-    const interval = 10; // ms интервал для setInterval
-    let scrollPos = 0;
-
-    // Запуск прокрутки после рендера
-    requestAnimationFrame(() => {
-      // Быстрая бесконечная прокрутка через setInterval
-      const scrollInterval = setInterval(() => {
-        scrollPos += speedPerTick;
-        if (scrollPos >= list.offsetHeight) {
-          scrollPos -= list.offsetHeight;
-        }
-        wrapper.scrollTop = scrollPos;
-      }, interval);
-
-      // Останов через 3 секунды
-      setTimeout(() => {
-        clearInterval(scrollInterval);
-
-        // Текущая позиция scrollTop — float уже
-        const currentScroll = wrapper.scrollTop;
-
-        // Общая высота списка
-        const maxScroll = list.offsetHeight;
-
-        // Рандомная позиция остановки в диапазоне [0, maxScroll)
-        const targetScroll = Math.random() * maxScroll;
-
-        // Анимация плавного скролла к targetScroll за 1 секунду
-        const duration = 1000;
-        const startTime = performance.now();
-
-        function easeOutCubic(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-
-        function animate(time) {
-          const elapsed = time - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easedProgress = easeOutCubic(progress);
-
-          // Плавный переход с currentScroll на targetScroll (с учётом цикличности)
-          // Если targetScroll < currentScroll, значит прокрутка назад по циклу — добавляем maxScroll
-          let distance = targetScroll - currentScroll;
-          if (distance < 0) {
-            distance += maxScroll;
-          }
-
-          wrapper.scrollTop = (currentScroll + distance * easedProgress) % maxScroll;
-
-          if (progress < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            localStorage.setItem('poemAutoScrolled', 'true');
-          }
-        }
-
-        requestAnimationFrame(animate);
-      }, 3000);
-    });
-  }
 }
 </script>
 </body>
