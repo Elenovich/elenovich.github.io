@@ -122,69 +122,54 @@
 <script>
   const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
+  const items = list.querySelectorAll('li');
+  const itemHeight = items[0].offsetHeight;
+  const totalItems = items.length;
+  const totalHeight = itemHeight * totalItems;
 
-  const originalListHTML = list.innerHTML;
-  const itemHeight = list.children[0].offsetHeight;
-  const itemCount = list.children.length;
+  let offsetY = 0;
+  let startOffsetY = Math.floor(Math.random() * totalHeight);
+  let speed = 2;
+  let startTime;
 
-  // Визуальный дубликат — без участия пользователя
-  list.innerHTML += originalListHTML;
-
-  let scrollTop = 0;
-  const fullHeight = list.scrollHeight / 2;
-
-  // Настройка времени
-  const totalDuration = 5000;
-  const decelerationStart = 4000;
-  const frameRate = 1000 / 60;
-
-  let startTime = null;
+  list.style.transform = `translateY(-${startOffsetY}px)`;
+  offsetY = startOffsetY;
 
   function animateScroll(timestamp) {
     if (!startTime) startTime = timestamp;
     const elapsed = timestamp - startTime;
 
-    let progress = elapsed / totalDuration;
-
-    // Сначала быстрая прокрутка, потом замедление
-    let speed;
-    if (elapsed < decelerationStart) {
-      speed = 4; // быстро
-    } else {
-      // замедление к нулю
-      const slowProgress = (elapsed - decelerationStart) / (totalDuration - decelerationStart);
-      speed = 4 * (1 - slowProgress); // линейное замедление
+    // замедление после 4 секунд
+    if (elapsed > 4000 && speed > 0.1) {
+      speed *= 0.97;
     }
 
-    scrollTop += speed;
-    if (scrollTop >= fullHeight) {
-      scrollTop -= fullHeight; // сброс на начало
+    offsetY += speed;
+
+    if (offsetY >= totalHeight) {
+      offsetY = 0;
     }
 
-    wrapper.scrollTop = scrollTop;
+    list.style.transform = `translateY(-${offsetY}px)`;
 
-    if (elapsed < totalDuration) {
+    if (elapsed < 5000) {
       requestAnimationFrame(animateScroll);
     } else {
-      // остановка в случайной точке
-      const maxVisible = Math.floor(wrapper.clientHeight / itemHeight);
-      const randomOffset = Math.floor(Math.random() * itemCount) * itemHeight;
-
-      scrollTop = randomOffset % fullHeight;
-      wrapper.scrollTop = scrollTop;
+      // остановка в рандомной позиции
+      const randomStop = Math.floor(Math.random() * totalHeight);
+      list.style.transition = 'transform 1s ease-out';
+      list.style.transform = `translateY(-${randomStop}px)`;
     }
   }
 
   requestAnimationFrame(animateScroll);
 
-  // Рандомная кнопка
+  // рандомная навигация
   function goToRandomPoem() {
-    const links = list.querySelectorAll('li:nth-child(-n=' + itemCount + ') a');
+    const links = list.querySelectorAll('li a');
     const urls = Array.from(links).map(link => link.getAttribute('href'));
     const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-    if (randomUrl) {
-      window.location.href = randomUrl;
-    }
+    if (randomUrl) window.location.href = randomUrl;
   }
 </script>
 </body>
