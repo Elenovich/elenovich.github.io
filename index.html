@@ -64,65 +64,48 @@
       </div>
     </div>
   </footer>
+
 <script>
-  if (window.innerWidth <= 600) {
-    const wrapper = document.querySelector('.poem-list-wrapper');
-    const list = document.querySelector('.poem-list');
+if (window.innerWidth <= 600) {
+  const wrapper = document.querySelector('.poem-list-wrapper');
+  const list = document.querySelector('.poem-list');
 
-    // Удаляем флаг при закрытии вкладки
-    window.addEventListener('pagehide', () => {
-      localStorage.removeItem('poemAutoScrolled');
-    });
+  window.addEventListener('pagehide', () => {
+    localStorage.removeItem('poemAutoScrolled');
+  });
 
-    const referrer = document.referrer;
-    const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
+  const referrer = document.referrer;
+  const isFromPoem = referrer.includes('elenovich.lol') && referrer.endsWith('.html');
 
-    if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
-      const clone = list.cloneNode(true);
-      wrapper.appendChild(clone);
+  if (!localStorage.getItem('poemAutoScrolled') && !isFromPoem) {
+    const clone = list.cloneNode(true);
+    wrapper.appendChild(clone);
 
-      const listItems = list.querySelectorAll('li');
-      const itemHeight = listItems[0]?.offsetHeight || 40;
-      const totalItems = listItems.length;
+    let scrollPos = 0;
+    const itemHeight = list.querySelector('li')?.offsetHeight || 40;
+    const speed = 6 * itemHeight; // 6 элементов за тик
+    const interval = 10;
 
-      const maxScrollItems = totalItems - 1;
-      const randomItemIndex = Math.floor(Math.random() * maxScrollItems);
-      const targetScroll = randomItemIndex * itemHeight;
+    let scrollInterval = setInterval(() => {
+      scrollPos += speed;
+      if (scrollPos >= list.offsetHeight) {
+        scrollPos -= list.offsetHeight;
+      }
+      wrapper.scrollTop = scrollPos;
+    }, interval);
 
-      wrapper.scrollTop = 0;
+    setTimeout(() => {
+      clearInterval(scrollInterval);
 
-      let scrollPos = 0;
-      const duration = 5000; // прокрутка длится 5 секунд
-      const interval = 10;
-      const totalSteps = duration / interval;
-      const stepSize = targetScroll / totalSteps;
-      let step = 0;
+      const totalItems = list.querySelectorAll('li').length;
+      const randomIndex = Math.floor(Math.random() * totalItems);
+      const targetScroll = randomIndex * itemHeight;
 
-      const scrollInterval = setInterval(() => {
-        scrollPos += stepSize;
-        wrapper.scrollTop = scrollPos;
-        step++;
-
-        if (scrollPos >= targetScroll || step >= totalSteps) {
-          clearInterval(scrollInterval);
-          localStorage.setItem('poemAutoScrolled', 'true');
-        }
-      }, interval);
-
-      // бесшовная прокрутка
-      wrapper.addEventListener('scroll', () => {
-        const scrollTop = wrapper.scrollTop;
-        if (scrollTop >= list.offsetHeight) {
-          wrapper.scrollTop = 0;
-          scrollPos = 0;
-        }
-        if (scrollTop <= 0) {
-          wrapper.scrollTop = list.offsetHeight - 1;
-          scrollPos = wrapper.scrollTop;
-        }
-      });
-    }
+      wrapper.scrollTop = targetScroll;
+      localStorage.setItem('poemAutoScrolled', 'true');
+    }, 3000);
   }
+}
 </script>
 </body>
 </html>
