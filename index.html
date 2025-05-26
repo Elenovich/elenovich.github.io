@@ -161,18 +161,40 @@
       scrollTop -= fullHeight; // сброс на начало
     }
 
-    wrapper.scrollTop = scrollTop;
+    let scrollTop = 0;
+const fullHeight = list.scrollHeight / 2;
 
-    if (elapsed < totalDuration) {
-      requestAnimationFrame(animateScroll);
-    } else {
-      // остановка в случайной точке
-      const maxVisible = Math.floor(wrapper.clientHeight / itemHeight);
-      const randomOffset = Math.floor(Math.random() * itemCount) * itemHeight;
+const totalDuration = 5000;      // общая длительность анимации
+const frameRate = 1000 / 60;
 
-      scrollTop = randomOffset % fullHeight;
-      wrapper.scrollTop = scrollTop;
-    }
+let startTime = null;
+
+function animateScroll(timestamp) {
+  if (!startTime) startTime = timestamp;
+  const elapsed = timestamp - startTime;
+
+  if (elapsed >= totalDuration) {
+    // Останавливаем анимацию
+    return;
+  }
+
+  // Вычисляем прогресс от 0 до 1
+  const progress = elapsed / totalDuration;
+
+  // Линейно уменьшаем скорость с 4 до 0
+  const speed = 4 * (1 - progress);
+
+  scrollTop += speed;
+  if (scrollTop >= fullHeight) {
+    scrollTop -= fullHeight;
+  }
+
+  wrapper.scrollTop = scrollTop;
+
+  requestAnimationFrame(animateScroll);
+}
+
+requestAnimationFrame(animateScroll);
   }
 
   requestAnimationFrame(animateScroll);
