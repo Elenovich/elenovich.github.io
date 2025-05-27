@@ -141,9 +141,15 @@ footer {
   pointer-events: none;
 }
 
-#left-scroll-zone:hover #scroll-up-arrow {
-  opacity: 1;
+#left-scroll-zone {
+  width: 5ch; /* уменьшили ширину зоны наведения */
 }
+
+#scroll-up-arrow {
+  font-size: 1.2rem; /* уменьшили размер стрелки */
+  bottom: 30px;      /* сдвинули чуть выше */
+}
+
 
 .logo-icon {
   height: 1em;
