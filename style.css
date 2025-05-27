@@ -205,3 +205,10 @@ footer {
   background: rgba(255, 255, 255, 0.1);
   color: white;
 }
+
+.poem-list-wrapper {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
