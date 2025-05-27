@@ -275,9 +275,14 @@ footer {
   right: 0;
   background: linear-gradient(to left, #0C1625 0%, #080D17 100%);
 }
+.nav-buttons {
+  margin-bottom: 1rem; /* чтобы отделить от футера */
+}
 
-    .footer-wrapper {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: right; /* по желанию, если надо справа */
+footer {
+  order: 2;
+}
+
+.nav-buttons {
+  order: 1;
 }
