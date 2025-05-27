@@ -23,55 +23,56 @@
       color: white;
     }
 
+    .poem-list-wrapper,
+    .random-wrapper {
+      flex: 0 0 250px;
+      min-height: 400px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      box-sizing: border-box;
+      max-height: 400px;
+    }
+
     .poem-list-wrapper {
-  flex: 0 0 250px;
-  min-height: 400px;
-  padding: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(0,0,0,0.2);
-  border-radius: 8px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  max-height: 400px;
-}
-.random-wrapper {
-  flex: 0 0 250px;
-  min-height: 400px;
-  padding: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(0,0,0,0.2);
-  border-radius: 8px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
+      overflow-y: auto;
+    }
+
+    .random-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
 
     @media (min-width: 768px) {
       .poem-random-layout {
         display: flex;
-        flex-direction: row;
+        gap: 40px;
         justify-content: center;
         align-items: flex-start;
-        gap: 40px;
       }
 
       .random-wrapper {
         margin-top: 0;
         align-items: flex-start;
-        position: static;
       }
     }
 
-    /* Убираем подчёркивание у ссылки в футере */
     .footer-link {
       text-decoration: none;
       color: inherit;
     }
 
     .footer-link:hover {
-      text-decoration: underline; /* Если нужно, можно оставить эффект при наведении */
+      text-decoration: underline;
+    }
+
+    #recent-visits {
+      margin-top: 2rem;
+      font-size: 0.9em;
+      color: #aaa;
     }
   </style>
 </head>
@@ -89,8 +90,9 @@
 
   <main class="home-main fade-in-delayed">
     <div class="poem-random-layout">
-      <div class="poem-list-wrapper" style="overflow-y: auto; max-height: 400px;">
+      <div class="poem-list-wrapper">
         <ul class="poem-list">
+          <!-- список стихов — не изменял -->
           <li>• <a href="mea_vido.html">Mea vido</a></li>
           <li>• <a href="komarinaya.html">Комариная</a></li>
           <li>• <a href="pribeval.html">Приступ бешенства в алмазах</a></li>
@@ -132,11 +134,11 @@
       <div class="random-wrapper">
         <button class="random-button" onclick="goToRandomPoem()">Рандомный стих</button>
         <br />
-        <a href="search.html" class="random-button">Нить Ариадны &#x1F50E;&#xFE0E;</a>
+        <a href="search.html" class="random-button">Нить Ариадны 🔎</a>
       </div>
     </div>
   </main>
-  
+
   <footer class="site-footer">
     <div class="footer-content">
       <div class="footer-copy">
@@ -149,7 +151,7 @@
     </div>
   </footer>
 
-  <div id="recent-visits" style="margin-top: 2rem; font-size: 0.9em; color: #aaa;"></div>
+  <div id="recent-visits"></div>
 
   <script>
     const container = document.getElementById('recent-visits');
@@ -161,56 +163,34 @@
       ).join('');
       container.innerHTML = `<div style="opacity: 0.6;">Недавние стихи:</div><div>${list}</div>`;
     }
-  </script>
 
-  <script>
     const wrapper = document.querySelector('.poem-list-wrapper');
     const list = document.querySelector('.poem-list');
-
     const originalListHTML = list.innerHTML;
     const itemHeight = list.children[0].offsetHeight;
     const itemCount = list.children.length;
-
-    // Дублируем список
     list.innerHTML += originalListHTML;
 
     let scrollTop = 0;
     const fullHeight = itemHeight * itemCount;
-
     const totalDuration = 5000;
     const decelerationStart = 4000;
-
     let startTime = null;
 
     function animateScroll(timestamp) {
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
-
-      let speed;
-      if (elapsed < decelerationStart) {
-        speed = 4;
-      } else {
-        const slowProgress = (elapsed - decelerationStart) / (totalDuration - decelerationStart);
-        speed = 4 * (1 - slowProgress);
-      }
-
-      scrollTop += speed;
-
-      if (scrollTop >= fullHeight) {
-        scrollTop -= fullHeight;
-      }
-
+      let speed = elapsed < decelerationStart
+        ? 4
+        : 4 * (1 - (elapsed - decelerationStart) / (totalDuration - decelerationStart));
+      scrollTop = (scrollTop + speed) % fullHeight;
       wrapper.scrollTop = scrollTop;
 
       if (elapsed < totalDuration) {
         requestAnimationFrame(animateScroll);
       } else {
         const randomIndex = Math.floor(Math.random() * itemCount);
-        const randomOffset = randomIndex * itemHeight;
-        wrapper.scrollTo({
-          top: randomOffset,
-          behavior: 'smooth'
-        });
+        wrapper.scrollTo({ top: randomIndex * itemHeight, behavior: 'smooth' });
       }
     }
 
@@ -218,11 +198,9 @@
 
     function goToRandomPoem() {
       const links = list.querySelectorAll('li:nth-child(-n+' + itemCount + ') a');
-      const urls = Array.from(links).map(link => link.getAttribute('href'));
+      const urls = Array.from(links).map(link => link.href);
       const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-      if (randomUrl) {
-        window.location.href = randomUrl;
-      }
+      if (randomUrl) window.location.href = randomUrl;
     }
   </script>
 </body>
