@@ -219,36 +219,6 @@ footer {
   line-height: 1;
   vertical-align: middle;
 }
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const poem = document.querySelector('.poem-text');
-    if (!poem) return;
-
-    const button = document.createElement('button');
-    button.textContent = '❐';
-    button.style.cssText = `
-      background: none;
-      border: 1px solid #555;
-      color: #ccc;
-      padding: 5px 10px;
-      font-size: 12px;
-      cursor: pointer;
-      margin-bottom: 1em;
-    `;
-
-    button.addEventListener('click', () => {
-      const text = poem.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        button.textContent = 'Скопировано';
-        setTimeout(() => button.textContent = '❐', 2000);
-      });
-    });
-
-    poem.parentElement.insertBefore(button, poem);
-  });
-</script>
-
       .poem-text {
   position: relative; /* для абсолютных псевдоэлементов */
   max-width: 500px;
