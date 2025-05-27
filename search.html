@@ -66,10 +66,9 @@
       if (!query) return;
 
       const filtered = poems.filter(poem => {
-        // Поиск по названию и по содержанию
-        return poem.title.toLowerCase().includes(query) ||
-               poem.text.toLowerCase().includes(query);
-      });
+  return poem.title.toLowerCase().includes(query) ||
+         poem.content.toLowerCase().includes(query);
+});
 
       if (filtered.length === 0) {
         results.innerHTML = '<p>Ничего не найдено.</p>';
@@ -81,7 +80,7 @@
         div.className = 'result-item';
         div.innerHTML = `
           <div class="result-title"><a href="${poem.url}">${poem.title}</a></div>
-          <div class="result-text">${poem.text.substring(0, 200)}...</div>
+          <div class="result-text">${poem.content.substring(0, 200)}...</div>
         `;
         results.appendChild(div);
       });
