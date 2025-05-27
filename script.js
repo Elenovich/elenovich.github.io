@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
 
   const button = document.createElement('button');
-  button.textContent = 'Копировать';
+  button.textContent = '❏';
   button.className = 'copy-button';
   button.style.cssText = `
     background: transparent;
