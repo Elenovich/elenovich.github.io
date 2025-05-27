@@ -1,28 +1,43 @@
-document.getElementById("left-scroll-zone").addEventListener("click", function () {
+const scrollZone = document.getElementById("left-scroll-zone");
+const navButtons = document.querySelector('.nav-buttons');
+
+let scrollTimeout;
+let lastScrollY = 0;
+
+scrollZone.addEventListener("click", function () {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 window.addEventListener("scroll", function () {
-  const scrollZone = document.getElementById("left-scroll-zone");
-  if (window.scrollY > 300) {
-    scrollZone.style.opacity = "1";
+  const scrollTop = window.scrollY || window.pageYOffset;
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+
+  if (scrollTop > 300) {
+    scrollZone.style.opacity = "0.5";
     scrollZone.style.pointerEvents = "auto";
   } else {
     scrollZone.style.opacity = "0";
     scrollZone.style.pointerEvents = "none";
   }
-});
-window.addEventListener('scroll', function () {
-  const navButtons = document.querySelector('.nav-buttons');
-  const scrollTop = window.scrollY || window.pageYOffset;
-  const windowHeight = window.innerHeight;
-  const documentHeight = document.documentElement.scrollHeight;
 
   if (scrollTop + windowHeight >= documentHeight) {
     navButtons.classList.add('visible');
   } else {
     navButtons.classList.remove('visible');
   }
+
+  if (scrollTop > lastScrollY + 10) {
+    scrollZone.style.transition = 'opacity 0.3s ease';
+    scrollZone.style.opacity = '0.9';
+  }
+
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    scrollZone.style.opacity = scrollTop > 300 ? '0.5' : '0';
+  }, 200);
+
+  lastScrollY = scrollTop;
 });
 
 document.addEventListener('DOMContentLoaded', () => {
