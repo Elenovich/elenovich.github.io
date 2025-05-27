@@ -74,6 +74,20 @@
   </div>
 </footer>
   <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
 <div class="poem-container">
   <div class="nav-buttons">
     <a class="prev-poem" href="yokoono.html">← Предыдущий стих</a>
