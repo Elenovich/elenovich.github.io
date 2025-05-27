@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
   button.addEventListener('click', () => {
     const text = poem.innerText;
     navigator.clipboard.writeText(text).then(() => {
-      button.textContent = 'Скопировано';
+      button.textContent = '□';
       setTimeout(() => {
-        button.textContent = 'Копировать';
+        button.textContent = '❏';
       }, 2000);
     }).catch(() => {
       button.textContent = 'Ошибка';
