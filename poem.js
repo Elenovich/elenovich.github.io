@@ -1,3 +1,7 @@
+document.getElementById("left-scroll-zone").addEventListener("click", function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
 let scrollTimeout;
 
 window.addEventListener('scroll', () => {
