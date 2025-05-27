@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Поиск по сайту</title>
+  <title>Поиск по стихам</title>
   <style>
     body {
       background-color: #111;
@@ -12,123 +12,79 @@
       padding: 40px;
     }
     a {
-      color: #fff;
-      text-decoration: none;
+      color: #0af;
     }
-    .header-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      margin-bottom: 1.5em;
-      font-size: 1.2em;
-    }
-    .logo-icon {
-      width: 1.2em;
-      height: 1.2em;
-      vertical-align: middle;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    input[type="search"] {
+    input {
       width: 100%;
       padding: 10px;
       font-size: 1.2em;
-      border: none;
-      border-radius: 5px;
       margin-bottom: 20px;
-      background-color: #222;
+      background: #222;
+      border: none;
       color: #fff;
     }
     .result-item {
       margin-bottom: 20px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 10px;
     }
-    .result-item a {
+    .result-title {
       font-weight: bold;
-      font-size: 1.1em;
+      margin-bottom: 5px;
     }
-    .result-snippet {
-      font-size: 0.9em;
-      color: #ccc;
+    .result-text {
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <a href="/" class="header-link">
-    <img src="images/logo-icon.png" alt="Логотип" class="logo-icon" />
+  <a href="/" class="header-link" style="display:flex;align-items:center;gap:0.5em;margin-bottom:1.5em;font-size:1.2em;">
+    <img src="images/logo-icon.png" alt="Логотип" style="width:1.2em;height:1.2em;border-radius:50%;object-fit:cover;"/>
     elenovich.lol
   </a>
 
-  <input type="search" id="searchInput" placeholder="Поиск по стихам..." autofocus />
+  <input id="search-input" type="text" placeholder="Введите ключевые слова..." autofocus />
 
   <div id="results"></div>
 
   <script>
     let poems = [];
 
-    // Загрузить poems.json
     fetch('poems.json')
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
         poems = data;
-      })
-      .catch(() => {
-        document.getElementById('results').innerText = 'Ошибка загрузки данных.';
       });
 
-    // Поиск по ключевому слову (простой поиск по названию и тексту)
-    function search(query) {
-      if (!query) return [];
+    const input = document.getElementById('search-input');
+    const results = document.getElementById('results');
 
-      query = query.toLowerCase();
-      return poems.filter(poem => {
-        return (poem.title && poem.title.toLowerCase().includes(query)) ||
-               (poem.text && poem.text.toLowerCase().includes(query));
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      results.innerHTML = '';
+
+      if (!query) return;
+
+      const filtered = poems.filter(poem => {
+        // Поиск по названию и по содержанию
+        return poem.title.toLowerCase().includes(query) ||
+               poem.text.toLowerCase().includes(query);
       });
-    }
 
-    function renderResults(results) {
-      const container = document.getElementById('results');
-      container.innerHTML = '';
-
-      if (results.length === 0) {
-        container.textContent = 'Ничего не найдено.';
+      if (filtered.length === 0) {
+        results.innerHTML = '<p>Ничего не найдено.</p>';
         return;
       }
 
-      results.forEach(poem => {
-        const item = document.createElement('div');
-        item.className = 'result-item';
-
-        const link = document.createElement('a');
-        link.href = poem.url || '#';
-        link.textContent = poem.title || 'Без названия';
-
-        const snippet = document.createElement('div');
-        snippet.className = 'result-snippet';
-
-        // Показываем первые 150 символов текста с подстветкой (можно улучшить)
-        let index = poem.text.toLowerCase().indexOf(document.getElementById('searchInput').value.toLowerCase());
-        let snippetText;
-        if (index !== -1) {
-          const start = Math.max(0, index - 30);
-          const end = Math.min(poem.text.length, index + 120);
-          snippetText = poem.text.substring(start, end);
-          snippetText = '...' + snippetText + '...';
-        } else {
-          snippetText = poem.text.substring(0, 150) + '...';
-        }
-
-        snippet.textContent = snippetText;
-
-        item.appendChild(link);
-        item.appendChild(snippet);
-        container.appendChild(item);
+      filtered.forEach(poem => {
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        div.innerHTML = `
+          <div class="result-title"><a href="${poem.url}">${poem.title}</a></div>
+          <div class="result-text">${poem.text.substring(0, 200)}...</div>
+        `;
+        results.appendChild(div);
       });
-    }
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const results = search(e.target.value);
-      renderResults(results);
     });
   </script>
 </body>
