@@ -1,7 +1,3 @@
-document.getElementById("left-scroll-zone").addEventListener("click", function () {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
 window.addEventListener('scroll', function () {
   const navButtons = document.querySelector('.nav-buttons');
   const scrollTop = window.scrollY || window.pageYOffset;
