@@ -24,3 +24,44 @@ window.addEventListener('scroll', function () {
     navButtons.classList.remove('visible');
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const poem = document.querySelector('.poem-text');
+  if (!poem) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = `
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  `;
+
+  const button = document.createElement('button');
+  button.textContent = 'Копировать';
+  button.className = 'copy-button';
+  button.style.cssText = `
+    background: transparent;
+    color: #888;
+    border: 1px solid #444;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border-radius: 4px;
+  `;
+
+  button.addEventListener('click', () => {
+    const text = poem.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      button.textContent = 'Скопировано';
+      setTimeout(() => {
+        button.textContent = 'Копировать';
+      }, 2000);
+    }).catch(() => {
+      button.textContent = 'Ошибка';
+    });
+  });
+
+  wrapper.appendChild(button);
+  poem.after(wrapper);
+});
