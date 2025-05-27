@@ -45,25 +45,6 @@
         top: 10px;
       }
     }
-
-    /* Минималистичный стиль для поиска */
-    #search-input {
-      margin-top: 10px;
-      padding: 6px 10px;
-      font-size: 14px;
-      width: 200px;
-      border: 1px solid rgba(255,255,255,0.3);
-      background: transparent;
-      color: rgba(255,255,255,0.7);
-    }
-
-    #search-results {
-      margin-top: 8px;
-      font-size: 14px;
-      color: rgba(255,255,255,0.7);
-      max-width: 200px;
-      word-wrap: break-word;
-    }
   </style>
 </head>
 <body>
@@ -122,17 +103,10 @@
       </div>
       <div class="random-wrapper">
         <button class="random-button" onclick="goToRandomPoem()">Рандомный стих</button>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Поиск по стихам"
-          autocomplete="off"
-        />
-        <div id="search-results"></div>
       </div>
     </div>
   </main>
-
+  
   <footer class="site-footer">
     <div class="footer-content">
       <div class="footer-copy">
@@ -205,31 +179,6 @@
       window.location.href = randomUrl;
     }
   }
-
-  // Поиск по ключевым словам — пока массив пустой, добавишь позже
-  const poems = [];
-
-  const input = document.getElementById('search-input');
-  const resultsDiv = document.getElementById('search-results');
-
-  input.addEventListener('input', () => {
-    const query = input.value.trim().toLowerCase();
-    if (!query) {
-      resultsDiv.innerHTML = '';
-      return;
-    }
-
-    const matches = poems.filter(p => p.keywords.includes(query));
-
-    if (matches.length === 0) {
-      resultsDiv.textContent = 'Ничего не найдено';
-      return;
-    }
-
-    resultsDiv.innerHTML = matches
-      .map(p => `<a href="${p.file}" style="color: rgba(255,255,255,0.7); text-decoration: underline;">${p.file}</a>`)
-      .join('<br>');
-  });
 </script>
 </body>
 </html>
