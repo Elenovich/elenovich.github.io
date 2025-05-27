@@ -257,21 +257,10 @@ footer {
 
 .poem-text::before,
 .poem-text::after {
-  content: "";
-  position: absolute;
+  position: fixed;
   top: 0;
-  width: 20px; /* ширина полосы */
-  height: 100%;
-  pointer-events: none; /* чтобы полосы не мешали кликам */
+  width: 20px;
+  height: 100vh;
+  pointer-events: none;
   z-index: 0;
-}
-
-.poem-text::before {
-  left: 0;
-  background: linear-gradient(to right, #0C1625 0%, #080D17 100%);
-}
-
-.poem-text::after {
-  right: 0;
-  background: linear-gradient(to left, #0C1625 0%, #080D17 100%);
 }
