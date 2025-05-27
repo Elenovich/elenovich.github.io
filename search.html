@@ -12,21 +12,39 @@
       padding: 40px;
     }
 
-    .gcse-search {
-      --gcse-bg-color: #222;
-    }
-
     a {
       color: #00cfff;
+      text-decoration: none;
+    }
+
+    .header-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 1.5em;
+      font-size: 1.2em;
+    }
+
+    .home-icon {
+      width: 1.2em;
+      height: 1.2em;
+      vertical-align: middle;
+      filter: grayscale(100%) brightness(1.2);
+    }
+
+    .gcse-search {
+      --gcse-bg-color: #222;
     }
   </style>
 </head>
 <body>
-  <h1>Поиск по сайту elenovich.lol</h1>
+  <a href="/" class="header-link">
+    <img src="/img/home-icon.svg" alt="Домой" class="home-icon" />
+    elenovich.lol
+  </a>
 
   <!-- Скрипт Google CSE -->
-  <script async src="https://cse.google.com/cse.js?cx=d119001d557d747b5">
-</script>
-<div class="gcse-search"></div>
+  <script async src="https://cse.google.com/cse.js?cx=d119001d557d747b5"></script>
+  <div class="gcse-search"></div>
 </body>
 </html>
