@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Поиск по сайту</title>
   <style>
     body {
@@ -11,11 +11,10 @@
       font-family: sans-serif;
       padding: 40px;
     }
-
     a {
       color: #fff;
+      text-decoration: none;
     }
-
     .header-link {
       display: flex;
       align-items: center;
@@ -23,7 +22,6 @@
       margin-bottom: 1.5em;
       font-size: 1.2em;
     }
-
     .logo-icon {
       width: 1.2em;
       height: 1.2em;
@@ -31,9 +29,26 @@
       border-radius: 50%;
       object-fit: cover;
     }
-
-    .gcse-search {
-      --gcse-bg-color: #222;
+    input[type="search"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      background-color: #222;
+      color: #fff;
+    }
+    .result-item {
+      margin-bottom: 20px;
+    }
+    .result-item a {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    .result-snippet {
+      font-size: 0.9em;
+      color: #ccc;
     }
   </style>
 </head>
@@ -43,8 +58,78 @@
     elenovich.lol
   </a>
 
-  <!-- Скрипт Google CSE -->
-  <script async src="https://cse.google.com/cse.js?cx=d119001d557d747b5"></script>
-  <div class="gcse-search"></div>
+  <input type="search" id="searchInput" placeholder="Поиск по стихам..." autofocus />
+
+  <div id="results"></div>
+
+  <script>
+    let poems = [];
+
+    // Загрузить poems.json
+    fetch('poems.json')
+      .then(response => response.json())
+      .then(data => {
+        poems = data;
+      })
+      .catch(() => {
+        document.getElementById('results').innerText = 'Ошибка загрузки данных.';
+      });
+
+    // Поиск по ключевому слову (простой поиск по названию и тексту)
+    function search(query) {
+      if (!query) return [];
+
+      query = query.toLowerCase();
+      return poems.filter(poem => {
+        return (poem.title && poem.title.toLowerCase().includes(query)) ||
+               (poem.text && poem.text.toLowerCase().includes(query));
+      });
+    }
+
+    function renderResults(results) {
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+
+      if (results.length === 0) {
+        container.textContent = 'Ничего не найдено.';
+        return;
+      }
+
+      results.forEach(poem => {
+        const item = document.createElement('div');
+        item.className = 'result-item';
+
+        const link = document.createElement('a');
+        link.href = poem.url || '#';
+        link.textContent = poem.title || 'Без названия';
+
+        const snippet = document.createElement('div');
+        snippet.className = 'result-snippet';
+
+        // Показываем первые 150 символов текста с подстветкой (можно улучшить)
+        let index = poem.text.toLowerCase().indexOf(document.getElementById('searchInput').value.toLowerCase());
+        let snippetText;
+        if (index !== -1) {
+          const start = Math.max(0, index - 30);
+          const end = Math.min(poem.text.length, index + 120);
+          snippetText = poem.text.substring(start, end);
+          snippetText = '...' + snippetText + '...';
+        } else {
+          snippetText = poem.text.substring(0, 150) + '...';
+        }
+
+        snippet.textContent = snippetText;
+
+        item.appendChild(link);
+        item.appendChild(snippet);
+        container.appendChild(item);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const results = search(e.target.value);
+      renderResults(results);
+    });
+  </script>
 </body>
 </html>
