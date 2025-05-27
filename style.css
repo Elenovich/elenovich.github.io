@@ -188,3 +188,20 @@ footer {
     overflow: visible;
   }
 }
+
+.search-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
