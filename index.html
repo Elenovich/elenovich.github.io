@@ -121,6 +121,21 @@
     </div>
   </footer>
 
+<div id="recent-visits" style="margin-top: 2rem; font-size: 0.9em; color: #aaa;"></div>
+
+<script>
+  const container = document.getElementById('recent-visits');
+  const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  if (history.length > 0) {
+    const list = history.map(item =>
+      `<a href="${item.url}" style="margin-right: 1em; color: #bbb; text-decoration: none;">${item.title}</a>`
+    ).join('');
+    container.innerHTML = `<div style="opacity: 0.6;">Недавние стихи:</div><div>${list}</div>`;
+  }
+</script>
+
+  
 <script>
   const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
