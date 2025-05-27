@@ -242,3 +242,36 @@ footer {
     poem.parentElement.insertBefore(button, poem);
   });
 </script>
+
+      .poem-text {
+  position: relative; /* для абсолютных псевдоэлементов */
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;  /* отступ для левой полосы */
+  padding-right: 20px; /* отступ для правой полосы */
+  text-align: left;
+  font-family: 'Lora', serif;
+  background-color: transparent; /* на всякий случай */
+}
+
+.poem-text::before,
+.poem-text::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 20px; /* ширина полосы */
+  height: 100%;
+  pointer-events: none; /* чтобы полосы не мешали кликам */
+  z-index: 0;
+}
+
+.poem-text::before {
+  left: 0;
+  background: linear-gradient(to right, #0C1625 0%, #080D17 100%);
+}
+
+.poem-text::after {
+  right: 0;
+  background: linear-gradient(to left, #0C1625 0%, #080D17 100%);
+}
