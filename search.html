@@ -3,28 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Поиск — elenovich.lol</title>
-  <link rel="stylesheet" href="style_poem.css" />
+  <title>Поиск по сайту</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 40px;
+    }
+
+    .gcse-search {
+      --gcse-bg-color: #222;
+    }
+
+    a {
+      color: #00cfff;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1><a href="index.html">elenovich.lol</a></h1>
-  </header>
+  <h1>Поиск по сайту elenovich.lol</h1>
 
-  <div class="home-button">
-    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
-  </div>
-
-  <main class="poem-container">
-    <h2>Поиск по стихам</h2>
-    <script async src="https://cse.google.com/cse.js?cx=d119001d557d747b5"></script>
-    <div class="gcse-search"></div>
-  </main>
-
-  <footer>
-    <div class="footer-copy">
-      <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
-    </div>
-  </footer>
+  <!-- Скрипт Google CSE -->
+  <script async src="https://cse.google.com/cse.js?cx=d119001d557d747b5"></script>
+  <div class="gcse-search"></div>
 </body>
 </html>
