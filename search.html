@@ -76,15 +76,24 @@
       }
 
       filtered.forEach(poem => {
-        const div = document.createElement('div');
-        div.className = 'result-item';
-        div.innerHTML = `
-          <div class="result-title"><a href="${poem.url}">${poem.title}</a></div>
-          <div class="result-text">${poem.content.substring(0, 200)}...</div>
-        `;
-        results.appendChild(div);
-      });
-    });
+  const contentWords = poem.content.split(/\s+/);
+  const queryIndex = contentWords.findIndex(w => w.toLowerCase().includes(query));
+
+  let snippet = '';
+  if (queryIndex !== -1) {
+    const start = Math.max(0, queryIndex - 15);
+    const end = Math.min(contentWords.length, queryIndex + 16); // +1 чтобы включить слово с query
+    snippet = contentWords.slice(start, end).join(' ');
+  }
+
+  const div = document.createElement('div');
+  div.className = 'result-item';
+  div.innerHTML = `
+    <div class="result-title"><a href="${poem.url}">${poem.title}</a></div>
+    <div class="result-text">${snippet}</div>
+  `;
+  results.appendChild(div);
+});
   </script>
 </body>
 </html>
