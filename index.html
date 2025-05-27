@@ -46,6 +46,16 @@
         top: 10px;
       }
     }
+
+    /* Убираем подчёркивание у ссылки в футере */
+    .footer-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline; /* Если нужно, можно оставить эффект при наведении */
+    }
   </style>
 </head>
 <body>
@@ -104,7 +114,7 @@
       </div>
       <div class="random-wrapper">
         <button class="random-button" onclick="goToRandomPoem()">Рандомный стих</button>
-        <br>
+        <br />
         <a href="search.html" class="random-button">Нить Ариадны &#x1F50E;&#xFE0E;</a>
       </div>
     </div>
@@ -113,10 +123,7 @@
   <footer class="site-footer">
     <div class="footer-content">
       <div class="footer-copy">
-        <a href="index.html" class="footer-link no underline">© 2025 elenovich.lol</a>
-        .no-underline {
-  text-decoration: none;
-}
+        <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
       </div>
       <div class="telegram-block">
         <img src="images/tg.jpg" alt="Telegram image" class="tg-pic" />
@@ -125,81 +132,81 @@
     </div>
   </footer>
 
-<div id="recent-visits" style="margin-top: 2rem; font-size: 0.9em; color: #aaa;"></div>
+  <div id="recent-visits" style="margin-top: 2rem; font-size: 0.9em; color: #aaa;"></div>
 
-<script>
-  const container = document.getElementById('recent-visits');
-  const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+  <script>
+    const container = document.getElementById('recent-visits');
+    const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
 
-  if (history.length > 0) {
-    const list = history.map(item =>
-      `<a href="${item.url}" style="margin-right: 1em; color: #bbb; text-decoration: none;">${item.title}</a>`
-    ).join('');
-    container.innerHTML = `<div style="opacity: 0.6;">Недавние стихи:</div><div>${list}</div>`;
-  }
-</script>
+    if (history.length > 0) {
+      const list = history.map(item =>
+        `<a href="${item.url}" style="margin-right: 1em; color: #bbb; text-decoration: none;">${item.title}</a>`
+      ).join('');
+      container.innerHTML = `<div style="opacity: 0.6;">Недавние стихи:</div><div>${list}</div>`;
+    }
+  </script>
 
-<script>
-  const wrapper = document.querySelector('.poem-list-wrapper');
-  const list = document.querySelector('.poem-list');
+  <script>
+    const wrapper = document.querySelector('.poem-list-wrapper');
+    const list = document.querySelector('.poem-list');
 
-  const originalListHTML = list.innerHTML;
-  const itemHeight = list.children[0].offsetHeight;
-  const itemCount = list.children.length;
+    const originalListHTML = list.innerHTML;
+    const itemHeight = list.children[0].offsetHeight;
+    const itemCount = list.children.length;
 
-  // Дублируем список
-  list.innerHTML += originalListHTML;
+    // Дублируем список
+    list.innerHTML += originalListHTML;
 
-  let scrollTop = 0;
-  const fullHeight = itemHeight * itemCount;
+    let scrollTop = 0;
+    const fullHeight = itemHeight * itemCount;
 
-  const totalDuration = 5000;
-  const decelerationStart = 4000;
+    const totalDuration = 5000;
+    const decelerationStart = 4000;
 
-  let startTime = null;
+    let startTime = null;
 
-  function animateScroll(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
+    function animateScroll(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
 
-    let speed;
-    if (elapsed < decelerationStart) {
-      speed = 4;
-    } else {
-      const slowProgress = (elapsed - decelerationStart) / (totalDuration - decelerationStart);
-      speed = 4 * (1 - slowProgress);
+      let speed;
+      if (elapsed < decelerationStart) {
+        speed = 4;
+      } else {
+        const slowProgress = (elapsed - decelerationStart) / (totalDuration - decelerationStart);
+        speed = 4 * (1 - slowProgress);
+      }
+
+      scrollTop += speed;
+
+      if (scrollTop >= fullHeight) {
+        scrollTop -= fullHeight;
+      }
+
+      wrapper.scrollTop = scrollTop;
+
+      if (elapsed < totalDuration) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        const randomIndex = Math.floor(Math.random() * itemCount);
+        const randomOffset = randomIndex * itemHeight;
+        wrapper.scrollTo({
+          top: randomOffset,
+          behavior: 'smooth'
+        });
+      }
     }
 
-    scrollTop += speed;
+    requestAnimationFrame(animateScroll);
 
-    if (scrollTop >= fullHeight) {
-      scrollTop -= fullHeight;
+    function goToRandomPoem() {
+      const links = list.querySelectorAll('li:nth-child(-n+' + itemCount + ') a');
+      const urls = Array.from(links).map(link => link.getAttribute('href'));
+      const randomUrl = urls[Math.floor(Math.random() * urls.length)];
+      if (randomUrl) {
+        window.location.href = randomUrl;
+      }
     }
-
-    wrapper.scrollTop = scrollTop;
-
-    if (elapsed < totalDuration) {
-      requestAnimationFrame(animateScroll);
-    } else {
-      const randomIndex = Math.floor(Math.random() * itemCount);
-      const randomOffset = randomIndex * itemHeight;
-      wrapper.scrollTo({
-        top: randomOffset,
-        behavior: 'smooth'
-      });
-    }
-  }
-
-  requestAnimationFrame(animateScroll);
-
-  function goToRandomPoem() {
-    const links = list.querySelectorAll('li:nth-child(-n+' + itemCount + ') a');
-    const urls = Array.from(links).map(link => link.getAttribute('href'));
-    const randomUrl = urls[Math.floor(Math.random() * urls.length)];
-    if (randomUrl) {
-      window.location.href = randomUrl;
-    }
-  }
-</script>
+  </script>
 </body>
 </html>
