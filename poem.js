@@ -1,7 +1,3 @@
-document.getElementById("left-scroll-zone").addEventListener("click", function () {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
 let scrollTimeout;
 
 window.addEventListener('scroll', () => {
@@ -14,4 +10,8 @@ window.addEventListener('scroll', () => {
   scrollTimeout = setTimeout(() => {
     scrollZone.classList.remove('highlight');
   }, 300); // Подсветка исчезает через 300 мс после прекращения прокрутки
+});
+
+document.getElementById("left-scroll-zone").addEventListener("click", function () {
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
