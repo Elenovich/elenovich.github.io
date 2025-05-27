@@ -208,7 +208,7 @@ footer {
 
 .poem-list-wrapper {
   position: relative;
-  overflow: hidden;
+  overflow-y: auto; /* ← разрешает вертикальный скролл */
   mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
 }
