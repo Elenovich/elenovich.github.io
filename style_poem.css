@@ -286,3 +286,22 @@ footer {
 .nav-buttons {
   order: 1;
 }
+/* СКРОЛЛБАР: Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* СКРОЛЛБАР: Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
