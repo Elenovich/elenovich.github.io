@@ -12,7 +12,8 @@
       padding: 40px;
     }
     a {
-      color: #0af;
+      color: inherit;
+      text-decoration: none;
     }
     input {
       width: 100%;
@@ -22,18 +23,36 @@
       background: #222;
       border: none;
       color: #fff;
+      border-radius: 4px;
+      box-sizing: border-box;
     }
     .result-item {
-      margin-bottom: 20px;
-      border-bottom: 1px solid #444;
-      padding-bottom: 10px;
+      margin-bottom: 15px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      background-color: #222;
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+      border: 1px solid #333;
+      transition: background-color 0.3s ease;
+      user-select: text;
+    }
+    .result-item:hover {
+      background-color: #2a2a2a;
     }
     .result-title {
-      font-weight: bold;
-      margin-bottom: 5px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff; /* белый цвет названия */
+      font-size: 1.1em;
+    }
+    .result-title a {
+      color: inherit;
     }
     .result-text {
       white-space: pre-wrap;
+      color: #bbb;
+      font-size: 0.95em;
+      line-height: 1.4;
     }
   </style>
 </head>
@@ -66,9 +85,9 @@
       if (!query) return;
 
       const filtered = poems.filter(poem => {
-  return poem.title.toLowerCase().includes(query) ||
-         poem.content.toLowerCase().includes(query);
-});
+        return poem.title.toLowerCase().includes(query) ||
+               poem.content.toLowerCase().includes(query);
+      });
 
       if (filtered.length === 0) {
         results.innerHTML = '<p>Ничего не найдено.</p>';
@@ -76,23 +95,23 @@
       }
 
       filtered.forEach(poem => {
-  const contentWords = poem.content.split(/\s+/);
-  const queryIndex = contentWords.findIndex(w => w.toLowerCase().includes(query));
+        const contentWords = poem.content.split(/\s+/);
+        const queryIndex = contentWords.findIndex(w => w.toLowerCase().includes(query));
 
-  let snippet = '';
-  if (queryIndex !== -1) {
-    const start = Math.max(0, queryIndex - 15);
-    const end = Math.min(contentWords.length, queryIndex + 16); // +1 чтобы включить слово с query
-    snippet = contentWords.slice(start, end).join(' ');
-  }
+        let snippet = '';
+        if (queryIndex !== -1) {
+          const start = Math.max(0, queryIndex - 15);
+          const end = Math.min(contentWords.length, queryIndex + 16);
+          snippet = contentWords.slice(start, end).join(' ');
+        }
 
-  const div = document.createElement('div');
-  div.className = 'result-item';
-  div.innerHTML = `
-    <div class="result-title"><a href="${poem.url}">${poem.title}</a></div>
-    <div class="result-text">${snippet}</div>
-  `;
-  results.appendChild(div);
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        div.innerHTML = `
+          <div class="result-title"><a href="${poem.url}">${poem.title}</a></div>
+          <div class="result-text">${snippet}</div>
+        `;
+        results.appendChild(div);
       });
     });
   </script>
