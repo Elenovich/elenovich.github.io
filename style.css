@@ -212,3 +212,7 @@ footer {
   mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
 }
+
+#recent-visits {
+  padding-left: 1.5ch;
+}
