@@ -61,7 +61,7 @@
 
   <main class="home-main fade-in-delayed">
     <div class="poem-random-layout">
-      <div class="poem-list-wrapper">
+      <div class="poem-list-wrapper" style="overflow-y: auto; max-height: 400px;">
         <ul class="poem-list">
           <li>• <a href="mea_vido.html">Mea vido</a></li>
           <li>• <a href="komarinaya.html">Комариная</a></li>
@@ -135,7 +135,6 @@
   }
 </script>
 
-  
 <script>
   const wrapper = document.querySelector('.poem-list-wrapper');
   const list = document.querySelector('.poem-list');
@@ -144,10 +143,11 @@
   const itemHeight = list.children[0].offsetHeight;
   const itemCount = list.children.length;
 
+  // Дублируем список
   list.innerHTML += originalListHTML;
 
   let scrollTop = 0;
-  const fullHeight = list.scrollHeight / 2;
+  const fullHeight = itemHeight * itemCount;
 
   const totalDuration = 5000;
   const decelerationStart = 4000;
@@ -167,6 +167,7 @@
     }
 
     scrollTop += speed;
+
     if (scrollTop >= fullHeight) {
       scrollTop -= fullHeight;
     }
@@ -176,7 +177,6 @@
     if (elapsed < totalDuration) {
       requestAnimationFrame(animateScroll);
     } else {
-      const maxVisible = Math.floor(wrapper.clientHeight / itemHeight);
       const randomIndex = Math.floor(Math.random() * itemCount);
       const randomOffset = randomIndex * itemHeight;
       wrapper.scrollTo({
