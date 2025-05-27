@@ -118,20 +118,20 @@ footer {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 40px;
-  background: transparent;
+  width: 5ch;
+  background-color: rgba(255, 255, 255, 0); /* полностью прозрачный */
   opacity: 1;
   pointer-events: auto;
   transition: background-color 0.3s;
-}
-
-#left-scroll-zone:hover,
-#left-scroll-zone:active {
-  background-color: rgba(255, 255, 255, 0.07);
+  z-index: 10;
 }
 
 #left-scroll-zone.highlight {
-  background-color: rgba(255, 255, 255, 0.15); /* Подсветка при скролле */
+  background-color: rgba(255, 255, 255, 0.12); /* временная подсветка при скролле */
+}
+
+#left-scroll-zone:hover {
+  background-color: rgba(255, 255, 255, 0.07); /* подсветка при наведении */
 }
 
 #scroll-up-arrow {
