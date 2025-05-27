@@ -157,13 +157,16 @@
     wrapper.scrollTop = scrollTop;
 
     if (elapsed < totalDuration) {
-      requestAnimationFrame(animateScroll);
-    } else {
-      const randomOffset = Math.floor(Math.random() * itemCount) * itemHeight;
-      scrollTop = randomOffset % fullHeight;
-      wrapper.scrollTop = scrollTop;
-    }
-  }
+  requestAnimationFrame(animateScroll);
+} else {
+  // плавный переход к случайной позиции
+  const maxVisible = Math.floor(wrapper.clientHeight / itemHeight);
+  const randomOffset = Math.floor(Math.random() * itemCount) * itemHeight;
+  wrapper.scrollTo({
+    top: randomOffset % fullHeight,
+    behavior: 'smooth'
+  });
+}
 
   requestAnimationFrame(animateScroll);
 
