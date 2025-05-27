@@ -221,3 +221,8 @@ mark {
   background-color: #ff0;
   color: #000;
 }
+
+.random-wrapper {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
