@@ -119,7 +119,7 @@ footer {
   top: 0;
   bottom: 0;
   width: 5ch;
-  background-color: rgba(255, 255, 255, 0.01); /* полностью прозрачный */
+  background-color: rgba(255, 255, 255, 0); /* полностью прозрачный */
   opacity: 1;
   pointer-events: auto;
   transition: background-color 0.3s;
