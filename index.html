@@ -23,14 +23,17 @@
       color: white;
     }
 
-    .random-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .poem-list-wrapper,
-    
+    .poem-list-wrapper {
+  flex: 0 0 250px;
+  min-height: 400px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: 400px;
+}
 .random-wrapper {
   flex: 0 0 250px;
   min-height: 400px;
@@ -39,6 +42,10 @@
   background: rgba(0,0,0,0.2);
   border-radius: 8px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
     @media (min-width: 768px) {
