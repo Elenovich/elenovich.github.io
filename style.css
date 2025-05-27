@@ -216,3 +216,8 @@ footer {
 #recent-visits {
   padding-left: 1.5ch;
 }
+
+mark {
+  background-color: #ff0;
+  color: #000;
+}
