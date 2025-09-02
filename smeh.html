@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Смех</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Смех</h2>
+    <div class="poem-text">
+      <p>Море, море, я здоров. Я не подыскиваю слов.<br>
+Море, море, я покат. На горизонте гул токкат.<br>
+Горе-горе по колено, суть перверсии рефрена: на податливое ложе вылить всё неосторожно, встать, расплёскивая слёзы. Гладить простынь, помнить позы.<br>
+А тантрический, опальный всплеск<br>
+отсутствующих пред-<br>
+Заключить, точить об камень.<br>
+Точно чувственный щербет - прокатить лишь по каёмкам<br>
+языка и губ, и снов.<br>
+Море, море, я обломком<br>
+падал в вереницу слов, но льдяной иль пряный ветер<br>
+вынес, выволок наверх,<br>
+на прощание пригладил жёсткий, с проседью, мой мех.<br>
+То ли выжил я тогда, не помню, то ли<br>
+Всё же распалённый,<br>
+облачился в одеянье соглядатая слогов,<br>
+Только рухнули опоры, только брякнули оковы,<br>
+Но осталась на прощанье мне визитка дураков.<br>
+Я стоял, в руках дрожащих мял бумагу с пустотой.<br>
+Смех пророческий отважен.<br>
+Смех пророка надо мной.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="okmoscow.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href="perepel.html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
