@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Свалка текста</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: monospace;
+    background: black;
+    color: white;
+  }
+  #textContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+</style>
+</head>
+<body>
+
+<div id="textContainer">
+  Вот твой огромный ворох текста который будет сначала виден подряд, а потом хаотично упадёт вниз.
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+const container = document.getElementById('textContainer');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Разбиваем текст на слова
+const text = container.innerText;
+const words = text.split(/\s+/);
+container.style.display = 'none'; // скрываем после 4 секунд
+
+// Создаём объекты слов
+const wordObjects = words.map(word => ({
+  text: word,
+  x: Math.random() * canvas.width,
+  y: 0,
+  speed: 50 + Math.random() * 100 // пикселей в секунду
+}));
+
+let startTime = null;
+const fallDuration = 4000; // 4 секунды для появления текста подряд
+const maxFallHeight = canvas.height - 20; // ~1 см от низа, 20px
+
+function animate(timestamp) {
+  if (!startTime) startTime = timestamp;
+  const elapsed = timestamp - startTime;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.font = '20px monospace';
+
+  wordObjects.forEach(word => {
+    if (elapsed > fallDuration) {
+      // Падение вниз
+      word.y += word.speed * 0.016; // грубо ~60fps
+      if (word.y > maxFallHeight) word.y = maxFallHeight;
+    } else {
+      // Появление подряд на 4 секунды
+      word.y = 50 + 25 * words.indexOf(word); // вертикальная линия
+      word.x = 10 + 10 * words.indexOf(word); // чуть смещаем по горизонтали
+    }
+    ctx.fillText(word.text, word.x, word.y);
+  });
+
+  requestAnimationFrame(animate);
+}
+
+setTimeout(() => {
+  container.style.display = 'none'; // скрыть блок после 4 секунд
+}, fallDuration);
+
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
