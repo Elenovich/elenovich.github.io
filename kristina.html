@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Мир Кристины</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Мир Кристины</h2>
+    <div class="poem-text">
+      <p>Это бестолковое, отчаянное, абсолютное:<br>
+Я много вертел картину, ей не помочь.<br>
+Даже отвернув к стенке, сделав взгляд мутным.<br>
+Вправо повернув, влево, посмотрев днём, в ночь, сыграв напротив на лютне, сделав убранство уютным,<br>
+вывалив из сопла ружья картечь, звоном бокалов сопроводив речь<br>
+В воздух,<br>
+Даже если попросить, предостеречь, или шашкой сечь,<br>
+Ей не помочь, никак не помочь. <br>
+<br>
+Разверни вбок, остов<br>
+Картины останется на месте,<br>
+А Кристина<br>
+Как бы начнёт падать вниз, или заваливаться. Тростины<br>
+поля даже не вздумает оживиться, <br>
+им не до лести.<br>
+<br>
+Постигло такое рабовладельческое, такое хозяйское чутьё:<br>
+Отвернись, ей не помочь, оно не твоё.<br>
+Даже не жмурь глаза, просто сделай крутой поворот<br>
+Ногами, <br>
+и не вглядывайся вместе с ней, вот<br>
+так<br>
+вот<br>
+не вглядывайся, там всегда победит шинигами.<br>
+<br>
+Глаза дают течь, пробоина сиречь. Водопад точь-в-точь.<br>
+<br>
+Ей не помочь.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="archi.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href="lustra.html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
