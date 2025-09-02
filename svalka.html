@@ -380,7 +380,6 @@ Runner.run(Runner.create(), engine);
 const ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight+30, window.innerWidth, 60, {isStatic:true});
 World.add(world, ground);
 
-// Разбиваем текст на слова
 const textDiv = document.getElementById("text");
 const words = textDiv.innerText.split(/(\s+)/);
 textDiv.innerHTML = "";
@@ -429,12 +428,14 @@ requestAnimationFrame(()=>{
     if(fade < 1){
       requestAnimationFrame(draw);
     } else {
-      // Скрываем канвас и текст, показываем финальное сообщение
-      canvas.style.display = "none";
-      textDiv.style.display = "none";
-      const msg = document.getElementById("finalMessage");
-      msg.style.opacity = 1;
-      msg.style.transform = "scale(1.05)";
+      // люфт 0.2 сек
+      setTimeout(()=>{
+        canvas.style.display = "none";
+        textDiv.style.display = "none";
+        const msg = document.getElementById("finalMessage");
+        msg.style.opacity = 1;
+        msg.style.transform = "scale(1.05)";
+      }, 200);
     }
   })();
 });
