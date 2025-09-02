@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Ок, Москва</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Ок, Москва</h2>
+    <div class="poem-text">
+      <p>Хорошо, Москва. Видать, не покорю. Я раза три пытался - но больше то не повторю.<br>
+Я жил в твоих объятиях годами, две зи‌мы даже был на грани –<br>
+Когда два года жил вне дома,<br>
+затем, когда не спился,<br>
+не сторчался..<br>
+поделом мне –<br>
+я всё внутри твоей души смог пережить, <br>
+всё,<br>
+но не военной драмы волчью сыть.<br>
+<br>
+Теперь меня целует воздух пряный<br>
+чужбины – такое не стереть.<br>
+С тобой хмелел, с тобой я плакал, рано<br>
+взрослел, старался сметь<br>
+быть больше, чем иные, быть лучше для своих поганых<br>
+плеч,<br>
+теперь мне не забыть, как заныли<br>
+чертей подковы, под которых лечь<br>
+вдруг устремился целостный народ,<br>
+решивший быть <br>
+поганейшим разделом<br>
+для всего мира, слыть<br>
+так, <br>
+Как раньше не хотел он.<br>
+<br>
+Наоборот<br>
+теперь мне видятся мои деды с победой,<br>
+другим мне видится приход земель.<br>
+Спасибо, родина. я горя хапнул, соль отведал.<br>
+Пришла пора искать других потерь.<br>
+<br>
+Хотел когда-то, будучи зелёным,<br>
+сдувая мокрое за ухом, и смеясь,<br>
+очаровать тебя истомой,<br>
+Так обольстить - чтоб быть с тобой.<br>
+Ни разу не боясь, <br>
+Я возвращался на твой голос,<br>
+твердил родным, что только<br>
+Город с краснокаменной стеной, от по‌лос<br>
+разлук способен излечить. Горько<br>
+<br>
+осознавать что всё теперь совсем иначе.<br>
+мрачнее было б только усыпить<br>
+моё сознание.<br>
+Я по тебе пока не плачу.<br>
+Но чтобы не дрожали руки –<br>
+приходится сцепить.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="akutov.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href=".html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
