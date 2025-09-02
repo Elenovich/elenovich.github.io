@@ -3,214 +3,116 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Свалка текста</title>
+  <title>Свалка</title>
   <style>
-    :root {
-      --bg: #000;
-      --fg: #fff;
-      --font: 18px/1.5 monospace;
-    }
-    html, body {
+    body {
       margin: 0;
-      height: 100%;
-      background: var(--bg);
-      color: var(--fg);
-      font: var(--font);
-      overflow: hidden; /* чтобы ничего не прокручивалось */
+      background: #000;
+      color: #fff;
+      font: 18px/1.5 monospace;
+      overflow: hidden;
     }
-    /* Сцена, к которой привязаны координаты */
-    #stage {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
-    /* Нормальный текст до «обвала» */
     #source {
-      position: absolute;
-      inset: 16px 16px auto 16px;
-      max-width: 960px;
-      z-index: 1;
+      padding: 20px;
+      max-width: 800px;
     }
-    /* Слой с падающими словами */
     #gravityLayer {
       position: absolute;
       inset: 0;
-      z-index: 2;
-      pointer-events: none; /* клики не нужны */
-    }
-    /* Скрытый измерительный контейнер для вычисления позиций слов */
-    #measure {
-      position: absolute;
-      visibility: hidden;
-      inset: 16px 16px auto 16px;
-      max-width: 960px;
-      white-space: normal;
+      pointer-events: none;
     }
     .word {
       position: absolute;
-      will-change: transform;
-      transform-origin: center center;
-      white-space: pre; /* сохраняем пробел после слова в визуализации */
+      white-space: pre;
     }
   </style>
 </head>
 <body>
-  <div id="stage">
-    <!-- 1) Показывается как обычный абзац первые 4 секунды -->
-    <div id="source">
-      Здесь вставь свой огромный текст. Первые 4 секунды он отображается как нормальный абзац.
-      Потом каждое слово «отцепится», станет независимым и упадёт вниз, сталкиваясь с другими.
-      Всё это без сервера, только статика на GitHub Pages.
-    </div>
-
-    <!-- 2) Слой для физических (падающих) слов -->
-    <div id="gravityLayer"></div>
-
-    <!-- 3) Скрытый контейнер для измерения координат слов до падения -->
-    <div id="measure"></div>
+  <div id="source">
+    Это тестовый текст. Первые четыре секунды он выглядит как обычный абзац.
+    Потом каждое слово должно рухнуть вниз и собраться кучей внизу экрана.
   </div>
+  <div id="gravityLayer"></div>
 
-  <!-- Matter.js с CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js" integrity="sha384-rJrYJQv4+e86xwGpbfe7j3WpQ6R0jwE8yQkK3lAERWqfV6QMIv4NbR7qVv3F8jPS" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
   <script>
-    (function () {
-      const fallDelay = 4000; // мс до «гравитации»
-      const stage = document.getElementById('stage');
-      const source = document.getElementById('source');
-      const measure = document.getElementById('measure');
-      const layer = document.getElementById('gravityLayer');
+    const fallDelay = 4000; // 4 секунды
 
-      // Точный перевод 1 см в px для устройства
-      function cmToPx(cm) {
-        const probe = document.createElement('div');
-        probe.style.position = 'absolute';
-        probe.style.width = '1cm';
-        probe.style.height = '1cm';
-        probe.style.visibility = 'hidden';
-        document.body.appendChild(probe);
-        const px = probe.getBoundingClientRect().width * cm;
-        document.body.removeChild(probe);
-        return px;
-      }
-      const bottomMargin = Math.round(cmToPx(1)); // ~1 см снизу
+    const source = document.getElementById("source");
+    const layer = document.getElementById("gravityLayer");
 
-      // Инициализируем физику
-      const Engine = Matter.Engine;
-      const Bodies = Matter.Bodies;
-      const Composite = Matter.Composite;
-      const Runner = Matter.Runner;
+    const { Engine, Render, Runner, Bodies, Composite } = Matter;
 
-      const engine = Engine.create();
-      engine.gravity.y = 1.1; // чуть бодрее, похоже на «Gravity»
-      const runner = Runner.create();
+    const engine = Engine.create();
+    const runner = Runner.create();
+    Runner.run(runner, engine);
 
-      let ground, wallL, wallR;
-      function buildBounds() {
-        const rect = stage.getBoundingClientRect();
-        // Удаляем старые границы если были
-        if (ground) Composite.remove(engine.world, [ground, wallL, wallR]);
+    function startGravity() {
+      // Получаем слова
+      const words = source.innerText.trim().split(/\s+/);
 
-        ground = Bodies.rectangle(
-          rect.width / 2,
-          rect.height - bottomMargin,
-          rect.width + 200,
-          100,
-          { isStatic: true, friction: 0.6 }
-        );
-        wallL = Bodies.rectangle(-50, rect.height / 2, 100, rect.height + 200, { isStatic: true });
-        wallR = Bodies.rectangle(rect.width + 50, rect.height / 2, 100, rect.height + 200, { isStatic: true });
+      // Прячем исходный текст
+      source.style.display = "none";
 
-        Composite.add(engine.world, [ground, wallL, wallR]);
-      }
-      buildBounds();
+      // Создаём рендер на Canvas (чтобы точно заработало)
+      const render = Render.create({
+        element: layer,
+        engine: engine,
+        options: {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          wireframes: false,
+          background: "black"
+        }
+      });
+      Render.run(render);
 
-      // Перестраиваем границы при ресайзе (куча останется, но подложка переедет)
-      window.addEventListener('resize', () => {
-        buildBounds();
+      // Пол внизу
+      const ground = Bodies.rectangle(
+        window.innerWidth / 2,
+        window.innerHeight - 20,
+        window.innerWidth,
+        40,
+        { isStatic: true }
+      );
+      Composite.add(engine.world, ground);
+
+      // Добавляем слова как прямоугольники
+      let x = 50;
+      let y = 50;
+      words.forEach(word => {
+        const body = Bodies.rectangle(x, y, word.length * 10, 20, {
+          restitution: 0.2
+        });
+        body.label = word; // сохраним текст
+        Composite.add(engine.world, body);
+        x += word.length * 12;
+        if (x > window.innerWidth - 100) {
+          x = 50;
+          y += 30;
+        }
       });
 
-      // Парсим исходный текст на слова
-      const text = source.innerText.replace(/\s+/g, ' ').trim();
-      const words = text.length ? text.split(' ') : [];
-
-      function createFallingWords() {
-        // 1) Сначала собираем скрытый «измерительный» текст со span-ами,
-        // чтобы получить точные координаты слов в нормальном абзаце.
-        measure.style.font = getComputedStyle(source).font;
-        measure.style.maxWidth = getComputedStyle(source).maxWidth;
-        measure.innerHTML = ''; // чистим
-
-        const spans = [];
-        for (let i = 0; i < words.length; i++) {
-          const w = document.createElement('span');
-          w.textContent = words[i] + (i < words.length - 1 ? ' ' : '');
-          measure.appendChild(w);
-          spans.push(w);
-        }
-
-        // 2) Создаём визуальные абсолютные элементы на том же месте
-        // и соответствующие физические тела
-        const stageRect = stage.getBoundingClientRect();
-        const srcRect = source.getBoundingClientRect();
-
-        const bodies = [];
-        for (let i = 0; i < spans.length; i++) {
-          const s = spans[i];
-          const r = s.getBoundingClientRect();
-
-          const x = r.left - stageRect.left;
-          const y = r.top - stageRect.top;
-          const w = Math.max(1, r.width);
-          const h = Math.max(1, r.height);
-
-          const el = document.createElement('span');
-          el.className = 'word';
-          el.textContent = s.textContent; // уже содержит пробел после слова (кроме последнего)
-          el.style.left = x + 'px';
-          el.style.top = y + 'px';
-          el.style.width = w + 'px';
-          el.style.height = h + 'px';
-          layer.appendChild(el);
-
-          // Физическое тело той же формы
-          const body = Bodies.rectangle(
-            x + w / 2,
-            y + h / 2,
-            w,
-            h,
-            {
-              restitution: 0.2,   // лёгкая пружинистость
-              friction: 0.3,
-              frictionAir: 0.02
-            }
-          );
-          // Начальная ориентация без вращения и без толчка
-          body.angle = 0;
-          bodies.push({ body, el, w, h });
-        }
-
-        // 3) Прячем исходный текст, показываем слой падения, запускаем физику
-        source.style.display = 'none';
-        measure.innerHTML = ''; // больше не нужен
-        Composite.add(engine.world, bodies.map(b => b.body));
-        Runner.run(runner, engine);
-
-        // 4) Цикл синхронизации DOM с физикой (рендер вручную)
-        (function render() {
-          const rect = stage.getBoundingClientRect();
-          for (const b of bodies) {
-            const x = b.body.position.x - b.w / 2;
-            const y = b.body.position.y - b.h / 2;
-            b.el.style.transform = `translate(${x}px, ${y}px) rotate(${b.body.angle}rad)`;
+      // Рисуем текст поверх тел
+      (function drawTexts() {
+        const ctx = render.context;
+        ctx.fillStyle = "white";
+        ctx.font = "18px monospace";
+        Composite.allBodies(engine.world).forEach(body => {
+          if (body.label) {
+            const pos = body.position;
+            ctx.save();
+            ctx.translate(pos.x, pos.y);
+            ctx.rotate(body.angle);
+            ctx.fillText(body.label, -body.label.length * 5, 5);
+            ctx.restore();
           }
-          requestAnimationFrame(render);
-        })();
-      }
+        });
+        requestAnimationFrame(drawTexts);
+      })();
+    }
 
-      // Через 4 секунды «ломаем» страницу
-      setTimeout(createFallingWords, fallDelay);
-    })();
+    setTimeout(startGravity, fallDelay);
   </script>
 </body>
 </html>
