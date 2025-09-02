@@ -400,7 +400,7 @@ requestAnimationFrame(()=>{
     const body = Bodies.rectangle(x,y,span.offsetWidth,span.offsetHeight,{
       restitution:0.65,
       friction:0.05,
-      render:{fillStyle:"black"}
+      render:{fillStyle:"rgba(0,0,0,0)"} // полностью прозрачные тела
     });
     body.label = span.textContent;
     Body.applyForce(body, body.position,{x:(Math.random()-0.5)*0.03, y:Math.random()*0.05});
