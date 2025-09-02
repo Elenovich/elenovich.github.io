@@ -33,7 +33,69 @@
 </head>
 <body>
   <div id="text">
-    Стянув нитку с плеч твоих, Я, закрыв глаза, танцую, На коленках, обмотавшись, в простыню свою, твержу: Если вдруг вернёшься снова, если сдуру скажешь слово, Скоро я сломаю тело, что ношу с собой, прошу, Если вдруг ты не вернёшься, тело вывернет наружу и захватит власть над смелым и докажет мне урок, Я прошу, Прошу по-злому: Возвращайся с сворой, в пору, Пропади на век, опорой Посчитаю смех сорóк. отголоски лета от голых скелетом сбегает на свой парапет пары лет не хватило чтобы колом с кометы размахнуться своей порой бед впарил бред и рад дарит яро улыбку девочка с кленовым взглядом я роль зыбку тащу налегке а хотелось просто быть кряду сотни и сотни и сотни там лет тысячи тысячи "Нет." Топор тех эпох так плох, что - то бор для души. Не решил, Кто из нас, крох и машин, Такой мох, Чтобы выжить в чужих холодах, То пор Дыхание расчувствовало меня, ах! День изо дня проволок, Потолок - он с тех пор, С техпромконгломерат снующих коров всё тусуется. Какие были прекрасные улицы - пока не равен был наш Размах Рук, Пока неровен был наш пробор, Прибор Порук Глубоко возгресился сызмала. Нам остаётся лишь лаять и тлеть. А мы тут всё псы, зола.Такой одинокий тенёк, тень ног, о тин ока запутался, будто чей-то щенок, день мог бы оказаться чуть лучше, чем смог, Бык-рок озаряться, Блик от озираться, Тел тока, Дел только, Тем толку - Нам всем собираться, На сень побираться, Тем столько - осколком, а сколько? Ас колко Пикирует вниз в тишине.
+Стянув нитку с плеч твоих,
+Я, закрыв глаза, танцую,
+На коленках, обмотавшись, в простыню свою, твержу:
+Если вдруг вернёшься снова, если сдуру скажешь слово,
+Скоро я сломаю тело, что ношу с собой, прошу,
+Если вдруг ты не вернёшься, тело вывернет наружу и захватит власть над смелым и докажет мне урок,
+Я прошу,
+Прошу по-злому:
+Возвращайся с сворой, в пору,
+Пропади на век, опорой
+Посчитаю смех сорóк. отголоски лета
+от голых скелетом
+сбегает на свой парапет
+пары лет не хватило
+чтобы колом с кометы
+размахнуться 
+своей порой бед
+впарил бред и рад 
+дарит
+яро улыбку 
+девочка с кленовым взглядом
+я роль 
+зыбку
+тащу налегке
+а хотелось просто быть 
+кряду
+сотни и сотни и сотни
+там лет
+тысячи тысячи
+"Нет." Топор тех эпох так плох, что -
+ то бор для души. 
+Не решил,
+Кто из нас, крох и машин,
+Такой мох,
+Чтобы выжить в чужих холодах,
+То пор
+Дыхание расчувствовало меня, ах!
+День изо дня проволок,
+Потолок
+- он с тех пор,
+С техпромконгломерат снующих коров
+ всё тусуется.
+Какие были прекрасные улицы - пока не равен был наш
+Размах
+Рук,
+Пока неровен был наш пробор,
+Прибор
+Порук
+Глубоко возгресился сызмала.
+Нам остаётся лишь лаять и тлеть.
+
+А мы тут всё псы, зола.Такой одинокий тенёк, тень ног, о тин ока запутался, будто чей-то щенок, день мог
+ бы оказаться чуть лучше, чем смог,
+Бык-рок озаряться,
+Блик от озираться,
+Тел тока,
+Дел только,
+Тем толку -
+Нам всем собираться,
+На сень побираться,
+Тем столько - осколком, а сколько?
+Ас колко
+Пикирует вниз в тишине.
   </div>
   <canvas id="world"></canvas>
 
@@ -43,8 +105,8 @@
 
     const engine = Engine.create();
     const world = engine.world;
-    engine.gravity.y = 1.8; // ускоряем падение немного
-    engine.timing.timeScale = 1.2; // более динамичная физика
+    engine.gravity.y = 1.8;
+    engine.timing.timeScale = 1.2;
 
     const canvas = document.getElementById("world");
     canvas.width = window.innerWidth;
@@ -85,54 +147,53 @@
       textDiv.appendChild(span);
     });
 
-    // Создаём тела сразу
-    const bodies = [];
-    document.querySelectorAll(".word").forEach(span => {
-      const rect = span.getBoundingClientRect();
-      const body = Bodies.rectangle(
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
-        rect.width,
-        rect.height,
-        {
-          restitution: 0.65,
-          friction: 0.05,
-          render: { fillStyle: "black" }
-        }
-      );
-      body.label = span.textContent;
+    // Создание тел через requestAnimationFrame, чтобы гарантировать правильные позиции
+    requestAnimationFrame(() => {
+      const bodies = [];
+      document.querySelectorAll(".word").forEach(span => {
+        const x = span.offsetLeft + span.offsetWidth / 2;
+        const y = span.offsetTop + span.offsetHeight / 2;
+        const body = Bodies.rectangle(
+          x,
+          y,
+          span.offsetWidth,
+          span.offsetHeight,
+          {
+            restitution: 0.65,
+            friction: 0.05,
+            render: { fillStyle: "black" }
+          }
+        );
+        body.label = span.textContent;
 
-      // небольшой случайный импульс для «живости»
-      Body.applyForce(body, body.position, {
-        x: (Math.random() - 0.5) * 0.02,
-        y: Math.random() * 0.03
+        Body.applyForce(body, body.position, {
+          x: (Math.random() - 0.5) * 0.02,
+          y: Math.random() * 0.03
+        });
+
+        World.add(world, body);
+        bodies.push({ body, span });
+
+        span.style.visibility = "hidden";
       });
 
-      World.add(world, body);
-      bodies.push({ body, span });
-
-      span.style.visibility = "hidden";
+      // Рисуем слова поверх тел
+      (function draw() {
+        const ctx = render.context;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "white";
+        ctx.font = "20px sans-serif";
+        ctx.textBaseline = "middle";
+        bodies.forEach(({ body }) => {
+          ctx.save();
+          ctx.translate(body.position.x, body.position.y);
+          ctx.rotate(body.angle);
+          ctx.fillText(body.label, -body.label.length * 6, 0);
+          ctx.restore();
+        });
+        requestAnimationFrame(draw);
+      })();
     });
-
-    // Отрисовка текста поверх тел
-    (function draw() {
-      const ctx = render.context;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "white";
-      ctx.font = "20px sans-serif";
-      ctx.textBaseline = "middle";
-
-      bodies.forEach(({ body }) => {
-        ctx.save();
-        ctx.translate(body.position.x, body.position.y);
-        ctx.rotate(body.angle);
-        ctx.fillText(body.label, -body.label.length * 6, 0);
-        ctx.restore();
-      });
-
-      requestAnimationFrame(draw);
-    })();
   </script>
 </body>
 </html>
