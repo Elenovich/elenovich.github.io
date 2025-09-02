@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Не трогай меня.</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Не трогай меня</h2>
+    <div class="poem-text">
+      <p>Не трогай меня. Не трогай меня. Не трогай меня.<br>
+<br>
+Нет о́кон. Вокруг прока <br>
+я рукой ронял, <br>
+имена паял - народ рока,<br>
+пока явь <br>
+ненароком,<br>
+ими ль я, недотрога,<br>
+обласкал себя, обличал себя,<br>
+чужбиной, да<br>
+завито́й маня<br>
+строкой, <br>
+порой словом, как оскоминой.<br>
+<br>
+По языкам, с три кона,<br>
+шершавым прокатившись,<br>
+свысока скованным, <br>
+шире вил,<br>
+шароварами<br>
+облокотившись,<br>
+как забором знакомым с кольями, неудобным и с собаками, топорно.<br>
+<br>
+То порой, за баками<br>
+погостными, закричавший, <br>
+за прибором АЭС - оледеневший.<br>
+<br>
+Грачи, <br>
+вши до жил <br>
+подмостные - все, кто могли <br>
+взвыть бы живы, <br>
+вот и я тоже до́жил с жиром.<br>
+<br>
+Все вот эти вот комарицы, архангелы, с поющими лицами, ранками - оборачивающиеся<br>
+в каждой букве моей <br>
+собором.<br>
+<br>
+Вещьзам - вот истинное моё лекало, путь - собой<br>
+смиренно, почти заточивши<br>
+изнутри, как рак - остатки клеток сопротивления. Я так рад <br>
+почти что<br>
+шинель с себя сбросить надоевшую нательную,<br>
+опостылую в такую жарень<br>
+людского многообразия вокруг. С петель её<br>
+сдёрну, а мне потом помогут. Смазанную<br>
+оставят <br>
+обязательно для мук,<br>
+летом. Надо тех,<br>
+кто задерживает<br>
+<br>
+смести скопом мух<br>
+на своём пути, как метель. Как хотел:<br>
+для рук <br>
+оставить записок шесть,<br>
+потому что коротко не смогу. Съесть<br>
+наконец изнутри будущие свои стихи, с выворачивающим рагу.<br>
+<br>
+Схитрив, прости, гимн<br>
+оборвать в полувыпаде, нести<br>
+и<br>
+дни окончательно счесть<br>
+по пальцам <br>
+написавшей это руки.<br>
+<br>
+Взял - и вылетел.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="pautin.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href=".html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
