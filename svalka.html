@@ -18,7 +18,7 @@
     left: 10px;
     right: 10px;
     font-size: 20px;
-    line-height: 1.2;
+    line-height: 1.5;
   }
 </style>
 </head>
@@ -42,14 +42,15 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+ctx.font = '20px monospace'; // сначала задаём шрифт для правильного measureText
+
 const words = container.innerText.split(/\s+/);
 const wordObjects = [];
 
-// Создаём объект слова с начальными координатами как обычный текст
 let x = 10;
 let y = 30;
 const lineHeight = 25;
-const spaceWidth = ctx.measureText(' ').width || 10;
+const spaceWidth = ctx.measureText(' ').width;
 
 words.forEach(word => {
   const wordWidth = ctx.measureText(word).width;
@@ -57,7 +58,14 @@ words.forEach(word => {
     x = 10;
     y += lineHeight;
   }
-  wordObjects.push({ text: word, x, y, speed: 50 + Math.random()*100 });
+  wordObjects.push({
+    text: word,
+    x: x,
+    y: y,
+    baseX: x, // базовая позиция для начального абзаца
+    baseY: y,
+    speed: 50 + Math.random() * 100
+  });
   x += wordWidth + spaceWidth;
 });
 
@@ -77,6 +85,12 @@ function animate(timestamp) {
     if (elapsed > fallDelay) {
       word.y += word.speed * 0.016; // падение вниз
       if (word.y > maxFallY) word.y = maxFallY;
+      // добавляем лёгкую хаотичность по горизонтали
+      word.x = word.baseX + (Math.random() - 0.5) * 20;
+    } else {
+      // до падения используем исходные позиции
+      word.x = word.baseX;
+      word.y = word.baseY;
     }
     ctx.fillText(word.text, word.x, word.y);
   });
@@ -84,7 +98,7 @@ function animate(timestamp) {
   requestAnimationFrame(animate);
 }
 
-// Скрываем исходный блок через 4 секунды
+// Скрываем исходный блок после 4 секунд
 setTimeout(() => { container.style.display = 'none'; }, fallDelay);
 
 requestAnimationFrame(animate);
