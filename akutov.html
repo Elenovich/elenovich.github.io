@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Метание диска</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Метание диска</h2>
+    <div class="poem-text">
+      <p>Но я возвращаю круги - метание диска,<br>
+Издревле,<br>
+Считалось хорошим началом финиша,<br>
+который всегда, казалось, видится<br>
+всем ярым глупцам без конца.<br>
+<br>
+Нарочно говорю тебе: копится<br>
+Лучшее солнце, что вздумало,<br>
+будто бы за́рит в душу,<br>
+Будто бы обувь - нищему,<br>
+Наша звезда всё же склонится<br>
+к лучшим надеждам, действительно лучшим,<br>
+и искренне высшим!..<br>
+Только неодобрительно хмыкнет,<br>
+Наверху, в небесной тиши́,<br>
+праотец моего праотца.<br>
+<br>
+Вместо нимба над головой, окутав,<br>
+накренится,<br>
+не правильный гравис, но аку́тов<br>
+полк,<br>
+замшелым, но стойким копьём, прямо в темечко, в толк,<br>
+Хороводом и мельницей, обязательно вспенится<br>
+Ворох отсталых побед, навет,<br>
+Сожаление, что безвкусным особняком и<br>
+всегда, без конца, мне с торца.<br>
+<br>
+Порой я не знаю, родная,<br>
+по ком. Иногда я не вижу лица.<br>
+<br>
+Я сочувствую,<br>
+говорю: я всё чувствую,<br>
+Но не солью слезы лечить твои раны,<br>
+Милая, слышала может, лани,<br>
+взревев, порой, под машину<br>
+От испуга бросаясь, мужчину<br>
+пугают до привкуса боли<br>
+то ли<br>
+или какого-то чувства только что выпущенного<br>
+из табельного<br>
+нелепого, от того и правильного,<br>
+чьего-то слепого свинца.<br>
+<br>
+Я всё вто́рю: мне надо бы<br>
+разлить по цветам горе ладаном,<br>
+На вехи нанизывать воли<br>
+стоический, горький смрад.<br>
+Но почему-то всегда вместо этого<br>
+Я цитирую словесное Летова,<br>
+Я надеюсь, что всё же, по плану,<br>
+Мне начислят процент наград.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="kakdavno.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href=".html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
