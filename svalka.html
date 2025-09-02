@@ -354,10 +354,10 @@ canvas {
 <script>
 const { Engine, Render, Runner, Bodies, World, Body } = Matter;
 
-// ускоряем падение
+// создаем ускоренный движок
 const engine = Engine.create();
 const world = engine.world;
-engine.gravity.y = 4;
+engine.gravity.y = 4; // ускоренная гравитация
 engine.timing.timeScale = 2.0;
 
 const canvas = document.getElementById("world");
@@ -376,7 +376,8 @@ const render = Render.create({
 });
 
 Render.run(render);
-Runner.run(Runner.create(), engine);
+const runner = Runner.create();
+Runner.run(runner, engine);
 
 const ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight+30, window.innerWidth, 60, {isStatic:true});
 World.add(world, ground);
@@ -437,13 +438,20 @@ requestAnimationFrame(()=>{
     } else {
       // небольшой люфт 0.2 сек
       setTimeout(()=>{
-        // очищаем канвас перед показом финального сообщения
+        // полная остановка движка и рендера
+        Render.stop(render);
+        Runner.stop(runner);
+        Engine.clear(engine);
+        World.clear(world, false);
+
+        // очистка канваса
         const ctx = render.context;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         canvas.style.display = "none";
         textDiv.style.display = "none";
 
+        // показываем финальный текст
         const msg = document.getElementById("finalMessage");
         msg.style.opacity = 1;
         msg.style.transform = "scale(1.05)";
