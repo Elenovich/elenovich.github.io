@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Арчи 11</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Арчи 11</h2>
+    <div class="poem-text">
+      <p>Всё утро, которое,<br>
+Строго говоря, вообще-то является вечером<br>
+У нормальных людей, но не у меня,<br>
+Всё утро думаю, сколько по времени (мне терять нечего)<br>
+Я бы выдержал на пытке солёной едой – три дня?<br>
+Двадцать два дня?<br>
+Ни дня?<br>
+<br>
+Хьюзов было много, я выбрал не того, уговора не было, оттолкнул ногой<br>
+И актёра-инвалида, и актера из позапрошлого века,<br>
+Даже живописца с его апрельской любовью. Другого вида, <br>
+Бутлега эго,<br>
+Меня всегда интересовали новости. Ровень гринда<br>
+<br>
+Среди шторок, вымпелов,<br>
+<br>
+тысячного "да, я согласен на кукис", <br>
+тысячного "нет, не отслеживать местоположение",<br>
+Миллионного "читать далее", что-нибудь про поражение,<br>
+Что-нибудь про муки с, или любовь с, или ненависть к, или месть над.<br>
+Умозрительный, умопомрачительный променад.<br>
+<br>
+Что сказать. Вода реже соли, побои, побои, жизнь внутри папки журналиста будет и то слаще,<br>
+Это вам не кофе услужливого баристы, не "оберегись" – добрый и внимательный крановщик, не "мы тебя любим" – аккордом полнился футбольный стадион (классика, сначала смерть, потом вой),<br>
+Не "Ты <br>
+зас-лу-жи-ва-ешь", нет. Еда с солью. Ешь.<br>
+Сегодня блюдо не идёт в связке с водой.<br>
+<br>
+Арчи<br>
+(Хочу ласково звать его так) <br>
+вряд ли смог вообразить<br>
+Родителей в тюрьме, мальчик <br>
+Он был простак, мальчик в мире ненависти и теней.<br>
+Упал и ударился головой. Пять раз.<br>
+Может больше, но посчитали, что этого хватит. Затем звонок от матери – отцу, рассказ,<br>
+Ледяное безразличие, беспокоиться стоит только шкуры ради.<br>
+29 лет тюрьмы ей, 21 ему. Арчи не прожил и семи..<br>
+Из заключения в суде идёт, ползёт, сулит, страшными буквами, эпитафия сыну:<br>
+<br>
+«она применила к его телу силу, <br>
+эквивалентную той, которая могла бы возникнуть при столкновении <br>
+на высокой скорости»<br>
+<br>
+Артур Лабиньо-Хьюз не просто умер не так, отпечатав кровь на стене; <br>
+в области<br>
+Моего разума уз рождается простое и грустное: он даже ел не так<br>
+На протяжении всех шести лет.<br>
+<br>
+Странный информационный груз. <br>
+Не формализовать устное,<br>
+нет.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="alisa.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href="kristina.html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
