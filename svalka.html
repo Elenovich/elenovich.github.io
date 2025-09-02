@@ -25,7 +25,7 @@
 <body>
 
 <div id="textContainer">
-  Вот твой огромный ворох текста который будет сначала виден подряд, как обычный абзац, а потом хаотично упадёт вниз.
+  Вот твой огромный ворох текста который будет сначала виден подряд, как обычный абзац, а потом плавно упадёт вниз.
 </div>
 
 <canvas id="canvas"></canvas>
@@ -42,7 +42,7 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-ctx.font = '20px monospace'; // сначала задаём шрифт для правильного measureText
+ctx.font = '20px monospace'; // для правильного measureText
 
 const words = container.innerText.split(/\s+/);
 const wordObjects = [];
@@ -62,7 +62,6 @@ words.forEach(word => {
     text: word,
     x: x,
     y: y,
-    baseX: x, // базовая позиция для начального абзаца
     baseY: y,
     speed: 50 + Math.random() * 100
   });
@@ -83,14 +82,10 @@ function animate(timestamp) {
 
   wordObjects.forEach(word => {
     if (elapsed > fallDelay) {
-      word.y += word.speed * 0.016; // падение вниз
+      word.y += word.speed * 0.016; // падение строго вниз
       if (word.y > maxFallY) word.y = maxFallY;
-      // добавляем лёгкую хаотичность по горизонтали
-      word.x = word.baseX + (Math.random() - 0.5) * 20;
     } else {
-      // до падения используем исходные позиции
-      word.x = word.baseX;
-      word.y = word.baseY;
+      word.y = word.baseY; // ровное положение до падения
     }
     ctx.fillText(word.text, word.x, word.y);
   });
