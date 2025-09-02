@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Улица 1905 г.</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Улица 1905 г.</h2>
+    <div class="poem-text">
+      <p>Девушка в плаще из Матрицы<br>
+Говорит, что мой подарочный энергетик <br>
+Лежит где-то на точке по адресу <br>
+<br>
+Улица 1905 года<br>
+И так далее<br>
+Это плохо, мне нравились<br>
+Не столько энергетики, сколько <br>
+Отсутствие химии в физике<br>
+Именно того электрополя<br>
+<br>
+Около того магазина<br>
+Часто проходили люди<br>
+Иногда шла она, но уже<br>
+Как бы не мимо, а по касательной<br>
+Полы плаща широко развевались<br>
+Под натиском её мощного шага<br>
+<br>
+Сплошная платоника, да и <br>
+Крупица сбора внимания<br>
+Была как будто важнее<br>
+Всего<br>
+Мы чаще молчали, чем не молчали<br>
+<br>
+А точку давно снесли, теперь там<br>
+Табачный магазин и нет<br>
+Меня<br>
+Или девушки в плаще из Матрицы рядом<br>
+<br>
+Что-то шло своим чередом<br>
+Но только не по касательной<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="akatsia.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href=".html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
