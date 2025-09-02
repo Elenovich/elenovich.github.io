@@ -14,10 +14,9 @@
   }
   #textContainer {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
     font-size: 20px;
     line-height: 1.2;
   }
@@ -26,7 +25,7 @@
 <body>
 
 <div id="textContainer">
-  Вот твой огромный ворох текста который будет сначала виден подряд, а потом хаотично упадёт вниз.
+  Вот твой огромный ворох текста который будет сначала виден подряд, как обычный абзац, а потом хаотично упадёт вниз.
 </div>
 
 <canvas id="canvas"></canvas>
@@ -43,22 +42,38 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// Разбиваем текст на слова
-const text = container.innerText;
-const words = text.split(/\s+/);
-container.style.display = 'none'; // скрываем после 4 секунд
+const textNodes = container.innerText.split(/\s+/);
 
-// Создаём объекты слов
-const wordObjects = words.map(word => ({
-  text: word,
-  x: Math.random() * canvas.width,
-  y: 0,
-  speed: 50 + Math.random() * 100 // пикселей в секунду
-}));
+// Получаем позиции слов на странице перед падением
+const spanContainer = document.createElement('div');
+spanContainer.style.position = 'absolute';
+spanContainer.style.visibility = 'hidden';
+spanContainer.style.whiteSpace = 'pre-wrap';
+spanContainer.style.fontSize = '20px';
+spanContainer.style.fontFamily = 'monospace';
+spanContainer.style.width = container.offsetWidth + 'px';
+document.body.appendChild(spanContainer);
+
+const wordObjects = [];
+
+textNodes.forEach(word => {
+  const span = document.createElement('span');
+  span.innerText = word + ' ';
+  spanContainer.appendChild(span);
+  const rect = span.getBoundingClientRect();
+  wordObjects.push({
+    text: word,
+    x: rect.left,
+    y: rect.top,
+    speed: 50 + Math.random()*100
+  });
+});
+
+document.body.removeChild(spanContainer);
 
 let startTime = null;
-const fallDuration = 4000; // 4 секунды для появления текста подряд
-const maxFallHeight = canvas.height - 20; // ~1 см от низа, 20px
+const fallDelay = 4000; // 4 секунды до падения
+const maxFallY = canvas.height - 20;
 
 function animate(timestamp) {
   if (!startTime) startTime = timestamp;
@@ -69,14 +84,9 @@ function animate(timestamp) {
   ctx.font = '20px monospace';
 
   wordObjects.forEach(word => {
-    if (elapsed > fallDuration) {
-      // Падение вниз
-      word.y += word.speed * 0.016; // грубо ~60fps
-      if (word.y > maxFallHeight) word.y = maxFallHeight;
-    } else {
-      // Появление подряд на 4 секунды
-      word.y = 50 + 25 * words.indexOf(word); // вертикальная линия
-      word.x = 10 + 10 * words.indexOf(word); // чуть смещаем по горизонтали
+    if (elapsed > fallDelay) {
+      word.y += word.speed * 0.016; // падение
+      if (word.y > maxFallY) word.y = maxFallY;
     }
     ctx.fillText(word.text, word.x, word.y);
   });
@@ -84,9 +94,8 @@ function animate(timestamp) {
   requestAnimationFrame(animate);
 }
 
-setTimeout(() => {
-  container.style.display = 'none'; // скрыть блок после 4 секунд
-}, fallDuration);
+// прячем исходный блок через 4 секунды
+setTimeout(() => { container.style.display = 'none'; }, fallDelay);
 
 requestAnimationFrame(animate);
 </script>
