@@ -257,6 +257,7 @@
 
     const engine = Engine.create();
     const world = engine.world;
+    engine.gravity.y = 1.5; // делаем падение быстрее
 
     const canvas = document.getElementById("world");
     canvas.width = window.innerWidth;
@@ -291,50 +292,47 @@
       textDiv.appendChild(span);
     });
 
-    // Запускаем падение через 4 секунды
-    setTimeout(() => {
-      document.querySelectorAll(".word").forEach(span => {
-        const rect = span.getBoundingClientRect();
-        const body = Bodies.rectangle(
-          rect.left + rect.width / 2,
-          rect.top + rect.height / 2,
-          rect.width,
-          rect.height,
-          {
-            restitution: 0.6,
-            friction: 0.05,
-            render: { fillStyle: "black" }
-          }
-        );
-        body.label = span.textContent;
+    // Сразу запускаем падение
+    document.querySelectorAll(".word").forEach(span => {
+      const rect = span.getBoundingClientRect();
+      const body = Bodies.rectangle(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2,
+        rect.width,
+        rect.height,
+        {
+          restitution: 0.6,
+          friction: 0.05,
+          render: { fillStyle: "black" }
+        }
+      );
+      body.label = span.textContent;
 
-        Body.applyForce(body, body.position, {
-          x: (Math.random() - 0.5) * 0.02,
-          y: Math.random() * 0.02
-        });
-
-        World.add(world, body);
-
-        // Скрываем исходный span (чтобы видно было только текст от канваса)
-        span.style.visibility = "hidden";
+      Body.applyForce(body, body.position, {
+        x: (Math.random() - 0.5) * 0.02,
+        y: Math.random() * 0.02
       });
 
-      Events.on(render, "afterRender", () => {
-        const ctx = render.context;
-        ctx.fillStyle = "white";
-        ctx.font = "20px sans-serif";
-        ctx.textBaseline = "middle";
-        world.bodies.forEach(body => {
-          if (body.label && body.label.trim() !== "" && body.label !== "Ground") {
-            ctx.save();
-            ctx.translate(body.position.x, body.position.y);
-            ctx.rotate(body.angle);
-            ctx.fillText(body.label, -body.label.length * 6, 0);
-            ctx.restore();
-          }
-        });
+      World.add(world, body);
+
+      span.style.visibility = "hidden";
+    });
+
+    Events.on(render, "afterRender", () => {
+      const ctx = render.context;
+      ctx.fillStyle = "white";
+      ctx.font = "20px sans-serif";
+      ctx.textBaseline = "middle";
+      world.bodies.forEach(body => {
+        if (body.label && body.label.trim() !== "" && body.label !== "Ground") {
+          ctx.save();
+          ctx.translate(body.position.x, body.position.y);
+          ctx.rotate(body.angle);
+          ctx.fillText(body.label, -body.label.length * 6, 0);
+          ctx.restore();
+        }
       });
-    }, 4000);
+    });
   </script>
 </body>
 </html>
