@@ -106,13 +106,13 @@ words.forEach(word => {
     x: x,
     y: y,
     baseY: y,
-    speed: 50 + Math.random() * 100
+    speed: 150 + Math.random() * 100
   });
   x += wordWidth + spaceWidth;
 });
 
 let startTime = null;
-const fallDelay = 4000;
+const fallDelay = 3000;
 const maxFallY = canvas.height - 20;
 
 function animate(timestamp) {
@@ -125,7 +125,7 @@ function animate(timestamp) {
 
   wordObjects.forEach(word => {
     if (elapsed > fallDelay) {
-      word.y += word.speed * 0.016; // падение строго вниз
+      word.y += word.speed * 0.126; // падение строго вниз
       if (word.y > maxFallY) word.y = maxFallY;
     } else {
       word.y = word.baseY; // ровное положение до падения
