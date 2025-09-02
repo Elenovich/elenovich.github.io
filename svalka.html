@@ -357,8 +357,8 @@ const { Engine, Render, Runner, Bodies, World, Body } = Matter;
 // ускоряем падение
 const engine = Engine.create();
 const world = engine.world;
-engine.gravity.y = 4; // увеличиваем силу гравитации
-engine.timing.timeScale = 2.0; // ускоряем время
+engine.gravity.y = 4;
+engine.timing.timeScale = 2.0;
 
 const canvas = document.getElementById("world");
 canvas.width = window.innerWidth;
@@ -402,7 +402,7 @@ requestAnimationFrame(()=>{
       render:{fillStyle:"black"}
     });
     body.label = span.textContent;
-    Body.applyForce(body, body.position,{x:(Math.random()-0.5)*0.03, y:Math.random()*0.05}); // немного сильнее начальный импульс
+    Body.applyForce(body, body.position,{x:(Math.random()-0.5)*0.03, y:Math.random()*0.05});
     World.add(world, body);
     bodies.push({body, span});
     span.style.visibility="hidden";
@@ -415,6 +415,7 @@ requestAnimationFrame(()=>{
     ctx.clearRect(0,0,canvas.width,canvas.height);
     const elapsed = Date.now() - startTime;
     const fade = Math.min(elapsed / 1500, 1); // за 1.5 сек текст переходит в фон
+
     // Плавный переход из белого в цвет фона #031712
     const r = Math.round(255*(1-fade) + 3*fade);
     const g = Math.round(255*(1-fade) + 23*fade);
@@ -436,8 +437,13 @@ requestAnimationFrame(()=>{
     } else {
       // небольшой люфт 0.2 сек
       setTimeout(()=>{
+        // очищаем канвас перед показом финального сообщения
+        const ctx = render.context;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         canvas.style.display = "none";
         textDiv.style.display = "none";
+
         const msg = document.getElementById("finalMessage");
         msg.style.opacity = 1;
         msg.style.transform = "scale(1.05)";
