@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Свалка</title>
   <style>
     body {
       margin: 0;
       background: black;
+      color: white;
+      font-family: sans-serif;
       overflow: hidden;
     }
-    canvas {
-      display: block;
+    #text {
+      padding: 20px;
+      font-size: 20px;
+      line-height: 1.5;
+    }
+    #world {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
+  <div id="text">
+    Здесь какой-то огромный текст, много слов, и всё это через 4 секунды рухнет вниз, как в Google Gravity.
+  </div>
   <canvas id="world"></canvas>
-  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
-  <script>
-    const { Engine, Render, World, Bodies, Runner, Events } = Matter;
 
-    const canvas = document.getElementById("world");
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <script>
+    const { Engine, Render, Runner, Bodies, World, Body, Events } = Matter;
+
     const engine = Engine.create();
     const world = engine.world;
+
+    const canvas = document.getElementById("world");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     const render = Render.create({
       canvas: canvas,
@@ -35,78 +54,69 @@
       }
     });
 
-    Render.run(render);
     const runner = Runner.create();
     Runner.run(runner, engine);
+    Render.run(render);
 
-    // Добавим "пол" внизу
+    // Земля
     const ground = Bodies.rectangle(
       window.innerWidth / 2,
-      window.innerHeight + 50,
+      window.innerHeight + 25,
       window.innerWidth,
-      100,
-      { isStatic: true }
+      50,
+      { isStatic: true, render: { fillStyle: "black" } }
     );
     World.add(world, ground);
 
-    // Наш текст
-    const text = "Это огромная свалка слов, которые через несколько секунд потеряют равновесие и рухнут вниз.";
-    const words = text.split(" ");
-
-    const wordBodies = [];
-
-    let x = 100, y = 100;
-    const lineHeight = 40;
-    const space = 20;
-
-    words.forEach(word => {
-      const width = word.length * 20;
-      const body = Bodies.rectangle(x + width / 2, y, width, 30, {
-        render: {
-          fillStyle: "black", // <-- делаем прямоугольник чёрным, невидимым на фоне
-          strokeStyle: "black",
-          lineWidth: 1
-        }
-      });
-      wordBodies.push({ body, word });
-      World.add(world, body);
-
-      x += width + space;
-      if (x > window.innerWidth - 200) {
-        x = 100;
-        y += lineHeight;
-      }
-    });
-
-    // По умолчанию — статичны (лежит как обычный текст)
-    wordBodies.forEach(({ body }) => {
-      body.isStatic = true;
-    });
-
-    // Через 4 секунды включаем падение
     setTimeout(() => {
-      wordBodies.forEach(({ body }) => {
-        body.isStatic = false;
+      const textDiv = document.getElementById("text");
+      const words = textDiv.innerText.split(/\s+/);
+      textDiv.style.display = "none";
+
+      let x = 50, y = 50;
+      const lineHeight = 30;
+
+      words.forEach(word => {
+        const wordWidth = word.length * 12;
+        if (x + wordWidth > window.innerWidth - 50) {
+          x = 50;
+          y += lineHeight;
+        }
+
+        const body = Bodies.rectangle(x + wordWidth / 2, y, wordWidth, 24, {
+          restitution: 0.6, // упругость
+          friction: 0.05,   // низкое трение
+          render: { fillStyle: "black" }
+        });
+        body.label = word;
+
+        // Случайный толчок (как в Google Gravity)
+        Body.applyForce(body, body.position, {
+          x: (Math.random() - 0.5) * 0.03,
+          y: Math.random() * 0.03
+        });
+
+        World.add(world, body);
+        x += wordWidth + 10;
+      });
+
+      // Рисуем только белые слова
+      Events.on(render, "afterRender", () => {
+        const ctx = render.context;
+        ctx.fillStyle = "white";
+        ctx.font = "20px sans-serif";
+        ctx.textBaseline = "middle";
+        world.bodies.forEach(body => {
+          if (body.label && body.label !== "Ground") {
+            ctx.save();
+            ctx.translate(body.position.x, body.position.y);
+            ctx.rotate(body.angle);
+            ctx.fillText(body.label, -body.label.length * 6, 0);
+            ctx.restore();
+          }
+        });
       });
     }, 4000);
-
-    // Рисуем текст поверх тел
-    Events.on(render, "afterRender", () => {
-      const ctx = render.context;
-      ctx.fillStyle = "white";
-      ctx.font = "20px sans-serif";
-      ctx.textBaseline = "middle";
-      ctx.textAlign = "center";
-
-      wordBodies.forEach(({ body, word }) => {
-        const { x, y } = body.position;
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(body.angle);
-        ctx.fillText(word, 0, 0);
-        ctx.restore();
-      });
-    });
   </script>
 </body>
 </html>
