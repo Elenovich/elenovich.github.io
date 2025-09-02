@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>В зале шумно.</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>В зале шумно.</h2>
+    <div class="poem-text">
+      <p>Там на задворках<br>
+Больного, опрокинутого за ящики,<br>
+Поёт Деме‌щенко, и вторит Ященко:<br>
+"И чья-то девочка кричит:<br>
+Не улетай!",<br>
+Мне остаётся лишь латать, я ль<br>
+Должен сам себе явиться<br>
+Гвардией врачей, зачем? Лучей<br>
+Явной любви, пусть и хвориной,<br>
+Мне не хватило, чтобы лица<br>
+Замечать в округе чётче и сильней, и всё же думается вновь: а в отчий <br>
+дом зашёл бы <br>
+Я, наплевав на частные чащобы?<br>
+<br>
+Гром зажевали небеса и поперхнулись, с улиц<br>
+Лишь изредка доносится собачий вой, во<br>
+Сколько-то часов, в какие-то, зачем-то, в муниц-<br>
+ипальном торжестве протянет кто-то: "Человек!", вон<br>
+Сразу же, в исподнем, выскочит ответ – то ведь не тело, нет, это request исполнен.<br>
+<br>
+Сын скульптора Софрониска разок сказал:<br>
+"Заговори, чтоб я тебя увидел",<br>
+С того момента я говорю<br>
+Так,<br>
+Чтоб образ вспять во времени успел пробить их<br>
+Образы назад, их<br>
+Взгляд вперёд в рапиде.<br>
+<br>
+Если <br>
+Передвижение <br>
+Нас – вторит лишь <br>
+Пешке, что неустанно прёт напролом к восьмой,<br>
+И всё, что остаётся – это письмо,<br>
+Как значимость и доказательство, золы ж<br>
+Тьма – отсутствие и нас с тобой,<br>
+То отрицайте, люди, либо знак "стоп", либо огонь!<br>
+<br>
+Но я упорствую, мне не по нраву:<br>
+Набравши в рот и слов рапиру острую, и пламя, лаву,<br>
+Мешаю языком калён отраву и извергаю на себя, утёршись, снова принимаюсь<br>
+За эту помесь призрачного "Всё<br>
+<br>
+Или ничего осталось".<br>
+<br>
+Aut vincere aut mori – что кроме<br>
+Неодобрительных смешков, оценок "Вычурно, до боли", мне слышалось в ответ, душком<br>
+Заспинным? Ничего. <br>
+Но всё шло ровно так, как и должно: в три года сел за доску,<br>
+У отца, и проиграл, и разозлился, мозгом<br>
+Понимая: обожжён<br>
+Бесчестием – "Не проиграть!" то главный был закон,<br>
+С самого детства, вместе<br>
+С тем пришло: но если вдруг<br>
+Ты не дошёл, то рушить всё теперь нам надо,<br>
+Коль умирать никем, то лучше<br>
+Мне с ручной гранатой <br>
+И не в руке, <br>
+в зубах, чтоб не укрыться,<br>
+Чтоб всякий враг не знал меня по лицам.<br>
+<br>
+Но если <br>
+Не только last horizontal вдруг под ногой возьмётся, сон там<br>
+Развеется, удача горцу<br>
+Скажет: "Вот и настал<br>
+Тот миг, которого ты ждал", и улыбнётся,<br>
+Тогда действительно мне стоит<br>
+За то бороться, сквозь пекло солнца.<br>
+<br>
+Лишь умным <br>
+Дано право быть <br>
+умалишёнными, свернуть с пути налево, да направо, <br>
+И с лёгкостью в ответ на взгляд сказать:<br>
+<br>
+"Здесь в зале шумно."<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="lustra.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href=".html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
