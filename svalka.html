@@ -2,27 +2,51 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Моё болото</title>
+  <title>Свалка</title>
   <style>
     body {
       margin: 0;
       background: black;
-      color: white;
       font-family: sans-serif;
       overflow: hidden;
+    }
+    #bgMessage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: black; /* стартовый цвет */
+      font-size: 80px;
+      text-align: center;
+      transform: scale(0.8); /* стартовый масштаб чуть меньше */
+      transition: transform 1s ease, color 1s ease; /* плавный переход */
+      z-index: 0; /* под текстом и канвасом */
+    }
+    #bgMessage a {
+      color: black; /* стартовый цвет */
+      text-decoration: underline;
+      font-size: 50px;
+      margin-top: 20px;
+      transition: color 1s ease;
     }
     #text {
       padding: 20px;
       font-size: 20px;
       line-height: 1.5;
       position: relative;
-      z-index: 1;
+      z-index: 2; /* над фоном */
+      color: white;
     }
     canvas {
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 2;
+      z-index: 1;
       pointer-events: none;
     }
     .word {
@@ -32,6 +56,11 @@
   </style>
 </head>
 <body>
+  <div id="bgMessage">
+    Иди назад.
+    <a href="index.html">elenovich.lol</a>
+  </div>
+
   <div id="text">
 Стянув нитку с плеч твоих,
 Я, закрыв глаза, танцую,
@@ -365,7 +394,7 @@
       textDiv.appendChild(span);
     });
 
-    // Создание тел через requestAnimationFrame, чтобы гарантировать правильные позиции
+    // Создание тел через requestAnimationFrame
     requestAnimationFrame(() => {
       const bodies = [];
       document.querySelectorAll(".word").forEach(span => {
@@ -412,6 +441,14 @@
         requestAnimationFrame(draw);
       })();
     });
+
+    // Появление фонового сообщения через 5 секунд с эффектом «высветления»
+    setTimeout(() => {
+      const bg = document.getElementById("bgMessage");
+      bg.style.color = "white";
+      bg.style.transform = "scale(1)";
+      bg.querySelector("a").style.color = "white";
+    }, 5000);
   </script>
 </body>
 </html>
