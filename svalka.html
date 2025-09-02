@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Это моя свалка</title>
+<title>Свалка текста</title>
 <style>
   body, html {
     margin: 0;
@@ -42,37 +42,27 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-const textNodes = container.innerText.split(/\s+/);
-
-// Получаем позиции слов на странице перед падением
-const spanContainer = document.createElement('div');
-spanContainer.style.position = 'absolute';
-spanContainer.style.visibility = 'hidden';
-spanContainer.style.whiteSpace = 'pre-wrap';
-spanContainer.style.fontSize = '20px';
-spanContainer.style.fontFamily = 'monospace';
-spanContainer.style.width = container.offsetWidth + 'px';
-document.body.appendChild(spanContainer);
-
+const words = container.innerText.split(/\s+/);
 const wordObjects = [];
 
-textNodes.forEach(word => {
-  const span = document.createElement('span');
-  span.innerText = word + ' ';
-  spanContainer.appendChild(span);
-  const rect = span.getBoundingClientRect();
-  wordObjects.push({
-    text: word,
-    x: rect.left,
-    y: rect.top,
-    speed: 50 + Math.random()*100
-  });
+// Создаём объект слова с начальными координатами как обычный текст
+let x = 10;
+let y = 30;
+const lineHeight = 25;
+const spaceWidth = ctx.measureText(' ').width || 10;
+
+words.forEach(word => {
+  const wordWidth = ctx.measureText(word).width;
+  if (x + wordWidth > canvas.width - 10) { // перенос строки
+    x = 10;
+    y += lineHeight;
+  }
+  wordObjects.push({ text: word, x, y, speed: 50 + Math.random()*100 });
+  x += wordWidth + spaceWidth;
 });
 
-document.body.removeChild(spanContainer);
-
 let startTime = null;
-const fallDelay = 4000; // 4 секунды до падения
+const fallDelay = 4000;
 const maxFallY = canvas.height - 20;
 
 function animate(timestamp) {
@@ -85,7 +75,7 @@ function animate(timestamp) {
 
   wordObjects.forEach(word => {
     if (elapsed > fallDelay) {
-      word.y += word.speed * 0.016; // падение
+      word.y += word.speed * 0.016; // падение вниз
       if (word.y > maxFallY) word.y = maxFallY;
     }
     ctx.fillText(word.text, word.x, word.y);
@@ -94,7 +84,7 @@ function animate(timestamp) {
   requestAnimationFrame(animate);
 }
 
-// прячем исходный блок через 4 секунды
+// Скрываем исходный блок через 4 секунды
 setTimeout(() => { container.style.display = 'none'; }, fallDelay);
 
 requestAnimationFrame(animate);
