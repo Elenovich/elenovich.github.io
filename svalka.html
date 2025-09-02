@@ -10,38 +10,12 @@ body {
   font-family: sans-serif;
   overflow: hidden;
 }
-#bgMessage {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white; /* сразу белый */
-  font-size: 80px;
-  text-align: center;
-  transform: scale(0.8) translateY(0);
-  transition: transform 1s ease, opacity 1s ease;
-  opacity: 0;
-  z-index: 2; /* над канвасом */
-  pointer-events: auto; /* чтобы ссылка кликабельна */
-  text-shadow: 0 0 0px white; /* изначально без свечения */
-}
-#bgMessage a {
-  color: white;
-  text-decoration: underline;
-  font-size: 50px;
-  margin-top: 20px;
-}
 #text {
   padding: 20px;
   font-size: 20px;
   line-height: 1.5;
   position: relative;
-  z-index: 2; /* над канвасом */
+  z-index: 2;
   color: white;
 }
 canvas {
@@ -55,14 +29,35 @@ canvas {
   display: inline-block;
   white-space: pre;
 }
+#finalMessage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 80px;
+  text-align: center;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: transform 1s ease, opacity 1s ease;
+  pointer-events: auto;
+  z-index: 3;
+  text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+#finalMessage a {
+  color: white;
+  text-decoration: underline;
+  font-size: 50px;
+  margin-top: 20px;
+}
 </style>
 </head>
 <body>
-
-<div id="bgMessage">
-  Иди назад.
-  <a href="index.html">elenovich.lol</a>
-</div>
 
 <div id="text">
 Стянув нитку с плеч твоих,
@@ -350,14 +345,19 @@ canvas {
 
 <canvas id="world"></canvas>
 
+<div id="finalMessage">
+Иди назад.
+<a href="index.html">elenovich.lol</a>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
 <script>
 const { Engine, Render, Runner, Bodies, World, Body } = Matter;
 
 const engine = Engine.create();
 const world = engine.world;
-engine.gravity.y = 1.8;
-engine.timing.timeScale = 1.2;
+engine.gravity.y = 2;
+engine.timing.timeScale = 1.5;
 
 const canvas = document.getElementById("world");
 canvas.width = window.innerWidth;
@@ -377,12 +377,10 @@ const render = Render.create({
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
-const ground = Bodies.rectangle(
-  window.innerWidth/2, window.innerHeight+30, window.innerWidth, 60,
-  { isStatic:true }
-);
+const ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight+30, window.innerWidth, 60, {isStatic:true});
 World.add(world, ground);
 
+// Разбиваем текст на слова
 const textDiv = document.getElementById("text");
 const words = textDiv.innerText.split(/(\s+)/);
 textDiv.innerHTML = "";
@@ -403,20 +401,21 @@ requestAnimationFrame(()=>{
       friction:0.05,
       render:{fillStyle:"black"}
     });
-    body.label=span.textContent;
-    Body.applyForce(body, body.position,{
-      x:(Math.random()-0.5)*0.02,
-      y:Math.random()*0.03
-    });
+    body.label = span.textContent;
+    Body.applyForce(body, body.position,{x:(Math.random()-0.5)*0.02, y:Math.random()*0.03});
     World.add(world, body);
     bodies.push({body, span});
     span.style.visibility="hidden";
   });
 
+  const startTime = Date.now();
+
   (function draw(){
     const ctx = render.context;
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle="white";
+    const elapsed = Date.now() - startTime;
+    const fade = Math.min(elapsed / 1500, 1); // за 1.5 сек текст чернеет
+    ctx.fillStyle = `rgba(255,255,255,${1-fade})`;
     ctx.font="20px sans-serif";
     ctx.textBaseline="middle";
     bodies.forEach(({body})=>{
@@ -426,18 +425,19 @@ requestAnimationFrame(()=>{
       ctx.fillText(body.label, -body.label.length*6,0);
       ctx.restore();
     });
-    requestAnimationFrame(draw);
+
+    if(fade < 1){
+      requestAnimationFrame(draw);
+    } else {
+      // Скрываем канвас и текст, показываем финальное сообщение
+      canvas.style.display = "none";
+      textDiv.style.display = "none";
+      const msg = document.getElementById("finalMessage");
+      msg.style.opacity = 1;
+      msg.style.transform = "scale(1.05)";
+    }
   })();
 });
-
-// Появление фонового сообщения через 5 секунд с мягким свечением и смещением вверх
-setTimeout(()=>{
-  const bg = document.getElementById("bgMessage");
-  bg.style.opacity = 1;
-  bg.style.transform = "scale(1) translateY(-1em)";
-  bg.style.textShadow = "0 0 15px rgba(255,255,255,0.3)";
-},5000);
-
 </script>
 </body>
 </html>
