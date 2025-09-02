@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style_poem.css" />
+  <script src="poem.js" defer></script>
+  <title>Херувимы насекомых</title>
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">elenovich.lol</a></h1>
+  </header>
+  
+  <div class="home-button">
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+  </div>
+
+  <main class="poem-container">
+    <h2>Херувимы насекомых</h2>
+    <div class="poem-text">
+      <p>Дождь всегда предвестник открытых<br>
+<br>
+К наблюдению тревожных насекомых.<br>
+Лучше не встречать босиком их,<br>
+Лучше отпихивать в плиты. Херувимы<br>
+Их в помытых,<br>
+ваксой начищенных унтах, ходят важные, будто<br>
+знают цену кровины. Коридоры их вязки до спайки<br>
+С окоченевшими залами славы, окна кочуют с лавой, <br>
+С мясом убудут и гайки. Железом наполнены своды желе,<br>
+Зон границы расчерчены, вдоль<br>
+Стены.<br>
+J’ai l’illusion, юдоль таких — спины <br>
+Неровности, надкушены страхи, взмахи<br>
+стёртых до крови крыльев, до коли<br>
+Взлетать смогли бы — в мыле, в<br>
+пене летали б у плахи,<br>
+Запоминаясь пением пыли. Закатываясь до истерик,<br>
+Грохоча в потёмках телами, разлитыми по паркетам, затем по пакетам чужеродных стенаний,<br>
+Изгрызающие себя с теми <br>
+К<br>
+кому обращаться брезгливо: абсурдно визгливым,,<br>
+Бестолковым, но праведным. Ощущение правильно:<br>
+как от стакана пива ждёшь <br>
+так<br>
+Спокойно насыщение, но сердце щемит<br>
+Знание, что это наждак, трение<br>
+<br>
+С которым неизбежно оставит<br>
+Большое количество ссадин, сзади<br>
+менее, но спереди, за день,<br>
+Наберётся прилежно прилично, и вот уже пролежни выдают с поличным<br>
+В тебе побитого, опустелого,<br>
+По пизде нова мысль быстро пойдёт, да вытечет с кровью,<br>
+Такую не жалко, не скрою.<br>
+     </div>
+  </main>
+<div id="left-scroll-zone">
+  <div id="scroll-up-arrow">↑</div>
+</div>
+  <footer>
+  <div class="footer-copy">
+    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
+  </div>
+</footer>
+  <script src="script.js"></script>
+  <script>
+  const pageTitle = document.title;
+  const pageURL = window.location.pathname;
+
+  let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+
+  history = history.filter(p => p.url !== pageURL); // Удалить дубликаты
+  history.unshift({ title: pageTitle, url: pageURL }); // В начало
+
+  if (history.length > 5) history.pop(); // Только 5
+
+  localStorage.setItem('visitHistory', JSON.stringify(history));
+</script>
+
+<div class="poem-container">
+  <div class="nav-buttons">
+    <a class="prev-poem" href="shumno.html">← Предыдущий стих</a>
+    <a href="index.html" class="home-link"><span class="home-symbol">⌂</span></a>
+    <a class="next-poem" href="plebistsit.html">Следующий стих →</a>
+  </div>
+</div>
+</body>
+</html>
