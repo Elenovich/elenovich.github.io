@@ -48,7 +48,7 @@
     background: rgba(255,255,255,0.1);
   }
 
-  #playPause span, #mute span {
+  #playPause span {
     font-size: 1.2em;
     line-height: 1;
   }
@@ -114,14 +114,11 @@
 
   <div class="controls">
     <button id="prev">◀</button>
-
     <button id="playPause">
-      <span id="playIcon">&#9654;</span> <!-- ► плей -->
-      <span id="pauseIcon" style="display:none;">&#10074;&#10074;</span> <!-- ‖ пауза -->
+      <span id="playIcon">&#9654;</span>
+      <span id="pauseIcon" style="display:none;">&#10074;&#10074;</span>
     </button>
-
     <button id="next">▶</button>
-
   </div>
 
   <div id="progressContainer" class="progress-container">
@@ -155,9 +152,6 @@ const playIcon = document.getElementById('playIcon');
 const pauseIcon = document.getElementById('pauseIcon');
 const nextBtn = document.getElementById('next');
 const prevBtn = document.getElementById('prev');
-const muteBtn = document.getElementById('mute');
-const unmuted = document.getElementById('unmuted');
-const muted = document.getElementById('muted');
 const trackListEl = document.getElementById('trackList');
 const progressContainer = document.getElementById('progressContainer');
 const progress = document.getElementById('progress');
@@ -193,24 +187,12 @@ function togglePlayPause() {
   }
 }
 
-function toggleMute() {
-  audio.muted = !audio.muted;
-  if (audio.muted) {
-    unmuted.style.display = 'none';
-    muted.style.display = 'inline';
-  } else {
-    unmuted.style.display = 'inline';
-    muted.style.display = 'none';
-  }
-}
-
 function nextTrack() { loadTrack((current + 1) % tracks.length, true); }
 function prevTrack() { loadTrack((current - 1 + tracks.length) % tracks.length, true); }
 
 playPauseBtn.onclick = togglePlayPause;
 nextBtn.onclick = nextTrack;
 prevBtn.onclick = prevTrack;
-muteBtn.onclick = toggleMute;
 
 // Список треков
 tracks.forEach((t, i) => {
