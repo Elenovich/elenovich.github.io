@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Последнее — elenovich.lol</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+
+  body {
+    background-color: #080D17;
+    color: #ddd;
+    margin: 0;
+    font-family: 'Lora', serif;
+    scroll-behavior: smooth;
+  }
+
+  header {
+    text-align: center;
+    padding: 2rem 0 1rem;
+  }
+
+  header a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .recent-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 2rem;
+  }
+
+  .recent-box {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+    min-width: 200px;
+    text-align: center;
+    transition: background 0.3s ease;
+  }
+
+  .recent-box:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .recent-box a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .recent-box a:hover {
+    text-decoration: underline;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: #888;
+    border-top: 1px solid #444;
+    padding: 2rem 0;
+  }
+
+  /* Левая и правая градиентная полоса */
+  .content-wrapper::before,
+  .content-wrapper::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    width: 20px;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .content-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #0C1625 0%, #080D17 100%);
+  }
+
+  .content-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #0C1625 0%, #080D17 100%);
+  }
+
+  @media (max-width: 600px) {
+    .recent-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html">elenovich.lol</a>
+</header>
+
+<div class="content-wrapper">
+  <main class="recent-container" id="recent-container">
+    <!-- Последние стихи будут подгружены сюда -->
+  </main>
+</div>
+
+<footer>© 2025 elenovich.lol</footer>
+
+<script>
+fetch('index.html')
+  .then(res => res.text())
+  .then(html => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const items = Array.from(doc.querySelectorAll('.poem-list li')).filter(li => li.querySelector('a'));
+    
+    // Берём последние 7 ссылок
+    const lastItems = items.slice(-7);
+
+    const container = document.getElementById('recent-container');
+    lastItems.forEach(li => {
+      const a = li.querySelector('a');
+      const box = document.createElement('div');
+      box.className = 'recent-box';
+      box.innerHTML = `<a href="${a.href}">${a.textContent}</a>`;
+      container.appendChild(box);
+    });
+  })
+  .catch(err => console.error('Ошибка при загрузке индекса:', err));
+</script>
+
+</body>
+</html>
