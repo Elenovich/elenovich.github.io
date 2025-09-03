@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аудио Еленовича</title>
+<style>
+  body {
+    background-color: #080D17;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  h1 { margin-bottom: 20px; font-size: 1.5em; }
+
+  .player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+  }
+
+  .controls button {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .controls button:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .track-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .track-list div {
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 2px 5px;
+    border-radius: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .track-list div.active {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* Анимация прокрутки текста */
+  .marquee {
+    display: inline-block;
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    animation: marquee 8s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+</style>
+</head>
+<body>
+
+<h1>Аудио Еленовича</h1>
+
+<div class="player">
+  <audio id="audio"></audio>
+  <div class="controls">
+    <button id="prev">◀</button>
+    <button id="play">▶</button>
+    <button id="pause">⏸</button>
+    <button id="next">▶▶</button>
+    <button id="mute">🔇</button>
+  </div>
+  <div class="track-list" id="trackList">
+    <!-- Треки будут добавлены через JS -->
+  </div>
+</div>
+
+<script>
+  const tracks = [
+    {title: "Elenovich — lustra", src: "audio/Elenovich — lustra.mp3"},
+    {title: "Elenovich — Mea vido", src: "audio/Elenovich — Mea vido.mp3"},
+    {title: "Elenovich — Ok, Msk", src: "audio/Elenovich — Ok, Msk.mp3"},
+    {title: "Elenovich - Ra", src: "audio/Elenovich - Ra.mp3"}
+  ];
+
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('play');
+  const pauseBtn = document.getElementById('pause');
+  const nextBtn = document.getElementById('next');
+  const prevBtn = document.getElementById('prev');
+  const muteBtn = document.getElementById('mute');
+  const trackListEl = document.getElementById('trackList');
+
+  let current = 0;
+
+  function loadTrack(index) {
+    audio.src = tracks[index].src;
+    updateActiveTrack();
+  }
+
+  function updateActiveTrack() {
+    trackListEl.childNodes.forEach((el, i) => {
+      el.classList.toggle('active', i === current);
+      el.innerHTML = ''; // очищаем текст
+      const text = document.createElement('span');
+      text.textContent = tracks[i].title;
+      // если текст длинный, добавляем класс marquee
+      if (text.offsetWidth > trackListEl.offsetWidth) {
+        const marquee = document.createElement('div');
+        marquee.className = 'marquee';
+        marquee.textContent = tracks[i].title;
+        el.appendChild(marquee);
+      } else {
+        el.textContent = tracks[i].title;
+      }
+    });
+  }
+
+  function playTrack() { audio.play(); }
+  function pauseTrack() { audio.pause(); }
+  function nextTrack() {
+    current = (current + 1) % tracks.length;
+    loadTrack(current);
+    playTrack();
+  }
+  function prevTrack() {
+    current = (current - 1 + tracks.length) % tracks.length;
+    loadTrack(current);
+    playTrack();
+  }
+  function toggleMute() { audio.muted = !audio.muted; }
+
+  playBtn.onclick = playTrack;
+  pauseBtn.onclick = pauseTrack;
+  nextBtn.onclick = nextTrack;
+  prevBtn.onclick = prevTrack;
+  muteBtn.onclick = toggleMute;
+
+  // Заполняем список треков
+  tracks.forEach((t, i) => {
+    const div = document.createElement('div');
+    div.textContent = t.title;
+    div.onclick = () => { current = i; loadTrack(current); playTrack(); };
+    trackListEl.appendChild(div);
+  });
+
+  // Инициализация
+  loadTrack(current);
+
+  // Автопереход к следующему треку
+  audio.onended = nextTrack;
+</script>
+
+</body>
+</html>
