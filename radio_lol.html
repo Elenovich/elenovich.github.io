@@ -18,7 +18,7 @@ body {
 
 .wrapper {
     display: flex;
-    flex-direction: column; /* всегда вертикально */
+    flex-direction: column; /* вертикально */
     align-items: center;    /* центрируем по горизонтали */
     gap: 20px;              /* расстояние между плеером и ссылкой */
 }
@@ -43,7 +43,7 @@ body {
     color: #fff;
     text-decoration: underline;
     cursor: pointer;
-    font-size: 22px; /* читаемый шрифт */
+    font-size: 22px; /* размер на ПК */
     text-align: center;
 }
 
@@ -57,7 +57,7 @@ body {
         height: auto;
     }
     .return-link {
-        font-size: 20px;            /* чуть меньше, но читаемо */
+        font-size: 26px; /* увеличиваем только на телефоне */
     }
 }
 </style>
@@ -69,7 +69,6 @@ body {
         <script src="https://elfsightcdn.com/platform.js" async></script>
         <div class="elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064" data-elfsight-app-lazy></div>
     </div>
-<br />
     <a class="return-link" href="index.html">Вернуться к стихам</a>
 </div>
 </body>
