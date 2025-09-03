@@ -3,22 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Последнее — elenovich.lol</title>
+<title>Последние стихи — elenovich.lol</title>
 <link rel="stylesheet" href="style.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
 
-  body {
-    background-color: #080D17;
-    color: #ddd;
+  html, body {
+    height: 100%;
     margin: 0;
     font-family: 'Lora', serif;
+    background-color: #080D17;
+    color: #ddd;
     scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
   }
 
   header {
     text-align: center;
     padding: 2rem 0 1rem;
+    flex-shrink: 0;
   }
 
   header a {
@@ -28,12 +32,19 @@
     font-weight: bold;
   }
 
+  .content-wrapper {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0;
+    position: relative;
+  }
+
   .recent-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    margin: 2rem;
   }
 
   .recent-box {
@@ -61,11 +72,12 @@
   }
 
   footer {
+    flex-shrink: 0;
     text-align: center;
-    margin-top: 2rem;
     color: #888;
     border-top: 1px solid #444;
     padding: 2rem 0;
+    position: relative;
   }
 
   /* Левая и правая градиентная полоса */
