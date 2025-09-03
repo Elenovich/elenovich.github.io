@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Если факты противоречат моей теории — тем хуже для фактов" — elenovich.lol</title>
 
+<link rel="stylesheet" href="js/chessboard.css">
+
+<style>
+  body {
+    background-color: #031712;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    padding: 20px;
+  }
+
+  #board {
+    width: 480px;
+    margin-top: 20px;
+  }
+
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  select, button {
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .white-1e1d7 { background-color: #3a7a55; }
+  .black-3c85d { background-color: #1f4b36; }
+</style>
+</head>
+<body>
+
+<h1>Шахматы</h1>
+
+<div class="controls">
+  <label>Сторона: 
+    <select id="player-side">
+      <option value="w">Белые</option>
+      <option value="b">Чёрные</option>
+      <option value="r">Как получится</option>
+    </select>
+  </label>
+
+  <label>Время: 
+    <select id="game-time">
+      <option value="0">Без времени</option>
+      <option value="300">Блиц 5 мин</option>
+      <option value="600">Рапид 10 мин</option>
+    </select>
+  </label>
+
+  <label>Сложность AI: 
+    <select id="ai-level">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </label>
+
+  <button id="new-game">Новая игра</button>
+</div>
+
+<div id="board"></div>
+<div id="timer" style="margin-top: 10px; font-size: 16px;"></div>
+
+<script src="js/chess.js"></script>
+<script src="js/chessboard.js"></script>
+<script src="js/stockfish.js"></script>
+
+<script>
+const boardEl = document.getElementById('board');
+const game = new Chess();
+let board;
+const stockfish = new Worker('js/stockfish.js');
+
+let aiLevel = 3;
+let playerSide = 'w';
+let gameTime = 0;
+let timerInterval;
+
+document.getElementById('ai-level').addEventListener('change', e => aiLevel = parseInt(e.target.value));
+document.getElementById('player-side').addEventListener('change', e => playerSide = e.target.value);
+document.getElementById('game-time').addEventListener('change', e => gameTime = parseInt(e.target.value));
+
+function startTimer(seconds) {
+  clearInterval(timerInterval);
+  if (!seconds) {
+    document.getElementById('timer').textContent = '';
+    return;
+  }
+  let time = seconds;
+  timerInterval = setInterval(() => {
+    const mins = Math.floor(time/60);
+    const secs = time%60;
+    document.getElementById('timer').textContent = `Осталось: ${mins}:${secs.toString().padStart(2,'0')}`;
+    time--;
+    if (time < 0) clearInterval(timerInterval);
+  }, 1000);
+}
+
+function onDragStart(source, piece) {
+  if (game.game_over()) return false;
+  if ((piece[0] === 'w' && playerSide === 'b') || (piece[0] === 'b' && playerSide === 'w')) return false;
+}
+
+function onDrop(source, target) {
+  const move = game.move({ from: source, to: target, promotion: 'q' });
+  if (!move) return 'snapback';
+  window.setTimeout(makeAIMove, 200);
+}
+
+function onSnapEnd() {
+  board.position(game.fen());
+}
+
+const config = {
+  draggable: true,
+  position: 'start',
+  onDragStart,
+  onDrop,
+  onSnapEnd,
+  pieceTheme: 'images/chesspieces/wikipedia/{piece}.png'
+};
+
+board = Chessboard(boardEl, config);
+
+document.getElementById('new-game').addEventListener('click', () => {
+  game.reset();
+  if (playerSide === 'r') playerSide = Math.random() > 0.5 ? 'w' : 'b';
+  board.start();
+  startTimer(gameTime);
+  if (playerSide === 'b') makeAIMove();
+});
+
+function makeAIMove() {
+  if (game.game_over() || playerSide === game.turn()) return;
+  stockfish.postMessage(`position fen ${game.fen()}`);
+  stockfish.postMessage(`go depth ${aiLevel + 1}`);
+}
+
+stockfish.onmessage = function(event) {
+  const line = event.data;
+  if (line.startsWith('bestmove')) {
+    const move = line.split(' ')[1];
+    game.move({ from: move.substring(0,2), to: move.substring(2,4), promotion: 'q' });
+    board.position(game.fen());
+    if (!game.game_over()) makeAIMove();
+  }
+};
+</script>
+
+</body>
+</html>
