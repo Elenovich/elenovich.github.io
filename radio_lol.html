@@ -13,33 +13,31 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    overflow: hidden;
 }
+
 .player-container {
     text-align: center;
-    width: 1200px;   /* увеличиваем ширину */
-    height: 900px;   /* увеличиваем высоту */
-    overflow: hidden; /* чтобы ничего не вылезало */
+    width: 600px;   /* базовая ширина виджета до масштаба */
+    height: 450px;  /* базовая высота виджета до масштаба */
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
-.player-container iframe,
+
 .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-    transform: scale(2);       /* масштабируем в 2 раза */
-    transform-origin: top left;
-    width: 600px;               /* подстраиваем под масштаб */
-    height: 450px;
+    transform: scale(2);            /* масштабируем */
+    transform-origin: center center; /* центрируем масштаб */
 }
+
 @media (max-width: 768px) {
     .player-container {
         width: 90%;
         height: auto;
     }
-    .player-container iframe,
     .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-        transform: scale(1.5);  /* меньше на телефоне */
-        width: 100%;
-        height: auto;
+        transform: scale(1.5);      /* меньше на телефоне */
     }
 }
 </style>
