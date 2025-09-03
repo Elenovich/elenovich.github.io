@@ -54,26 +54,29 @@ button:hover {
 fetch('poems.json')
   .then(res => res.json())
   .then(data => {
-    let words = [];
+    let chunks = []; // каждый блок слов как отдельный массив
 
-    // Собираем все слова из квадратных скобок
     data.forEach(item => {
       const text = item.text || JSON.stringify(item);
       const matches = text.match(/\[([^\]]+)\]/g);
       if (matches) {
         matches.forEach(m => {
           const cleaned = m.replace(/[\[\]]/g, '').trim();
-          words.push(...cleaned.split(/\s+/));
+          const wordsArr = cleaned.split(/\s+/);
+          if (wordsArr.length) chunks.push(wordsArr);
         });
       }
     });
 
     function generatePrediction() {
-      if (!words.length) return;
-      // Выбираем случайный индекс, чтобы взять 6 слов подряд
-      const startIdx = Math.floor(Math.random() * (words.length - 6));
-      const prediction = words.slice(startIdx, startIdx + 6);
-      document.getElementById('prediction').textContent = prediction.join(' ');
+      if (!chunks.length) return;
+      const randomChunk = chunks[Math.floor(Math.random() * chunks.length)];
+      const wordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
+      const startIdx = Math.floor(Math.random() * (randomChunk.length - wordCount + 1));
+      const prediction = randomChunk.slice(startIdx, startIdx + wordCount);
+      // Первая буква заглавная, точка в конце
+      const text = prediction.join(' ');
+      document.getElementById('prediction').textContent = text.charAt(0).toUpperCase() + text.slice(1) + '.';
     }
 
     document.getElementById('generateBtn').onclick = generatePrediction;
