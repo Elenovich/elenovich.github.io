@@ -16,6 +16,16 @@
         }
         .player-container {
             text-align: center;
+            width: 600px;   /* увеличиваем ширину в 2 раза */
+            height: 400px;  /* увеличиваем высоту в 2 раза */
+        }
+
+        /* Медиа-запрос для телефонов */
+        @media (max-width: 768px) {
+            .player-container {
+                width: 90%;   /* почти весь экран на телефоне */
+                height: auto; /* высота подстраивается автоматически */
+            }
         }
     </style>
 </head>
