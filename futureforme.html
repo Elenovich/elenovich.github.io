@@ -21,6 +21,7 @@ h1 {
   margin-bottom: 30px;
   font-weight: normal;
   color: #fff;
+  text-align: center;
 }
 
 #prediction {
@@ -52,6 +53,18 @@ button {
 button:hover {
   background: rgba(255,255,255,0.1);
 }
+
+.back-link {
+  margin-top: 20px;
+  font-size: 18px;
+  text-decoration: none;
+  color: #9cf;
+  transition: color 0.3s ease;
+}
+.back-link:hover {
+  text-decoration: underline;
+  color: #cfc;
+}
 </style>
 </head>
 <body>
@@ -61,6 +74,8 @@ button:hover {
 <button id="generateBtn">Сгенерировать предсказание</button>
 
 <div id="prediction"></div>
+
+<a href="index.html" class="back-link">Вернуться назад</a>
 
 <script>
 // Загружаем JSON с поэмами
