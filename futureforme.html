@@ -4,9 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Бредовей некуда</title>
-<link rel="stylesheet" href="style_poem.css">
+<link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
 <style>
-/* Минималистичное окошко предсказания */
+body {
+  background-color: #080D17;
+  color: #fff;
+  font-family: 'Lora', serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  padding: 2rem 0 1rem;
+  text-align: center;
+}
+
+header h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header h1 a:hover,
+header h1 a:focus,
+header h1 a:active,
+header h1 a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
 #prediction {
   margin-top: 20px;
   font-size: 22px;
@@ -22,7 +62,17 @@
   word-wrap: break-word;
 }
 
-/* Кнопка генерации */
+#source-box {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #ccc;
+  max-width: 90%;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+}
+
 button {
   margin-top: 20px;
   padding: 12px 24px;
@@ -34,56 +84,54 @@ button {
   font-size: 16px;
   transition: background 0.3s ease;
 }
-button:hover { background: rgba(255,255,255,0.1); }
-
-/* Источник стиха */
-#source-box {
-  margin-top: 15px;
-  font-size: 16px;
-  text-align: center;
-  color: #ccc;
+button:hover {
+  background: rgba(255,255,255,0.1);
 }
 
-/* "Вернуться назад" */
 #back-link {
-  margin-top: 15px;
-  text-align: center;
+  margin-top: 20px;
 }
 #back-link a {
   color: #fff;
   text-decoration: none;
 }
-#back-link a:hover { color: #fff; text-decoration: none; }
+
+footer {
+  text-align: center;
+  color: #888;
+  margin-top: auto;
+  padding: 1rem 0;
+  border-top: 1px solid #444;
+  font-size: 0.9rem;
+}
+footer a {
+  color: #888;
+  text-decoration: none;
+}
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header>
   <h1><a href="index.html">elenovich.lol</a></h1>
 </header>
 
-<main class="poem-container" style="align-items: center;">
+<main>
+  <h2>Нагадай мне, большая черепаха</h2>
 
-<h2>Нагадай мне, больная черепаха</h2>
+  <button id="generateBtn">Сгенерировать предсказание</button>
 
-<button id="generateBtn">Сгенерировать предсказание</button>
+  <div id="prediction"></div>
 
-<div id="prediction"></div>
+  <div id="source-box"></div>
 
-<div id="source-box"></div>
-
-<div id="back-link">
-  <a href="index.html">Вернуться назад</a>
-</div>
-
+  <div id="back-link">
+    <a href="index.html">Вернуться назад</a>
+  </div>
 </main>
 
-<!-- Footer -->
 <footer>
-  <div class="footer-copy">
-    <a href="index.html" class="footer-link">© 2025 elenovich.lol</a>
-  </div>
+  <a href="index.html">© 2025 elenovich.lol</a>
 </footer>
 
 <script>
@@ -99,53 +147,51 @@ fetch('poems.json')
       }
 
       // Выбираем случайный стих
-      const randomPoem = data[Math.floor(Math.random() * data.length)];
-      const words = randomPoem.content
-        .replace(/\s+/g,' ')
-        .trim()
-        .split(' ')
-        .filter(w=>w.length>0);
+      const randomPoemIndex = Math.floor(Math.random() * data.length);
+      const poem = data[randomPoemIndex];
 
-      const wordCount = 4 + Math.floor(Math.random()*3); // 4-6 слов
+      // Разбиваем на слова
+      const words = poem.content.replace(/\s+/g,' ').trim().split(' ').filter(w=>w.length>0);
 
-      // Выбираем случайное слово и соседние
-      const randomIndex = Math.floor(Math.random()*words.length);
-      let start = Math.max(0, randomIndex - Math.floor(wordCount/2));
-      let end = Math.min(words.length, start + wordCount);
-      start = Math.max(0, end - wordCount); // если близко к концу
+      // Выбираем случайное слово и 5 соседей
+      const wordCount = 4 + Math.floor(Math.random()*3); // 4–6 слов
+      let randomIndex = Math.floor(Math.random() * words.length);
+      let start = randomIndex - Math.floor(wordCount/2);
+      if(start<0) start=0;
+      let end = start+wordCount;
+      if(end>words.length){ end = words.length; start = Math.max(0,end-wordCount);}
+      const finalWords = words.slice(start,end);
 
-      const finalWords = words.slice(start, end);
+      const predictionEl = document.getElementById('prediction');
+      predictionEl.textContent = '';
 
       // Анимация подбора слов
-      const predictionDiv = document.getElementById('prediction');
-      predictionDiv.textContent = '';
-      const duration = 3000; // 3 секунды
-      const intervalTime = 80;
-      const steps = duration / intervalTime;
-      let currentStep = 0;
+      const animationDuration = 3000; // 3 секунды
+      const intervalTime = 80; // ms
+      const frames = Math.floor(animationDuration/intervalTime);
+      let frame = 0;
+      const animatedWords = finalWords.map(w => '');
 
-      const tempWords = finalWords.map(() => '');
-      const anim = setInterval(() => {
-        currentStep++;
-        for (let i=0;i<finalWords.length;i++){
-          if(Math.random()>0.2) tempWords[i] = words[Math.floor(Math.random()*words.length)];
+      const anim = setInterval(()=>{
+        frame++;
+        for(let i=0;i<finalWords.length;i++){
+          // Берем случайное слово из стихов для анимации
+          const randomPoem = data[Math.floor(Math.random()*data.length)];
+          const randomWordArr = randomPoem.content.replace(/\s+/g,' ').trim().split(' ').filter(w=>w.length>0);
+          animatedWords[i] = randomWordArr[Math.floor(Math.random()*randomWordArr.length)];
         }
-        predictionDiv.textContent = tempWords.join(' ');
-        if(currentStep>=steps){
+        predictionEl.textContent = animatedWords.join(' ');
+        if(frame>=frames){
           clearInterval(anim);
-          // показываем финальный результат
-          predictionDiv.textContent = finalWords.join(' ');
-          // Добавляем точку в конце, если нужно
-          predictionDiv.textContent = predictionDiv.textContent.charAt(0).toUpperCase() + predictionDiv.textContent.slice(1) + '.';
+          predictionEl.textContent = finalWords.join(' ');
           // Источник
           const sourceBox = document.getElementById('source-box');
-          sourceBox.innerHTML = 'Взято отсюда: <a href="'+randomPoem.url+'">'+randomPoem.title+'</a>';
+          sourceBox.innerHTML = 'Взято отсюда: <a href="'+poem.url+'">'+poem.title+'</a>';
         }
       }, intervalTime);
     }
 
     document.getElementById('generateBtn').onclick = generatePrediction;
-
   })
   .catch(err => {
     console.error("Ошибка загрузки JSON:", err);
