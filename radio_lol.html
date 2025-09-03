@@ -16,13 +16,11 @@ body {
     overflow: hidden;
 }
 
-/* Контейнер для плеера и надписи */
 .wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px; /* расстояние между плеером и текстом на ПК */
-    flex-direction: row; /* ПК — горизонтально */
+    flex-direction: column; /* всегда вертикально */
+    align-items: center;    /* центрируем по горизонтали */
+    gap: 20px;              /* расстояние между плеером и ссылкой */
 }
 
 /* Плеер */
@@ -36,7 +34,7 @@ body {
 }
 
 .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-    transform: scale(2);
+    transform: scale(2);           /* масштаб для ПК */
     transform-origin: center center;
 }
 
@@ -45,26 +43,21 @@ body {
     color: #fff;
     text-decoration: underline;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 22px; /* читаемый шрифт */
+    text-align: center;
 }
 
-/* Адаптация под мобильные */
+/* Мобильные устройства */
 @media (max-width: 768px) {
-    .wrapper {
-        flex-direction: column; /* текст под плеером */
-        gap: 10px;
-        align-items: center;   /* центрируем по горизонтали */
-    }
     .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-        transform: scale(1.25);
+        transform: scale(1.25);    /* уменьшенный масштаб */
     }
     .player-container {
         width: 90%;
         height: auto;
     }
     .return-link {
-        font-size: 20px; /* увеличиваем шрифт на мобильных */
-        text-align: center;
+        font-size: 20px;            /* чуть меньше, но читаемо */
     }
 }
 </style>
