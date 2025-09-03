@@ -6,35 +6,48 @@
 <title>Конструктор предсказаний</title>
 <style>
 body {
-  background-color: #031712;
+  background-color: #080D17;
   color: #fff;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
+  padding: 40px 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
+
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-weight: normal;
+  color: #fff;
 }
+
 #prediction {
   margin-top: 20px;
   font-size: 22px;
-  color: #9cf;
+  color: #fff;
   text-align: center;
-  min-height: 50px;
-  word-wrap: break-word;
+  min-height: 70px;
   max-width: 90%;
+  padding: 20px 25px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  backdrop-filter: blur(3px);
+  word-wrap: break-word;
 }
+
 button {
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   background: none;
   border: 1px solid rgba(255,255,255,0.5);
   color: #fff;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
   font-size: 16px;
+  transition: background 0.3s ease;
 }
 button:hover {
   background: rgba(255,255,255,0.1);
@@ -54,7 +67,6 @@ button:hover {
 fetch('poems.json')
   .then(res => res.json())
   .then(data => {
-    // Собираем все слова из всех стихов
     let allWords = [];
     data.forEach(item => {
       if (item.content) {
@@ -77,7 +89,6 @@ fetch('poems.json')
       const wordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
       const randomIndex = Math.floor(Math.random() * totalWords);
 
-      // Берём соседние слова вокруг случайного индекса
       let start = randomIndex - Math.floor(wordCount / 2);
       if (start < 0) start = 0;
       let end = start + wordCount;
@@ -88,8 +99,6 @@ fetch('poems.json')
 
       const predictionWords = allWords.slice(start, end);
       const text = predictionWords.join(' ');
-
-      // Первая буква заглавная, точка в конце
       document.getElementById('prediction').textContent = text.charAt(0).toUpperCase() + text.slice(1) + '.';
     }
 
