@@ -16,10 +16,19 @@ body {
     overflow: hidden;
 }
 
+/* Контейнер для плеера и надписи */
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* расстояние между плеером и текстом на ПК */
+    flex-direction: row; /* ПК — горизонтально */
+}
+
+/* Плеер */
 .player-container {
-    text-align: center;
-    width: 600px;   /* базовая ширина виджета до масштаба */
-    height: 450px;  /* базовая высота виджета до масштаба */
+    width: 600px;
+    height: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,14 +36,26 @@ body {
 }
 
 .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-    transform: scale(2);            /* масштаб для ПК */
-    transform-origin: center center; /* центрируем масштаб */
+    transform: scale(2);
+    transform-origin: center center;
 }
 
-/* Для мобильных устройств */
+/* Ссылка */
+.return-link {
+    color: #fff;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Адаптация под мобильные */
 @media (max-width: 768px) {
+    .wrapper {
+        flex-direction: column; /* текст под плеером */
+        gap: 10px;
+    }
     .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-        transform: scale(1.25);     /* уменьшенный масштаб на телефоне */
+        transform: scale(1.25);
     }
     .player-container {
         width: 90%;
@@ -44,10 +65,13 @@ body {
 </style>
 </head>
 <body>
-<div class="player-container">
-    <!-- Elfsight Radio Player -->
-    <script src="https://elfsightcdn.com/platform.js" async></script>
-    <div class="elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064" data-elfsight-app-lazy></div>
+<div class="wrapper">
+    <div class="player-container">
+        <!-- Elfsight Radio Player -->
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064" data-elfsight-app-lazy></div>
+    </div>
+    <a class="return-link" href="index.html">Вернуться к стихам</a>
 </div>
 </body>
 </html>
