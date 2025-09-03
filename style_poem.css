@@ -45,6 +45,64 @@ header h1 a:active {
   margin-right: auto;
   text-align: left;
   font-family: 'Lora', serif;
+  position: relative; /* для абсолютных псевдоэлементов */
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: transparent;
+}
+
+.poem-text::before,
+.poem-text::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  width: 20px;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.poem-text::before {
+  left: 0;
+  background: linear-gradient(to right, #0C1625 0%, #080D17 100%);
+}
+
+.poem-text::after {
+  right: 0;
+  background: linear-gradient(to left, #0C1625 0%, #080D17 100%);
+}
+
+#left-scroll-zone {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3.75ch; /* уменьшено на четверть */
+  background-color: rgba(255, 255, 255, 0);
+  opacity: 1;
+  pointer-events: auto;
+  transition: background-color 0.3s;
+  z-index: 10;
+}
+
+#left-scroll-zone.highlight {
+  background-color: rgba(255, 255, 255, 0.035);
+}
+
+#left-scroll-zone:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+#scroll-up-arrow {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .scroll-top {
@@ -71,8 +129,10 @@ header h1 a:active {
   align-items: center;
   margin-top: 2em;
   gap: 1em;
-  flex-wrap: nowrap; /* Не переносить */
+  flex-wrap: nowrap;
   font-size: 14px;
+  margin-bottom: 1rem; /* отделяем от футера */
+  order: 1;
 }
 
 .nav-buttons a {
@@ -94,6 +154,8 @@ footer {
   color: #888;
   margin-top: 1rem;
   padding: 2rem 0;
+  order: 2;
+  border-top: 1px solid #444; /* лёгкая горизонтальная линия */
 }
 
 .footer-copy a {
@@ -112,49 +174,6 @@ footer {
 .hidden {
   display: none;
 }
-
-#left-scroll-zone {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 5ch;
-  background-color: rgba(255, 255, 255, 0); /* полностью прозрачный */
-  opacity: 1;
-  pointer-events: auto;
-  transition: background-color 0.3s;
-  z-index: 10;
-}
-
-#left-scroll-zone.highlight {
-  background-color: rgba(255, 255, 255, 0.035); /* временная подсветка при скролле */
-}
-
-#left-scroll-zone:hover {
-  background-color: rgba(255, 255, 255, 0.07); /* подсветка при наведении */
-}
-
-#scroll-up-arrow {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  color: #fff;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-#left-scroll-zone {
-  width: 5ch; /* уменьшили ширину зоны наведения */
-}
-
-#scroll-up-arrow {
-  font-size: 1.2rem; /* уменьшили размер стрелки */
-  bottom: 30px;      /* сдвинули чуть выше */
-}
-
 
 .logo-icon {
   height: 1em;
@@ -191,8 +210,15 @@ footer {
 
 /* Уменьшаем кнопку "домой" в навигации */
 .nav-home {
-  font-size: 0.5em !important; /* примерно в 2 раза меньше */
+  font-size: 0.5em !important;
   padding: 4px 6px !important;
+}
+
+.home-symbol {
+  font-size: 1.8em;
+  font-weight: bold;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 @media (max-width: 600px) {
@@ -210,60 +236,10 @@ footer {
   }
 
   .nav-buttons {
-    flex-direction: row !important; /* всегда в один ряд */
+    flex-direction: row !important;
     align-items: center;
     justify-content: center;
     gap: 0.5em;
     flex-wrap: nowrap;
   }
-}
-
-.home-symbol {
-  font-size: 1.8em;
-  font-weight: bold;
-  line-height: 1;
-  vertical-align: middle;
-}
-      .poem-text {
-  position: relative; /* для абсолютных псевдоэлементов */
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;  /* отступ для левой полосы */
-  padding-right: 20px; /* отступ для правой полосы */
-  text-align: left;
-  font-family: 'Lora', serif;
-  background-color: transparent; /* на всякий случай */
-}
-
-.poem-text::before,
-.poem-text::after {
-  content: "";
-  position: fixed;  /* вместо absolute */
-  top: 0;
-  width: 20px;
-  height: 100vh;    /* высота окна */
-  pointer-events: none;
-  z-index: 0;
-}
-
-.poem-text::before {
-  left: 0;
-  background: linear-gradient(to right, #0C1625 0%, #080D17 100%);
-}
-
-.poem-text::after {
-  right: 0;
-  background: linear-gradient(to left, #0C1625 0%, #080D17 100%);
-}
-.nav-buttons {
-  margin-bottom: 1rem; /* чтобы отделить от футера */
-}
-
-footer {
-  order: 2;
-}
-
-.nav-buttons {
-  order: 1;
 }
