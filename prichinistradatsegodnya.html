@@ -13,14 +13,13 @@
 <div id="counter">Посетителей сегодня: ...</div>
 
 <script>
-// Генерируем ключ на каждый день
-const todayKey = 'counter-' + new Date().toISOString().slice(0,10); // например counter-2025-09-03
 const namespace = 'elenovichlol';
 
-// URL для увеличения счётчика на 1
-const url = `https://api.countapi.xyz/hit/${namespace}/${todayKey}`;
+// Генерируем ключ на каждый день автоматически
+const todayKey = 'counter-' + new Date().toISOString().slice(0,10); // counter-2025-09-03
 
-fetch(url)
+// Увеличиваем счётчик на 1
+fetch(`https://api.countapi.xyz/hit/${namespace}/${todayKey}`)
   .then(res => res.json())
   .then(data => {
     document.getElementById('counter').textContent = 'Посетителей сегодня: ' + data.value;
