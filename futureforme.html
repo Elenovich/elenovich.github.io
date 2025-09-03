@@ -37,6 +37,15 @@ h1 {
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   backdrop-filter: blur(3px);
   word-wrap: break-word;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.pred-word {
+  display: inline-block;
+  min-width: 10px;
 }
 
 button {
@@ -62,7 +71,7 @@ button:hover {
 }
 .back-link:hover {
   text-decoration: underline;
-  color: #fff; /* всегда белый */
+  color: #fff;
 }
 </style>
 </head>
@@ -99,21 +108,53 @@ fetch('poems.json')
         return;
       }
 
-      const totalWords = allWords.length;
-      const wordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
-      const randomIndex = Math.floor(Math.random() * totalWords);
+      const predictionDisplay = document.getElementById('prediction');
+      predictionDisplay.innerHTML = ''; // очищаем
 
-      let start = randomIndex - Math.floor(wordCount / 2);
+      // Определяем финальный набор слов
+      const finalWordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
+      const totalWords = allWords.length;
+      const randomIndex = Math.floor(Math.random() * totalWords);
+      let start = randomIndex - Math.floor(finalWordCount / 2);
       if (start < 0) start = 0;
-      let end = start + wordCount;
+      let end = start + finalWordCount;
       if (end > totalWords) {
         end = totalWords;
-        start = Math.max(0, end - wordCount);
+        start = Math.max(0, end - finalWordCount);
+      }
+      const finalWords = allWords.slice(start, end);
+
+      // Создаём блоки для анимации по количеству слов
+      const wordSpans = [];
+      for (let i = 0; i < finalWords.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'pred-word';
+        span.textContent = '...';
+        predictionDisplay.appendChild(span);
+        wordSpans.push(span);
       }
 
-      const predictionWords = allWords.slice(start, end);
-      const text = predictionWords.join(' ');
-      document.getElementById('prediction').textContent = text.charAt(0).toUpperCase() + text.slice(1) + '.';
+      // Анимация перебора слов
+      const animDuration = 3000;
+      const intervalTime = 80;
+      let elapsed = 0;
+      const animInterval = setInterval(() => {
+        wordSpans.forEach((span, idx) => {
+          span.textContent = allWords[Math.floor(Math.random() * totalWords)];
+        });
+        elapsed += intervalTime;
+      }, intervalTime);
+
+      // Через 3 секунды показываем финальный результат
+      setTimeout(() => {
+        clearInterval(animInterval);
+        wordSpans.forEach((span, idx) => {
+          const w = finalWords[idx];
+          span.textContent = (idx === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w);
+        });
+        // Добавляем точку в конце
+        wordSpans[wordSpans.length-1].textContent += '.';
+      }, animDuration);
     }
 
     document.getElementById('generateBtn').onclick = generatePrediction;
