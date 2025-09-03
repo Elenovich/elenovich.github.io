@@ -54,7 +54,7 @@ button:hover {
 fetch('poems.json')
   .then(res => res.json())
   .then(data => {
-    let chunks = []; // каждый блок слов как отдельный массив
+    let chunks = [];
 
     data.forEach(item => {
       const text = item.text || JSON.stringify(item);
@@ -62,19 +62,23 @@ fetch('poems.json')
       if (matches) {
         matches.forEach(m => {
           const cleaned = m.replace(/[\[\]]/g, '').trim();
-          const wordsArr = cleaned.split(/\s+/);
+          if (cleaned.length === 0) return; // пропускаем пустые скобки
+          const wordsArr = cleaned.split(/\s+/).filter(w => w.length > 0);
           if (wordsArr.length) chunks.push(wordsArr);
         });
       }
     });
 
     function generatePrediction() {
-      if (!chunks.length) return;
+      if (!chunks.length) {
+        document.getElementById('prediction').textContent = "Нет слов в словаре.";
+        return;
+      }
+
       const randomChunk = chunks[Math.floor(Math.random() * chunks.length)];
-      const wordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
+      const wordCount = Math.min(randomChunk.length, 4 + Math.floor(Math.random() * 3)); // 4–6 слов
       const startIdx = Math.floor(Math.random() * (randomChunk.length - wordCount + 1));
       const prediction = randomChunk.slice(startIdx, startIdx + wordCount);
-      // Первая буква заглавная, точка в конце
       const text = prediction.join(' ');
       document.getElementById('prediction').textContent = text.charAt(0).toUpperCase() + text.slice(1) + '.';
     }
