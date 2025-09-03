@@ -54,32 +54,42 @@ button:hover {
 fetch('poems.json')
   .then(res => res.json())
   .then(data => {
-    let chunks = [];
-
+    // Собираем все слова из всех стихов
+    let allWords = [];
     data.forEach(item => {
-      const text = item.text || JSON.stringify(item);
-      const matches = text.match(/\[([^\]]+)\]/g);
-      if (matches) {
-        matches.forEach(m => {
-          const cleaned = m.replace(/[\[\]]/g, '').trim();
-          if (cleaned.length === 0) return; // пропускаем пустые скобки
-          const wordsArr = cleaned.split(/\s+/).filter(w => w.length > 0);
-          if (wordsArr.length) chunks.push(wordsArr);
-        });
+      if (item.content) {
+        const words = item.content
+          .replace(/\s+/g, ' ')
+          .trim()
+          .split(' ')
+          .filter(w => w.length > 0);
+        allWords.push(...words);
       }
     });
 
     function generatePrediction() {
-      if (!chunks.length) {
+      if (!allWords.length) {
         document.getElementById('prediction').textContent = "Нет слов в словаре.";
         return;
       }
 
-      const randomChunk = chunks[Math.floor(Math.random() * chunks.length)];
-      const wordCount = Math.min(randomChunk.length, 4 + Math.floor(Math.random() * 3)); // 4–6 слов
-      const startIdx = Math.floor(Math.random() * (randomChunk.length - wordCount + 1));
-      const prediction = randomChunk.slice(startIdx, startIdx + wordCount);
-      const text = prediction.join(' ');
+      const totalWords = allWords.length;
+      const wordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
+      const randomIndex = Math.floor(Math.random() * totalWords);
+
+      // Берём соседние слова вокруг случайного индекса
+      let start = randomIndex - Math.floor(wordCount / 2);
+      if (start < 0) start = 0;
+      let end = start + wordCount;
+      if (end > totalWords) {
+        end = totalWords;
+        start = Math.max(0, end - wordCount);
+      }
+
+      const predictionWords = allWords.slice(start, end);
+      const text = predictionWords.join(' ');
+
+      // Первая буква заглавная, точка в конце
       document.getElementById('prediction').textContent = text.charAt(0).toUpperCase() + text.slice(1) + '.';
     }
 
