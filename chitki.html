@@ -48,6 +48,24 @@
     background: rgba(255,255,255,0.1);
   }
 
+  .progress-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  .progress {
+    width: 0%;
+    height: 100%;
+    background: #fff;
+    border-radius: 3px;
+    transition: width 0.1s linear;
+  }
+
   .track-list {
     display: flex;
     flex-direction: column;
@@ -70,20 +88,6 @@
     background: rgba(255,255,255,0.2);
   }
 
-  /* Анимация прокрутки текста */
-  .marquee {
-    display: inline-block;
-    position: absolute;
-    white-space: nowrap;
-    will-change: transform;
-    animation: marquee 8s linear infinite;
-  }
-
-  @keyframes marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
-
   .back-link {
     margin-top: 15px;
   }
@@ -102,13 +106,18 @@
 
 <div class="player">
   <audio id="audio"></audio>
+
   <div class="controls">
     <button id="prev">◀</button>
-    <button id="play">▶</button>
-    <button id="pause">⏸</button>
+    <button id="playPause">▶</button>
     <button id="next">▶▶</button>
     <button id="mute">🔇</button>
   </div>
+
+  <div id="progressContainer" class="progress-container">
+    <div id="progress" class="progress"></div>
+  </div>
+
   <div class="track-list" id="trackList"></div>
 </div>
 
@@ -125,14 +134,16 @@
   ];
 
   const audio = document.getElementById('audio');
-  const playBtn = document.getElementById('play');
-  const pauseBtn = document.getElementById('pause');
+  const playPauseBtn = document.getElementById('playPause');
   const nextBtn = document.getElementById('next');
   const prevBtn = document.getElementById('prev');
   const muteBtn = document.getElementById('mute');
   const trackListEl = document.getElementById('trackList');
+  const progressContainer = document.getElementById('progressContainer');
+  const progress = document.getElementById('progress');
 
   let current = 0;
+  let isDragging = false;
 
   function loadTrack(index, autoplay = false) {
     current = index;
@@ -149,21 +160,22 @@
     });
   }
 
-  function playTrack() {
-    if (!audio.src) {
-      loadTrack(0, true);
+  function togglePlayPause() {
+    if (audio.paused) {
+      if (!audio.src) loadTrack(0, true);
+      else audio.play();
+      playPauseBtn.textContent = '⏸';
     } else {
-      audio.play();
+      audio.pause();
+      playPauseBtn.textContent = '▶';
     }
   }
 
-  function pauseTrack() { audio.pause(); }
   function nextTrack() { loadTrack((current + 1) % tracks.length, true); }
   function prevTrack() { loadTrack((current - 1 + tracks.length) % tracks.length, true); }
   function toggleMute() { audio.muted = !audio.muted; }
 
-  playBtn.onclick = playTrack;
-  pauseBtn.onclick = pauseTrack;
+  playPauseBtn.onclick = togglePlayPause;
   nextBtn.onclick = nextTrack;
   prevBtn.onclick = prevTrack;
   muteBtn.onclick = toggleMute;
@@ -176,11 +188,37 @@
     trackListEl.appendChild(div);
   });
 
-  // Первоначальная подсветка
   updateActiveTrack();
 
-  // Автоматический переход к следующему треку
+  // Авто-переход к следующему треку
   audio.onended = nextTrack;
+  audio.onplay = () => playPauseBtn.textContent = '⏸';
+  audio.onpause = () => playPauseBtn.textContent = '▶';
+
+  // Прогресс-бар
+  audio.ontimeupdate = () => {
+    if (audio.duration && !isDragging) {
+      progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+    }
+  };
+
+  progressContainer.addEventListener('click', (e) => {
+    const rect = progressContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    audio.currentTime = (clickX / rect.width) * audio.duration;
+  });
+
+  progressContainer.addEventListener('mousedown', () => { isDragging = true; });
+  document.addEventListener('mouseup', () => { isDragging = false; });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging && audio.duration) {
+      const rect = progressContainer.getBoundingClientRect();
+      let pos = e.clientX - rect.left;
+      pos = Math.max(0, Math.min(rect.width, pos));
+      audio.currentTime = (pos / rect.width) * audio.duration;
+    }
+  });
 </script>
 
 </body>
