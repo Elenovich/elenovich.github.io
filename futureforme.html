@@ -16,7 +16,6 @@ body {
 }
 h1 {
   margin-bottom: 20px;
-  text-align: center;
 }
 #prediction {
   margin-top: 20px;
@@ -51,12 +50,26 @@ button:hover {
 <div id="prediction"></div>
 
 <script>
-// Загружаем слова из poem.json
-fetch('poem.json')
-  .then(response => response.json())
-  .then(words => {
+// Загружаем твой JSON с поэмами
+fetch('poems.json')
+  .then(res => res.json())
+  .then(data => {
+    // Вытащим все слова, которые находятся в скобках
+    let words = [];
+    data.forEach(item => {
+      // Преобразуем объект или строку в текст
+      const text = item.text || JSON.stringify(item);
+      const matches = text.match(/\(([^)]+)\)/g); // все слова в скобках
+      if (matches) {
+        matches.forEach(m => {
+          const cleaned = m.replace(/[()]/g, '').trim();
+          words.push(...cleaned.split(/\s+/)); // разбиваем по пробелам
+        });
+      }
+    });
+
     function generatePrediction() {
-      if (!words || words.length === 0) return;
+      if (!words.length) return;
       let prediction = [];
       const wordCount = 4 + Math.floor(Math.random() * 2); // 4-5 слов
       for (let i = 0; i < wordCount; i++) {
@@ -69,7 +82,7 @@ fetch('poem.json')
     document.getElementById('generateBtn').onclick = generatePrediction;
   })
   .catch(err => {
-    console.error("Не удалось загрузить слова:", err);
+    console.error("Ошибка загрузки JSON:", err);
     document.getElementById('prediction').textContent = "Ошибка загрузки словаря.";
   });
 </script>
