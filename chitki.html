@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Озвучки</title>
+<title>Аудио Еленовича</title>
 <style>
   body {
     background-color: #080D17;
@@ -87,7 +87,7 @@
 </head>
 <body>
 
-<h1>Голос</h1>
+<h1>Аудио Еленовича</h1>
 
 <div class="player">
   <audio id="audio"></audio>
@@ -98,9 +98,7 @@
     <button id="next">▶▶</button>
     <button id="mute">🔇</button>
   </div>
-  <div class="track-list" id="trackList">
-    <!-- Треки будут добавлены через JS -->
-  </div>
+  <div class="track-list" id="trackList"></div>
 </div>
 
 <script>
@@ -121,18 +119,20 @@
 
   let current = 0;
 
-  function loadTrack(index) {
-    audio.src = tracks[index].src;
+  function loadTrack(index, autoplay = false) {
+    current = index;
+    audio.src = tracks[current].src;
     updateActiveTrack();
+    if (autoplay) playTrack();
   }
 
   function updateActiveTrack() {
     trackListEl.childNodes.forEach((el, i) => {
       el.classList.toggle('active', i === current);
-      el.innerHTML = ''; // очищаем текст
+      el.innerHTML = ''; 
       const text = document.createElement('span');
       text.textContent = tracks[i].title;
-      // если текст длинный, добавляем класс marquee
+
       if (text.offsetWidth > trackListEl.offsetWidth) {
         const marquee = document.createElement('div');
         marquee.className = 'marquee';
@@ -146,16 +146,8 @@
 
   function playTrack() { audio.play(); }
   function pauseTrack() { audio.pause(); }
-  function nextTrack() {
-    current = (current + 1) % tracks.length;
-    loadTrack(current);
-    playTrack();
-  }
-  function prevTrack() {
-    current = (current - 1 + tracks.length) % tracks.length;
-    loadTrack(current);
-    playTrack();
-  }
+  function nextTrack() { loadTrack((current + 1) % tracks.length, true); }
+  function prevTrack() { loadTrack((current - 1 + tracks.length) % tracks.length, true); }
   function toggleMute() { audio.muted = !audio.muted; }
 
   playBtn.onclick = playTrack;
@@ -168,14 +160,14 @@
   tracks.forEach((t, i) => {
     const div = document.createElement('div');
     div.textContent = t.title;
-    div.onclick = () => { current = i; loadTrack(current); playTrack(); };
+    div.onclick = () => loadTrack(i, true); // ← тут сразу включаем трек
     trackListEl.appendChild(div);
   });
 
   // Инициализация
   loadTrack(current);
 
-  // Автопереход к следующему треку
+  // Автоматический переход к следующему треку
   audio.onended = nextTrack;
 </script>
 
