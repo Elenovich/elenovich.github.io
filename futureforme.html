@@ -50,32 +50,29 @@ button:hover {
 <div id="prediction"></div>
 
 <script>
-// Загружаем твой JSON с поэмами
+// Загружаем JSON с поэмами
 fetch('poems.json')
   .then(res => res.json())
   .then(data => {
-    // Вытащим все слова, которые находятся в скобках
     let words = [];
+
+    // Собираем все слова из квадратных скобок
     data.forEach(item => {
-      // Преобразуем объект или строку в текст
       const text = item.text || JSON.stringify(item);
-      const matches = text.match(/\(([^)]+)\)/g); // все слова в скобках
+      const matches = text.match(/\[([^\]]+)\]/g);
       if (matches) {
         matches.forEach(m => {
-          const cleaned = m.replace(/[()]/g, '').trim();
-          words.push(...cleaned.split(/\s+/)); // разбиваем по пробелам
+          const cleaned = m.replace(/[\[\]]/g, '').trim();
+          words.push(...cleaned.split(/\s+/));
         });
       }
     });
 
     function generatePrediction() {
       if (!words.length) return;
-      let prediction = [];
-      const wordCount = 7 + Math.floor(Math.random() * 2); // 4-5 слов
-      for (let i = 0; i < wordCount; i++) {
-        const randomWord = words[Math.floor(Math.random() * words.length)];
-        prediction.push(randomWord);
-      }
+      // Выбираем случайный индекс, чтобы взять 6 слов подряд
+      const startIdx = Math.floor(Math.random() * (words.length - 6));
+      const prediction = words.slice(startIdx, startIdx + 6);
       document.getElementById('prediction').textContent = prediction.join(' ');
     }
 
