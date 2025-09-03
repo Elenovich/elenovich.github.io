@@ -71,7 +71,7 @@ fetch('poems.json')
     function generatePrediction() {
       if (!words.length) return;
       let prediction = [];
-      const wordCount = 4 + Math.floor(Math.random() * 2); // 4-5 слов
+      const wordCount = 7 + Math.floor(Math.random() * 2); // 4-5 слов
       for (let i = 0; i < wordCount; i++) {
         const randomWord = words[Math.floor(Math.random() * words.length)];
         prediction.push(randomWord);
