@@ -27,17 +27,18 @@ body {
 }
 
 .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-    transform: scale(2);            /* масштабируем */
+    transform: scale(2);            /* масштаб для ПК */
     transform-origin: center center; /* центрируем масштаб */
 }
 
+/* Для мобильных устройств */
 @media (max-width: 768px) {
+    .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
+        transform: scale(1.25);     /* уменьшенный масштаб на телефоне */
+    }
     .player-container {
         width: 90%;
         height: auto;
-    }
-    .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
-        transform: scale(1.5);      /* меньше на телефоне */
     }
 }
 </style>
