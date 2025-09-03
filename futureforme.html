@@ -21,7 +21,6 @@ h1 {
   margin-bottom: 30px;
   font-weight: normal;
   color: #fff;
-  text-align: center;
 }
 
 #prediction {
@@ -36,16 +35,31 @@ h1 {
   background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1), rgba(255,255,255,0.05));
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   backdrop-filter: blur(3px);
-  word-wrap: break-word;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 5px;
+  justify-content: center;
 }
 
-.pred-word {
-  display: inline-block;
-  min-width: 10px;
+#source {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #fff;
+  max-width: 90%;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+#source a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#source a:hover {
+  text-decoration: underline;
 }
 
 button {
@@ -65,13 +79,13 @@ button:hover {
 
 .back-link {
   margin-top: 20px;
-  font-size: 18px;
-  text-decoration: none;
+  font-size: 16px;
   color: #fff;
+  text-decoration: none;
 }
 .back-link:hover {
-  text-decoration: underline;
   color: #fff;
+  text-decoration: none;
 }
 </style>
 </head>
@@ -82,79 +96,78 @@ button:hover {
 <button id="generateBtn">Сгенерировать предсказание</button>
 
 <div id="prediction"></div>
+<div id="source"></div>
 
-<a href="index.html" class="back-link">Вернуться назад</a>
+<a class="back-link" href="index.html">Вернуться назад</a>
 
 <script>
 // Загружаем JSON с поэмами
 fetch('poems.json')
   .then(res => res.json())
   .then(data => {
-    let allWords = [];
-    data.forEach(item => {
-      if (item.content) {
-        const words = item.content
-          .replace(/\s+/g, ' ')
-          .trim()
-          .split(' ')
-          .filter(w => w.length > 0);
-        allWords.push(...words);
-      }
-    });
 
     function generatePrediction() {
-      if (!allWords.length) {
+      if (!data.length) {
         document.getElementById('prediction').textContent = "Нет слов в словаре.";
+        document.getElementById('source').textContent = "";
         return;
       }
 
-      const predictionDisplay = document.getElementById('prediction');
-      predictionDisplay.innerHTML = ''; // очищаем
+      // Выбираем случайный стих
+      const poemIndex = Math.floor(Math.random() * data.length);
+      const poem = data[poemIndex];
+      const words = poem.content
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .filter(w => w.length > 0);
 
-      // Определяем финальный набор слов
-      const finalWordCount = 4 + Math.floor(Math.random() * 3); // 4–6 слов
-      const totalWords = allWords.length;
-      const randomIndex = Math.floor(Math.random() * totalWords);
-      let start = randomIndex - Math.floor(finalWordCount / 2);
-      if (start < 0) start = 0;
-      let end = start + finalWordCount;
-      if (end > totalWords) {
-        end = totalWords;
-        start = Math.max(0, end - finalWordCount);
+      // Рандомное слово и 5 слов после него
+      const wordCount = 4 + Math.floor(Math.random() * 3); // 4-6 слов
+      const randIndex = Math.floor(Math.random() * words.length);
+      let start = randIndex;
+      let end = start + wordCount;
+      if (end > words.length) {
+        end = words.length;
+        start = Math.max(0, end - wordCount);
       }
-      const finalWords = allWords.slice(start, end);
 
-      // Создаём блоки для анимации по количеству слов
-      const wordSpans = [];
-      for (let i = 0; i < finalWords.length; i++) {
+      const finalWords = words.slice(start, end);
+
+      const predictionEl = document.getElementById('prediction');
+      predictionEl.innerHTML = '';
+
+      // Анимация подбора слов
+      const animDuration = 3000; // 3 секунды
+      const frameRate = 50; // 50ms
+      const totalFrames = animDuration / frameRate;
+      let currentFrame = 0;
+
+      const spans = finalWords.map(() => {
         const span = document.createElement('span');
-        span.className = 'pred-word';
         span.textContent = '...';
-        predictionDisplay.appendChild(span);
-        wordSpans.push(span);
-      }
+        predictionEl.appendChild(span);
+        return span;
+      });
 
-      // Анимация перебора слов
-      const animDuration = 3000;
-      const intervalTime = 80;
-      let elapsed = 0;
       const animInterval = setInterval(() => {
-        wordSpans.forEach((span, idx) => {
-          span.textContent = allWords[Math.floor(Math.random() * totalWords)];
+        currentFrame++;
+        spans.forEach((span, i) => {
+          // генерируем случайное слово из всего стиха
+          const randomWord = words[Math.floor(Math.random() * words.length)];
+          span.textContent = randomWord;
         });
-        elapsed += intervalTime;
-      }, intervalTime);
-
-      // Через 3 секунды показываем финальный результат
-      setTimeout(() => {
-        clearInterval(animInterval);
-        wordSpans.forEach((span, idx) => {
-          const w = finalWords[idx];
-          span.textContent = (idx === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w);
-        });
-        // Добавляем точку в конце
-        wordSpans[wordSpans.length-1].textContent += '.';
-      }, animDuration);
+        if (currentFrame >= totalFrames) {
+          clearInterval(animInterval);
+          // Показываем финальный результат
+          spans.forEach((span, i) => {
+            span.textContent = finalWords[i];
+          });
+          // Пишем источник
+          const sourceEl = document.getElementById('source');
+          sourceEl.innerHTML = `взято отсюда: <a href="${poem.url}">${poem.title}</a>`;
+        }
+      }, frameRate);
     }
 
     document.getElementById('generateBtn').onclick = generatePrediction;
@@ -162,6 +175,7 @@ fetch('poems.json')
   .catch(err => {
     console.error("Ошибка загрузки JSON:", err);
     document.getElementById('prediction').textContent = "Ошибка загрузки словаря.";
+    document.getElementById('source').textContent = "";
   });
 </script>
 
