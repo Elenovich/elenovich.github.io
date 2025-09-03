@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Мы за тебя впрягались</title>
-    <style>
-        body {
-            background-color: #031712;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .player-container {
-            text-align: center;
-            width: 800px;   /* увеличиваем ширину в 2 раза */
-            height: 600px;  /* увеличиваем высоту в 2 раза */
-        }
-
-        /* Медиа-запрос для телефонов */
-        @media (max-width: 768px) {
-            .player-container {
-                width: 90%;   /* почти весь экран на телефоне */
-                height: auto; /* высота подстраивается автоматически */
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Мы за тебя впрягались</title>
+<style>
+body {
+    background-color: #031712;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.player-container {
+    text-align: center;
+    width: 1200px;   /* увеличиваем ширину */
+    height: 900px;   /* увеличиваем высоту */
+    overflow: hidden; /* чтобы ничего не вылезало */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.player-container iframe,
+.player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
+    transform: scale(2);       /* масштабируем в 2 раза */
+    transform-origin: top left;
+    width: 600px;               /* подстраиваем под масштаб */
+    height: 450px;
+}
+@media (max-width: 768px) {
+    .player-container {
+        width: 90%;
+        height: auto;
+    }
+    .player-container iframe,
+    .player-container .elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064 {
+        transform: scale(1.5);  /* меньше на телефоне */
+        width: 100%;
+        height: auto;
+    }
+}
+</style>
 </head>
 <body>
-    <div class="player-container">
-        <!-- Elfsight Radio Player | Untitled Radio Player -->
-        <script src="https://elfsightcdn.com/platform.js" async></script>
-        <div class="elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064" data-elfsight-app-lazy></div>
-    </div>
+<div class="player-container">
+    <!-- Elfsight Radio Player -->
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div class="elfsight-app-ba306f3f-b91f-4b43-85a5-bcd4f8490064" data-elfsight-app-lazy></div>
+</div>
 </body>
 </html>
