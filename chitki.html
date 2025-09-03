@@ -83,6 +83,17 @@
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
   }
+
+  .back-link {
+    margin-top: 15px;
+  }
+  .back-link a {
+    color: #9cf;
+    text-decoration: none;
+  }
+  .back-link a:hover {
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
@@ -101,6 +112,10 @@
   <div class="track-list" id="trackList"></div>
 </div>
 
+<p class="back-link">
+  <a href="index.html">вернуться назад</a>
+</p>
+
 <script>
   const tracks = [
     {title: "Elenovich — lustra", src: "audio/Elenovich - lustra.mp3"},
@@ -118,12 +133,16 @@
   const trackListEl = document.getElementById('trackList');
 
   let current = 0;
+  let hasPlayed = false; // флажок: запускалось ли проигрывание
 
   function loadTrack(index, autoplay = false) {
     current = index;
     audio.src = tracks[current].src;
     updateActiveTrack();
-    if (autoplay) playTrack();
+    if (autoplay) {
+      playTrack();
+      hasPlayed = true;
+    }
   }
 
   function updateActiveTrack() {
@@ -144,7 +163,14 @@
     });
   }
 
-  function playTrack() { audio.play(); }
+  function playTrack() {
+    if (!hasPlayed) {
+      loadTrack(0, true);
+    } else {
+      audio.play();
+    }
+  }
+
   function pauseTrack() { audio.pause(); }
   function nextTrack() { loadTrack((current + 1) % tracks.length, true); }
   function prevTrack() { loadTrack((current - 1 + tracks.length) % tracks.length, true); }
@@ -160,11 +186,11 @@
   tracks.forEach((t, i) => {
     const div = document.createElement('div');
     div.textContent = t.title;
-    div.onclick = () => loadTrack(i, true); // ← тут сразу включаем трек
+    div.onclick = () => loadTrack(i, true);
     trackListEl.appendChild(div);
   });
 
-  // Инициализация
+  // Инициализация — грузим первый, но не включаем
   loadTrack(current);
 
   // Автоматический переход к следующему треку
